@@ -37,7 +37,6 @@ export default function Login({ navigation }) {
       );
     }
   }
-
   return (
     <Provider>
       <Portal>
