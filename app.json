@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "native-full-sports",
+    "name": "Full Sports Mobile",
     "slug": "native-full-sports",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,18 +9,16 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#f4f4f4"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#f4f4f4"
       }
     },
     "web": {
