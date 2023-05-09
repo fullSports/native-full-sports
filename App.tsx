@@ -5,9 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./src/App/Home/Home";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Teste from "./src/App/Teste/Testel";
 import CategoriasList from "./src/App/Pages/CategoriasList/Categorias";
-const Stack = createNativeStackNavigator();
 const BottomNavigator = createBottomTabNavigator();
 
 export default function App() {
@@ -17,7 +15,7 @@ export default function App() {
     <>
       {/* define as rotas dos atalhos no bottom */}
       <NavigationContainer>
-        <BottomNavigator.Navigator initialRouteName="Login">
+        <BottomNavigator.Navigator initialRouteName="Home">
           <BottomNavigator.Screen
             name="Home"
             component={Home}

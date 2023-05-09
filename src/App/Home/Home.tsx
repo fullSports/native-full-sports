@@ -1,10 +1,14 @@
-import { StatusBar } from "expo-status-bar";
-import { Button, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import VerticalCard from "../../shared/components/Cards/VerticalCards";
+import { homeStyle } from "./style";
 
 export default function Home({ navigation, route }) {
   return (
-    <View>
+    <View style={homeStyle.homeView}>
       <Text>Homee!</Text>
+      <View style={homeStyle.cardSlider}>
+        <VerticalCard />
+      </View>
     </View>
   );
 }
