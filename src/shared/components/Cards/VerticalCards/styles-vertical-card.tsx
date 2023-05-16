@@ -8,6 +8,7 @@ export const styleCardV = StyleSheet.create({
     elevation: 40,
     borderRadius: 5,
     overflow: "hidden",
+
     backgroundColor: GlobalColors.white,
   },
   cardPicCover: {
