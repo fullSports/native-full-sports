@@ -4,4 +4,5 @@ export interface ITeste {
   precoAtual: number;
   parcelamento: string;
   imgProduto?: any;
+  linkTo?: string;
 }

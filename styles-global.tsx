@@ -20,4 +20,15 @@ export const GlobalStyles = StyleSheet.create({
     height: 145,
     marginVertical: 35,
   },
+  bottom_tab_txt: {
+    fontSize: 10,
+    fontWeight: "400",
+  },
+  bottom_tab_icon_active: {
+    borderColor: GlobalColors.neon_green,
+    borderWidth: 2,
+    width: 100,
+    height: 2,
+    flexDirection: "row",
+  },
 });

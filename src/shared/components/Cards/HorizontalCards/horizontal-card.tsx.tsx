@@ -5,14 +5,11 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const noProductImg = require("../../../../App/assets/illustrations/no-product-image.png");
 
-export const HorizontalCard = (comp: ITeste) => {
+export const HorizontalCard = (comp) => {
   const cardimg = comp.imgProduto;
 
   return (
-    <TouchableOpacity
-      style={styleCardH.cardHorizontal}
-      onPress={() => console.log("hey")}
-    >
+    <TouchableOpacity style={styleCardH.cardHorizontal}>
       <Image
         style={styleCardH.cardPicCover}
         source={
