@@ -23,7 +23,7 @@ export default function App() {
       <View style={{ flex: 1 }}>
         {/* define as rotas dos atalhos no bottom */}
         <NavigationContainer>
-          <BottomNavigator.Navigator initialRouteName="Home">
+          <BottomNavigator.Navigator initialRouteName="ProdutoDetalhes">
             <BottomNavigator.Screen
               name="Home"
               component={Home}
