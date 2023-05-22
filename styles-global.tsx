@@ -31,4 +31,13 @@ export const GlobalStyles = StyleSheet.create({
     height: 2,
     flexDirection: "row",
   },
+  btn_hole: {
+    backgroundColor: GlobalColors.white,
+    borderColor: GlobalColors.darkBlue,
+    color: GlobalColors.darkBlue,
+    borderWidth: 2,
+    borderRadius: 10,
+    height: 45,
+    width: "100%",
+  },
 });

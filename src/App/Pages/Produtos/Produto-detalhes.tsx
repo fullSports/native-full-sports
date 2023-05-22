@@ -1,6 +1,7 @@
 import { View, Text, Image, Button } from "react-native";
 import { DetalheStyles } from "./Produto-detalhes-styles";
 import { useState } from "react";
+import { GlobalStyles } from "../../../../styles-global";
 
 const imgIlustrativa = require("../../assets/illustrations/teste_product_card.png");
 
@@ -89,9 +90,7 @@ export const ProdutoDetalhes = (comp) => {
             <button style={DetalheStyles.product_card_buy_btn}>Comprar</button>
           </View>
           <View style={[DetalheStyles.product_card_row, { marginVertical: 2 }]}>
-            <button style={DetalheStyles.product_card_buy_add_cart}>
-              Adicionar no carrinho
-            </button>
+            <button style={GlobalStyles.btn_hole}>Adicionar no carrinho</button>
           </View>
         </View>
       </View>

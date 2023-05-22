@@ -12,18 +12,19 @@ import { GlobalStyles } from "./styles-global";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { ProdutoDetalhes } from "./src/App/Pages/Produtos/Produto-detalhes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import UserPedidos from "./src/App/Pages/Pedidos/user-pedidos";
 const BottomNavigator = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   // auth
-  let authenticated = false;
+  let authenticated = true;
   return (
     <>
       <View style={{ flex: 1 }}>
         {/* define as rotas dos atalhos no bottom */}
         <NavigationContainer>
-          <BottomNavigator.Navigator initialRouteName="ProdutoDetalhes">
+          <BottomNavigator.Navigator initialRouteName="UserPedidos">
             <BottomNavigator.Screen
               name="Home"
               component={Home}
@@ -94,18 +95,18 @@ export default function App() {
             />
             {authenticated ? (
               <BottomNavigator.Screen
-                name="Carrinho"
-                component={Home}
+                name="UserPedidos"
+                component={UserPedidos}
                 options={{
                   tabBarLabelStyle: {
                     display: "none",
                   },
-                  title: "Pedidos",
+                  title: "UserPedidos",
                   headerShown: false,
                   tabBarIcon: ({ focused }) => (
                     <>
                       <MaterialCommunityIcons
-                        name="bag-carry-on-check"
+                        name="table"
                         size={22}
                         color={
                           focused
@@ -122,7 +123,7 @@ export default function App() {
                             : { color: GlobalColors.light_grey },
                         ]}
                       >
-                        Categorias
+                        Pedidos
                       </Text>
                     </>
                   ),

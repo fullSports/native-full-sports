@@ -6,5 +6,6 @@ export const GlobalColors = {
   darkBlue: "#11151C",
   white: "#fff",
   black: "#141414",
+  light_black: "#373737",
   black_opacity: "#030303b3",
 };
