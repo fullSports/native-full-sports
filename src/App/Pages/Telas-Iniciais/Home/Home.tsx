@@ -1,21 +1,14 @@
-import {
-  Text,
-  View,
-  Image,
-  SafeAreaView,
-  Button,
-  TouchableOpacity,
-} from "react-native";
-import { VerticalCard } from "../../shared/components/Cards/VerticalCards/VerticalCard";
+import { Text, View, Image, TouchableOpacity } from "react-native";
+import { VerticalCard } from "../../../../shared/components/Cards/VerticalCards/VerticalCard";
 import { homeStyle } from "./style";
-import { selecaoProdutos } from "../../shared/utils/data/teste-cards";
+import { selecaoProdutos } from "../../../../shared/utils/data/teste-cards";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
-import { GlobalStyles } from "../../../styles-global";
-import { HorizontalCard } from "../../shared/components/Cards/HorizontalCards/horizontal-card.tsx";
+import { GlobalStyles } from "../../../../../styles-global";
+import { HorizontalCard } from "../../../../shared/components/Cards/HorizontalCards/horizontal-card.tsx";
 import { useEffect } from "react";
-import { Header } from "../../shared/components/Header/Header";
-const homeBanner = require("../..//App/assets/illustrations/homepage-banner.png");
-const shoeSection = require("../..//App/assets/illustrations/capa-tenis-section.png");
+import { Header } from "../../../../shared/components/Header/Header";
+const homeBanner = require("../../../assets/illustrations/homepage-banner.png");
+const shoeSection = require("../../../assets/illustrations/capa-tenis-section.png");
 
 export default function Home({ navigation, route }) {
   useEffect(() => {

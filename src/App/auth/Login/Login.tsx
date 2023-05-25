@@ -9,7 +9,7 @@ import {
 } from "react-native-paper";
 import React from "react";
 import { Text } from "react-native";
-import { LoginStyles } from "./LoginStyles";
+import { LoginStyles } from "./Login-Styles";
 import { GlobalColors } from "../../../shared/utils/styles/global-colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { validateEmptyParams } from "../../../shared/utils/functions/validate-inputs";
@@ -108,7 +108,12 @@ export default function Login({ navigation }) {
         <View style={LoginStyles.LoginViewBottom}>
           <Text style={LoginStyles.BottomTxtOption}>Não possui cadastro?</Text>
           <TouchableOpacity>
-            <Text style={LoginStyles.TextLink}>Criar uma conta</Text>
+            <Text
+              onPress={() => navigation.navigate("CadastroUsuario")}
+              style={LoginStyles.TextLink}
+            >
+              Criar uma conta
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

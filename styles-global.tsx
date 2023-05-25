@@ -40,4 +40,7 @@ export const GlobalStyles = StyleSheet.create({
     height: 45,
     width: "100%",
   },
+  screenContainer: {
+    padding: 15,
+  },
 });

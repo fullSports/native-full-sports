@@ -8,4 +8,6 @@ export const GlobalColors = {
   black: "#141414",
   light_black: "#373737",
   black_opacity: "#030303b3",
+  input_bg: "#ECECEC",
+  input_placeholder: "#737373",
 };

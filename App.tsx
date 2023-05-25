@@ -1,34 +1,44 @@
 import "react-native-gesture-handler";
 import Login from "./src/App/auth/Login/Login";
 import { NavigationContainer } from "@react-navigation/native";
-import Home from "./src/App/Home/Home";
+import Home from "./src/App/Pages/Telas-Iniciais/Home/Home";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CategoriasList from "./src/App/Pages/CategoriasList/Categorias";
-import { View, Text, Image } from "react-native";
-import { Header } from "./src/shared/components/Header/Header";
+import { View, Text } from "react-native";
 import { GlobalColors } from "./src/shared/utils/styles/global-colors";
 import { GlobalStyles } from "./styles-global";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { ProdutoDetalhes } from "./src/App/Pages/Produtos/Produto-detalhes";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import UserPedidos from "./src/App/Pages/Pedidos/user-pedidos";
+import { WelcomeScreen } from "./src/App/Pages/Telas-Iniciais/WelcomeScreen/welcome-screen";
+import { CadastroUsuario } from "./src/App/auth/Cadastro/Cadastro";
 const BottomNavigator = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
-export default function App() {
+export default function App(navigation) {
   // auth
   let authenticated = true;
+
   return (
     <>
       <View style={{ flex: 1 }}>
         {/* define as rotas dos atalhos no bottom */}
         <NavigationContainer>
-          <BottomNavigator.Navigator initialRouteName="UserPedidos">
+          <BottomNavigator.Navigator initialRouteName="CadastroUsuario">
             <BottomNavigator.Screen
               name="Home"
               component={Home}
-              options={{
+              options={({ route }) => ({
+                // tabBarStyle: ((route) => {
+                //   // const routeName = getFocusedRouteNameFromRoute(route);
+                //   // const routeName = useRoute().name;
+                //   // const routeName = navigation.route.name;
+                //   const activeRoute = getActiveRouteState(this.props.navigation.state);
+                //   console.log(routeName);
+                //   if (routeName == "WelcomeScreen") {
+                //     return { display: "none" };
+                //   }
+                //   return;
+                // })(route),
                 tabBarLabelStyle: {
                   display: "none",
                 },
@@ -56,7 +66,7 @@ export default function App() {
                     </Text>
                   </>
                 ),
-              }}
+              })}
             />
             <BottomNavigator.Screen
               name="Categorias"
@@ -177,6 +187,36 @@ export default function App() {
               }}
               name="ProdutoDetalhes"
               component={ProdutoDetalhes}
+            />
+            <BottomNavigator.Screen
+              options={{
+                headerShown: false,
+                tabBarItemStyle: {
+                  display: "none",
+                },
+              }}
+              name="Login"
+              component={Login}
+            />
+            <BottomNavigator.Screen
+              options={{
+                headerShown: false,
+                tabBarItemStyle: {
+                  display: "none",
+                },
+              }}
+              name="CadastroUsuario"
+              component={CadastroUsuario}
+            />
+            <BottomNavigator.Screen
+              options={{
+                headerShown: false,
+                tabBarItemStyle: {
+                  display: "none",
+                },
+              }}
+              name="WelcomeScreen"
+              component={WelcomeScreen}
             />
           </BottomNavigator.Navigator>
         </NavigationContainer>
