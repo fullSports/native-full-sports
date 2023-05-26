@@ -1,8 +1,11 @@
 import { Image, ScrollView, Text, TextInput, View } from "react-native";
-import { CadastroUsuarioStyles as style } from "./Cadastro-styles";
+import {
+  CadastroUsuarioStyles,
+  CadastroUsuarioStyles as style,
+} from "./Cadastro-styles";
 import { GlobalStyles as global } from "../../../../styles-global";
 import { GlobalColors } from "../../../shared/utils/styles/global-colors";
-import { ButtonGreen } from "../../../shared/components/Buttons/Default-Buttons";
+import { ButtonGreen } from "../../../shared/components/Buttons/default-buttons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const fullSportsLogo = require("./../../assets/illustrations/full-sports-logo.png");

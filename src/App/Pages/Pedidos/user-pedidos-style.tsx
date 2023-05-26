@@ -9,10 +9,4 @@ export const StylePedidos = StyleSheet.create({
     marginVertical: 40,
     marginHorizontal: 5,
   },
-  section_title: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: GlobalColors.darkBlue,
-    marginHorizontal: 10,
-  },
 });

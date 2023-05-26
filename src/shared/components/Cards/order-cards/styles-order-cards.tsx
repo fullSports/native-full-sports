@@ -34,20 +34,7 @@ export const OrderCardStyles = StyleSheet.create({
   carD_details_txt: {
     gap: 5,
   },
-  card_product_name: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: GlobalColors.light_black,
-  },
-  card_info_txt: {
-    fontSize: 12,
-    color: GlobalColors.light_grey,
-  },
-  card_product_price: {
-    color: GlobalColors.dark_green,
-    fontSize: 18,
-    fontWeight: "bold",
-  },
+
   card_expanded_detailhes: {
     flexDirection: "column",
     width: "100%",
@@ -96,7 +83,4 @@ export const OrderCardStyles = StyleSheet.create({
     width: "100%",
     marginTop: 15,
   },
-  //   card_expanded_detailhes_txt:{
-
-  //   }
 });

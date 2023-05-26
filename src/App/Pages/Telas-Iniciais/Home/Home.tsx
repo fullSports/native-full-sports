@@ -4,9 +4,12 @@ import { homeStyle } from "./style";
 import { selecaoProdutos } from "../../../../shared/utils/data/teste-cards";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { GlobalStyles } from "../../../../../styles-global";
-import { HorizontalCard } from "../../../../shared/components/Cards/HorizontalCards/horizontal-card.tsx";
+import { HorizontalCard } from "../../../../shared/components/Cards/horizontal-cards/horizontal-card.tsx";
 import { useEffect } from "react";
-import { Header } from "../../../../shared/components/Header/Header";
+import {
+  AccessibilityBar,
+  Header,
+} from "../../../../shared/components/Header/Header";
 const homeBanner = require("../../../assets/illustrations/homepage-banner.png");
 const shoeSection = require("../../../assets/illustrations/capa-tenis-section.png");
 
@@ -16,6 +19,7 @@ export default function Home({ navigation, route }) {
   });
   return (
     <ScrollView>
+      <AccessibilityBar />
       <Header>
         <View style={homeStyle.home_banner_container}>
           <Image source={homeBanner} style={homeStyle.home_banner} />

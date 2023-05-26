@@ -2,6 +2,10 @@ import { StyleSheet } from "react-native";
 import { GlobalColors } from "./src/shared/utils/styles/global-colors";
 
 export const GlobalStyles = StyleSheet.create({
+  screenContainer: {
+    padding: 10,
+  },
+
   home_banner: {
     width: "100%",
     height: 200,
@@ -40,7 +44,25 @@ export const GlobalStyles = StyleSheet.create({
     height: 45,
     width: "100%",
   },
-  screenContainer: {
-    padding: 15,
+
+  card_product_name: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: GlobalColors.light_black,
+  },
+  card_info_txt: {
+    fontSize: 12,
+    color: GlobalColors.light_grey,
+  },
+  card_product_price: {
+    color: GlobalColors.dark_green,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  section_title: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: GlobalColors.darkBlue,
+    marginHorizontal: 10,
   },
 });

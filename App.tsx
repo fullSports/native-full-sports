@@ -4,7 +4,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "./src/App/Pages/Telas-Iniciais/Home/Home";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import CategoriasList from "./src/App/Pages/CategoriasList/Categorias";
 import { View, Text } from "react-native";
 import { GlobalColors } from "./src/shared/utils/styles/global-colors";
 import { GlobalStyles } from "./styles-global";
@@ -12,6 +11,9 @@ import { ProdutoDetalhes } from "./src/App/Pages/Produtos/Produto-detalhes";
 import UserPedidos from "./src/App/Pages/Pedidos/user-pedidos";
 import { WelcomeScreen } from "./src/App/Pages/Telas-Iniciais/WelcomeScreen/welcome-screen";
 import { CadastroUsuario } from "./src/App/auth/Cadastro/Cadastro";
+import CategoriasList from "./src/App/Pages/Categorias-List/Categorias";
+import { Carrinho } from "./src/App/Pages/Carrinho/carrinho";
+import { UserProfile } from "./src/App/Pages/User-Screens/edit-profile.tsx/edit-profile";
 const BottomNavigator = createBottomTabNavigator();
 
 export default function App(navigation) {
@@ -23,7 +25,7 @@ export default function App(navigation) {
       <View style={{ flex: 1 }}>
         {/* define as rotas dos atalhos no bottom */}
         <NavigationContainer>
-          <BottomNavigator.Navigator initialRouteName="CadastroUsuario">
+          <BottomNavigator.Navigator initialRouteName="WelcomeScreen">
             <BottomNavigator.Screen
               name="Home"
               component={Home}
@@ -217,6 +219,26 @@ export default function App(navigation) {
               }}
               name="WelcomeScreen"
               component={WelcomeScreen}
+            />
+            <BottomNavigator.Screen
+              options={{
+                headerShown: false,
+                tabBarItemStyle: {
+                  display: "none",
+                },
+              }}
+              name="Carrinho"
+              component={Carrinho}
+            />
+            <BottomNavigator.Screen
+              options={{
+                headerShown: false,
+                tabBarItemStyle: {
+                  display: "none",
+                },
+              }}
+              name="UserProfile"
+              component={UserProfile}
             />
           </BottomNavigator.Navigator>
         </NavigationContainer>

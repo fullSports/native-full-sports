@@ -1,10 +1,10 @@
 import { Image, Text, View } from "react-native";
 import { styleCardV } from "./styles-vertical-card";
-import { ITeste } from "../../../utils/models/interface-card-item";
+import { IProductCard } from "../../../utils/models/interface-card-item";
 
 const noProductImg = require("../../../../App/assets/illustrations/no-product-image.png");
 
-export const VerticalCard = (comp: ITeste) => {
+export const VerticalCard = (comp: IProductCard) => {
   const cardimg = comp.imgProduto;
 
   return (

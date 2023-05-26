@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import {
   ButtonGreen,
   ButtonWhite,
-} from "../../../../shared/components/Buttons/Default-Buttons";
+} from "../../../../shared/components/Buttons/default-buttons";
 const welcomePic = require("./../../../assets/illustrations/login-picture.svg");
 const fullSportsLogo = require("./../../../assets/illustrations/full-sports-logo.png");
 

@@ -16,7 +16,7 @@ export const DefaultButtonsStyles = StyleSheet.create({
     borderRadius: 8,
     textTransform: "uppercase",
     fontSize: 12,
-    width: 320,
+    width: "100%",
     height: 45,
     color: GlobalColors.light_grey,
     backgroundColor: GlobalColors.white,

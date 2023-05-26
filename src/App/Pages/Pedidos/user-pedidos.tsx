@@ -1,12 +1,13 @@
 import { Image, ScrollView, Text, View } from "react-native";
 import { IPedidos } from "../../../shared/utils/models/interface-pedidos";
-import { PedidosCliente } from "../../../shared/components/Cards/OrderCards/OrderCards";
+import { PedidosCliente } from "../../../shared/components/Cards/order-cards/OrderCards";
+import { GlobalStyles as global } from "../../../../styles-global";
 import { StylePedidos as style } from "./user-pedidos-style";
 
 export default function UserPedidos() {
   return (
     <ScrollView style={style.pedidos_screen_container}>
-      <Text style={style.section_title}>Meus Pedidos</Text>
+      <Text style={global.section_title}>Meus Pedidos</Text>
       <View style={style.pedidos_cards_container}>
         <PedidosCliente />
         <PedidosCliente />
