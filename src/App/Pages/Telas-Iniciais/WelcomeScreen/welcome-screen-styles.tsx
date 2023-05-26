@@ -45,6 +45,7 @@ export const WelcomeStyles = StyleSheet.create({
     width: "100%",
   },
   welcome_btns_group: {
+    width: "95%",
     flexDirection: "column",
     gap: 10,
     marginBottom: 30,
