@@ -9,7 +9,7 @@ import { ButtonGreen } from "../../../../shared/components/Buttons/default-butto
 import { ScrollView } from "react-native-gesture-handler";
 const pfp = require("./../../../assets/illustrations/testE_pfp.png");
 
-export const UserProfile = (navigation) => {
+export const EditUserProfile = ({ navigation }) => {
   return (
     <ScrollView>
       <AccessibilityBar />
@@ -37,7 +37,7 @@ export const UserProfile = (navigation) => {
             <TextInput
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="Informe seu nome completo"
-              style={formStyle.form_input_text}
+              style={global.form_input_text}
             />
           </View>
         </View>
@@ -47,7 +47,7 @@ export const UserProfile = (navigation) => {
             <TextInput
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="00.000.000-00"
-              style={formStyle.form_input_text}
+              style={global.form_input_text}
             />
           </View>
           <View style={formStyle.form_item_row_2}>
@@ -55,7 +55,7 @@ export const UserProfile = (navigation) => {
             <TextInput
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="dd/mm/aaaa"
-              style={formStyle.form_input_text}
+              style={global.form_input_text}
             />
           </View>
         </View>
@@ -65,7 +65,7 @@ export const UserProfile = (navigation) => {
             <TextInput
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="00000-000"
-              style={formStyle.form_input_text}
+              style={global.form_input_text}
             />
           </View>
           <View style={formStyle.form_item_row_2}>
@@ -73,7 +73,7 @@ export const UserProfile = (navigation) => {
             <TextInput
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="Ex.: Rua Alegria"
-              style={formStyle.form_input_text}
+              style={global.form_input_text}
             />
           </View>
         </View>
@@ -83,7 +83,7 @@ export const UserProfile = (navigation) => {
             <TextInput
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="Ex.: Bairro Felicidade"
-              style={formStyle.form_input_text}
+              style={global.form_input_text}
             />
           </View>
           <View style={formStyle.form_item_row_2}>
@@ -91,7 +91,7 @@ export const UserProfile = (navigation) => {
             <TextInput
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="Ex.: SP"
-              style={formStyle.form_input_text}
+              style={global.form_input_text}
             />
           </View>
         </View>
@@ -101,7 +101,7 @@ export const UserProfile = (navigation) => {
             <TextInput
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="Ex.: São Paulo"
-              style={formStyle.form_input_text}
+              style={global.form_input_text}
             />
           </View>
           <View style={formStyle.form_item_row_2}>
@@ -109,7 +109,7 @@ export const UserProfile = (navigation) => {
             <TextInput
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="Ex.: 190"
-              style={formStyle.form_input_text}
+              style={global.form_input_text}
             />
           </View>
         </View>
@@ -119,7 +119,7 @@ export const UserProfile = (navigation) => {
             <TextInput
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="E-mail de contato"
-              style={formStyle.form_input_text}
+              style={global.form_input_text}
             />
           </View>
         </View>
@@ -129,12 +129,13 @@ export const UserProfile = (navigation) => {
             <TextInput
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="Sua senha"
-              style={formStyle.form_input_text}
+              style={global.form_input_text}
             />
           </View>
         </View>
         <View style={formStyle.form_row_1}>
           <ButtonGreen
+            width={370}
             name={"salvar alterações"}
             action={() => navigation.navigate("Home")}
           />

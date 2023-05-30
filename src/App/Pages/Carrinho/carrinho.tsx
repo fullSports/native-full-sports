@@ -65,10 +65,12 @@ export const Carrinho = (navigation) => {
 
         <View style={style.btns_actions_container}>
           <ButtonGreen
+            width={350}
             name="Finalizar pedido"
             action={() => console.log("finalizar pedido")}
           />
           <ButtonWhite
+            width={350}
             name="remover todos os itens"
             action={() => console.log("escluir itens")}
           />

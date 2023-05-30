@@ -27,10 +27,12 @@ export const WelcomeScreen = ({ navigation }) => {
           </Text>
           <View style={style.welcome_btns_group}>
             <ButtonGreen
+              width={370}
               action={() => navigation.navigate("Login")}
               name="Realizar Login"
             />
             <ButtonWhite
+              width={370}
               action={() => navigation.navigate("CadastroUsuario")}
               name="Criar conta"
             />

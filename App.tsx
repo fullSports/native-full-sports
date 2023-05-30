@@ -13,7 +13,8 @@ import { WelcomeScreen } from "./src/App/Pages/Telas-Iniciais/WelcomeScreen/welc
 import { CadastroUsuario } from "./src/App/auth/Cadastro/Cadastro";
 import CategoriasList from "./src/App/Pages/Categorias-List/Categorias";
 import { Carrinho } from "./src/App/Pages/Carrinho/carrinho";
-import { UserProfile } from "./src/App/Pages/User-Screens/edit-profile.tsx/edit-profile";
+import { EditUserProfile } from "./src/App/Pages/User-Screens/edit-profile.tsx/edit-profile";
+import { UserNavigation } from "./src/App/Pages/User-Screens/user-navigation/user-navigation";
 const BottomNavigator = createBottomTabNavigator();
 
 export default function App(navigation) {
@@ -25,7 +26,7 @@ export default function App(navigation) {
       <View style={{ flex: 1 }}>
         {/* define as rotas dos atalhos no bottom */}
         <NavigationContainer>
-          <BottomNavigator.Navigator initialRouteName="ProdutoDetalhes">
+          <BottomNavigator.Navigator initialRouteName="UserNavigation">
             <BottomNavigator.Screen
               name="Home"
               component={Home}
@@ -105,6 +106,7 @@ export default function App(navigation) {
                 ),
               }}
             />
+
             {authenticated ? (
               <BottomNavigator.Screen
                 name="UserPedidos"
@@ -145,13 +147,13 @@ export default function App(navigation) {
               <></>
             )}
             <BottomNavigator.Screen
-              name={authenticated ? "Perfil" : "Login"}
-              component={authenticated ? Home : Login}
+              name={authenticated ? "UserNavigation" : "Login"}
+              component={authenticated ? UserNavigation : Login}
               options={{
                 tabBarLabelStyle: {
                   display: "none",
                 },
-                title: authenticated ? "Perfil" : "Login",
+                title: authenticated ? "UserNavigation" : "Login",
                 headerShown: false,
                 tabBarIcon: ({ focused }) => (
                   <>
@@ -173,7 +175,7 @@ export default function App(navigation) {
                           : { color: GlobalColors.light_grey },
                       ]}
                     >
-                      {authenticated ? "Perfil" : "Login"}
+                      {authenticated ? "Conta" : "Login"}
                     </Text>
                   </>
                 ),
@@ -237,8 +239,8 @@ export default function App(navigation) {
                   display: "none",
                 },
               }}
-              name="UserProfile"
-              component={UserProfile}
+              name="EditUserProfile"
+              component={EditUserProfile}
             />
           </BottomNavigator.Navigator>
         </NavigationContainer>

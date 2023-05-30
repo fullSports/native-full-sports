@@ -56,14 +56,14 @@ export const ProdutoDetalhes = (comp) => {
                 disabled={numItems == 0}
                 onPress={() => setNumItems(numItems - 1)}
               >
-                -
+                <Text>-</Text>
               </TouchableOpacity>
               <Text style={DetalheStyles.qtd_select_btn_txt}>{numItems}</Text>
               <TouchableOpacity
                 style={DetalheStyles.qtd_select_btn}
                 onPress={() => setNumItems(numItems + 1)}
               >
-                +
+                <Text>+</Text>
               </TouchableOpacity>
             </View>
             <SelectDropdown
@@ -102,12 +102,6 @@ export const ProdutoDetalhes = (comp) => {
                 return item.cor;
               }}
             />
-            {/* <select style={DetalheStyles.qtd_select_input}>
-              <option value="1" selected>
-                Cor
-              </option>
-              <option value="2">1</option>
-            </select> */}
           </View>
           <View
             style={[
@@ -127,10 +121,15 @@ export const ProdutoDetalhes = (comp) => {
             </Text>
           </View>
           <View style={[DetalheStyles.product_card_row, { marginVertical: 2 }]}>
-            <ButtonGreen name="Comprar" action={() => console.log("comprar")} />
+            <ButtonGreen
+              width={330}
+              name="Comprar"
+              action={() => console.log("comprar")}
+            />
           </View>
           <View style={[DetalheStyles.product_card_row, { marginVertical: 2 }]}>
             <ButtonWhite
+              width={330}
               name="Adicionar ao carrinho"
               action={() => console.log("carrinho")}
             />

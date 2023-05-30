@@ -4,16 +4,15 @@ import { Button, IconButton } from "react-native-paper";
 import { GlobalColors } from "../../utils/styles/global-colors";
 const fullSportsLogo = require("../../../App/assets/illustrations/full-sports-logo.png");
 
-export const Header = (header, navigator) => {
+export const Header = (header, { navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={Styles.header_logo_actions}>
         <Image source={fullSportsLogo} style={Styles.logo_style} />
         <View style={Styles.header_actions}>
-          <IconButton icon="cart" />
           <IconButton
-            icon="account-circle"
-            onPress={() => navigator.push("home")}
+            icon="cart"
+            onPress={() => navigation.navigate("Carrinho")}
           />
         </View>
       </View>

@@ -67,6 +67,7 @@ export const PedidosCliente = () => {
             </Text>
           </View>
           <ButtonWhite
+            width={330}
             name="Cancelar pedido"
             action={() => console.log("cancelar")}
           />

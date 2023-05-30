@@ -3,7 +3,7 @@ import { VerticalCard } from "../../../../shared/components/Cards/VerticalCards/
 import { homeStyle } from "./style";
 import { selecaoProdutos } from "../../../../shared/utils/data/teste-cards";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
-import { GlobalStyles } from "../../../../../styles-global";
+import { GlobalStyles as global } from "../../../../../styles-global";
 import { HorizontalCard } from "../../../../shared/components/Cards/horizontal-cards/horizontal-card.tsx";
 import { useEffect } from "react";
 import {
@@ -24,7 +24,7 @@ export default function Home({ navigation, route }) {
         <View style={homeStyle.home_banner_container}>
           <Image source={homeBanner} style={homeStyle.home_banner} />
         </View>
-        <Text style={GlobalStyles.sectionTitle}>ofertas da semana</Text>
+        <Text style={global.sectionTitle}>ofertas da semana</Text>
         <View style={homeStyle.homeView}>
           <View style={homeStyle.cardSlider}>
             {selecaoProdutos?.map((item, i) => (
@@ -47,18 +47,51 @@ export default function Home({ navigation, route }) {
         {/* <Button title="aaa" onPress={() => navigation.navigate("Login")} /> */}
 
         <View style={homeStyle.home_banner_container}>
-          <Image source={shoeSection} style={GlobalStyles.section_banner} />
+          <Image source={shoeSection} style={global.section_banner} />
           <FlatList
             maxToRenderPerBatch={4}
             initialNumToRender={2}
-            style={{ height: "fit-content", overflow: "hidden" }}
+            style={{
+              height: "fit-content",
+              overflow: "hidden",
+              marginVertical: 15,
+            }}
             numColumns={2}
-            keyExtractor={(item) => item.name}
+            keyExtractor={(item, idx) => item.name}
             data={selecaoProdutos}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => navigation.navigate("Login")}>
                 <HorizontalCard
-                  key={item.id}
+                  key={item.name}
+                  name={item.name}
+                  precoAnterior={item.precoAnterior}
+                  precoAtual={item.precoAtual}
+                  parcelamento={item.parcelamento}
+                  imgProduto={item.imgProduto}
+                  linkTo="Login"
+                />
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+
+        <View style={homeStyle.home_banner_container}>
+          <Text style={global.sectionTitle}>Recomendados para você</Text>
+          <FlatList
+            maxToRenderPerBatch={4}
+            initialNumToRender={2}
+            style={{
+              height: "fit-content",
+              overflow: "hidden",
+              marginVertical: 15,
+            }}
+            numColumns={2}
+            keyExtractor={(item, idx) => item.name}
+            data={selecaoProdutos}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <HorizontalCard
+                  key={item.name}
                   name={item.name}
                   precoAnterior={item.precoAnterior}
                   precoAtual={item.precoAtual}
