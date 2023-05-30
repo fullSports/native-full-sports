@@ -24,14 +24,17 @@ export const LoginStyles = StyleSheet.create({
   },
   FormInputGroup: {
     marginVertical: 20,
+    flexDirection: "column",
+    gap: 15,
   },
   HeaderTitle: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: "600",
     color: GlobalColors.neon_green,
   },
   HeaderSubtitle: {
     marginVertical: 10,
+    color: GlobalColors.input_placeholder,
   },
   LoginButton: {
     width: "100%",
@@ -75,5 +78,19 @@ export const LoginStyles = StyleSheet.create({
   },
   AlertStyleParagraph: {
     fontSize: 18,
+  },
+
+  input_btn: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    width: 50,
+    borderTopRightRadius: 5,
+    backgroundColor: GlobalColors.input_bg,
+  },
+  input_with_btn: {
+    flexDirection: "row",
+    borderBottomWidth: 2,
+    borderBottomColor: GlobalColors.neon_green,
   },
 });

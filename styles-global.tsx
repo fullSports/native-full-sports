@@ -65,4 +65,15 @@ export const GlobalStyles = StyleSheet.create({
     color: GlobalColors.darkBlue,
     marginHorizontal: 10,
   },
+  form_input_text: {
+    width: "100%",
+    height: 50,
+    backgroundColor: GlobalColors.input_bg,
+    borderBottomWidth: 2,
+    borderBottomColor: GlobalColors.neon_green,
+    borderTopRightRadius: 5,
+    borderTopLeftRadius: 5,
+    paddingHorizontal: 15,
+    color: GlobalColors.light_black,
+  },
 });

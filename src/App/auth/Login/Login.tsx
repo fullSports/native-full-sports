@@ -1,22 +1,25 @@
 import { View } from "react-native";
 import {
-  TextInput,
   Button,
   Dialog,
   Paragraph,
   Provider,
   Portal,
 } from "react-native-paper";
-import React from "react";
-import { Text } from "react-native";
-import { LoginStyles } from "./Login-Styles";
+import React, { useState } from "react";
+import { Text, TextInput } from "react-native";
+import { LoginStyles as style } from "./Login-Styles";
 import { GlobalColors } from "../../../shared/utils/styles/global-colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { validateEmptyParams } from "../../../shared/utils/functions/validate-inputs";
+import { GlobalStyles as global } from "../../../../styles-global";
+import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
+import { regexEmail } from "../../../shared/utils/data/regex";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [senha, setSenha] = React.useState("");
+  const [showPass, setShowPass] = useState<Boolean>(false);
   const [visible, setVisible] = React.useState(false);
   const [errorDesc, setErrorDesc] = React.useState("");
   const [errorTitle, setErrorTitle] = React.useState("");
@@ -24,12 +27,10 @@ export default function Login({ navigation }) {
   // const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
 
-  const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
   function validateInfo() {
-    validateEmptyParams(password);
+    validateEmptyParams(senha);
     validateEmptyParams(email);
-    if (!email.match(regex)) {
+    if (!email.match(regexEmail)) {
       return (
         setVisible(true),
         setErrorTitle("E-mail inválido"),
@@ -40,18 +41,13 @@ export default function Login({ navigation }) {
   return (
     <Provider>
       <Portal>
-        <Dialog visible={visible} style={LoginStyles.AlertStyle}>
-          <Dialog.Title
-            style={[LoginStyles.AlertStyleText, LoginStyles.AlertStyleTitle]}
-          >
+        <Dialog visible={visible} style={style.AlertStyle}>
+          <Dialog.Title style={[style.AlertStyleText, style.AlertStyleTitle]}>
             {errorTitle}
           </Dialog.Title>
           <Dialog.Content>
             <Paragraph
-              style={[
-                LoginStyles.AlertStyleText,
-                LoginStyles.AlertStyleParagraph,
-              ]}
+              style={[style.AlertStyleText, style.AlertStyleParagraph]}
             >
               {errorDesc}
             </Paragraph>
@@ -63,54 +59,57 @@ export default function Login({ navigation }) {
           </Dialog.Actions>
         </Dialog>
       </Portal>
-      <View style={LoginStyles.LoginView}>
-        <View style={LoginStyles.LoginFormView}>
-          <Text style={LoginStyles.HeaderTitle}>
-            Efetue seu login na plataforma.
-          </Text>
-          <Text style={LoginStyles.HeaderSubtitle}>
+      <View style={style.LoginView}>
+        <View style={style.LoginFormView}>
+          <Text style={style.HeaderTitle}>Efetue seu login na plataforma.</Text>
+          <Text style={style.HeaderSubtitle}>
             Utilize as mesmas informações de cadastro para realizar o login.
           </Text>
-          <View style={LoginStyles.FormInputGroup}>
+          <View style={style.FormInputGroup}>
             <TextInput
-              activeOutlineColor={GlobalColors.neon_green}
-              activeUnderlineColor={GlobalColors.neon_green}
-              style={LoginStyles.LoginInputGroup}
-              label="Informe seu e-mail"
+              placeholderTextColor={GlobalColors.input_placeholder}
+              style={global.form_input_text}
               value={email}
+              placeholder="Insira seu e-mail"
               onChangeText={(email) => setEmail(email)}
             />
-            <TextInput
-              activeOutlineColor={GlobalColors.neon_green}
-              activeUnderlineColor={GlobalColors.neon_green}
-              style={LoginStyles.LoginInputGroup}
-              label="Informe sua senha"
-              value={password}
-              onChangeText={(pass) => setPassword(pass)}
-            />
+            <View style={style.input_with_btn}>
+              <TextInput
+                placeholderTextColor={GlobalColors.input_placeholder}
+                style={[global.form_input_text, { borderWidth: 0 }]}
+                value={senha}
+                secureTextEntry={showPass ? false : true}
+                placeholder="Insira sua senha"
+                onChangeText={(pass) => setSenha(pass)}
+              />
+              <TouchableOpacity
+                style={style.input_btn}
+                onPress={() => setShowPass(!showPass)}
+              >
+                <Icon name={showPass ? "eye" : "eye-off"} size={18} />
+              </TouchableOpacity>
+            </View>
+
             <Button
               onPress={validateInfo}
               icon="login"
               style={[
-                LoginStyles.LoginButton,
-                !email || !password
-                  ? LoginStyles.DisabledButton
-                  : LoginStyles.EnabledButton,
+                style.LoginButton,
+                !email || !senha ? style.DisabledButton : style.EnabledButton,
               ]}
               textColor={GlobalColors.white}
-              disabled={!email || !password}
+              disabled={!email || !senha}
             >
               Entrar
             </Button>
           </View>
         </View>
-
-        <View style={LoginStyles.LoginViewBottom}>
-          <Text style={LoginStyles.BottomTxtOption}>Não possui cadastro?</Text>
+        <View style={style.LoginViewBottom}>
+          <Text style={style.BottomTxtOption}>Não possui cadastro?</Text>
           <TouchableOpacity>
             <Text
               onPress={() => navigation.navigate("CadastroUsuario")}
-              style={LoginStyles.TextLink}
+              style={style.TextLink}
             >
               Criar uma conta
             </Text>
@@ -120,5 +119,3 @@ export default function Login({ navigation }) {
     </Provider>
   );
 }
-
-//  onPress={() => navigation.navigate("Teste")}

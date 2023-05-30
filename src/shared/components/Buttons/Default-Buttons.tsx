@@ -1,17 +1,18 @@
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { DefaultButtonsStyles as style } from "./default-buttons-style";
 
 export const ButtonGreen = ({ name, action }) => {
   return (
-    <button onClick={() => action()} style={style.welcome_btn_green}>
+    <TouchableOpacity onPress={() => action()} style={style.welcome_btn_green}>
       {name}
-    </button>
+    </TouchableOpacity>
   );
 };
 
 export const ButtonWhite = ({ name, action }) => {
   return (
-    <button onClick={() => action()} style={style.welcome_btn_white}>
+    <TouchableOpacity onPress={() => action()} style={style.welcome_btn_white}>
       {name}
-    </button>
+    </TouchableOpacity>
   );
 };

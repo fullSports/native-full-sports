@@ -1,12 +1,21 @@
-import { View, Text, Image, Button } from "react-native";
+import { View, Text, Image, Button, TouchableOpacity } from "react-native";
 import { DetalheStyles } from "./Produto-detalhes-styles";
 import { useState } from "react";
 import { GlobalStyles } from "../../../../styles-global";
+import {
+  ButtonGreen,
+  ButtonWhite,
+} from "../../../shared/components/Buttons/default-buttons";
+import SelectDropdown from "react-native-select-dropdown";
+import { GlobalColors } from "../../../shared/utils/styles/global-colors";
 
 const imgIlustrativa = require("../../assets/illustrations/teste_product_card.png");
 
 export const ProdutoDetalhes = (comp) => {
   const [numItems, setNumItems] = useState<number>(0);
+
+  const cores = [{ cor: "rosa" }, { cor: "azul" }, { cor: "preto" }];
+  const tamanho = [{ tamanho: "GG" }, { tamanho: "G" }, { tamanho: "M" }];
 
   return (
     <>
@@ -41,33 +50,64 @@ export const ProdutoDetalhes = (comp) => {
           </View>
           <View style={DetalheStyles.product_card_row}>
             <View style={DetalheStyles.product_card_qtd_select}>
-              <button
+              {/* <ButtonGreen /> */}
+              <TouchableOpacity
                 style={DetalheStyles.qtd_select_btn}
                 disabled={numItems == 0}
-                onClick={() => setNumItems(numItems - 1)}
+                onPress={() => setNumItems(numItems - 1)}
               >
                 -
-              </button>
+              </TouchableOpacity>
               <Text style={DetalheStyles.qtd_select_btn_txt}>{numItems}</Text>
-              <button
+              <TouchableOpacity
                 style={DetalheStyles.qtd_select_btn}
-                onClick={() => setNumItems(numItems + 1)}
+                onPress={() => setNumItems(numItems + 1)}
               >
                 +
-              </button>
+              </TouchableOpacity>
             </View>
-            <select style={DetalheStyles.qtd_select_input}>
-              <option value="1" selected>
-                Tamanho
-              </option>
-              <option value="2">1</option>
-            </select>
-            <select style={DetalheStyles.qtd_select_input}>
+            <SelectDropdown
+              defaultButtonText="Tamanho"
+              data={tamanho}
+              buttonStyle={DetalheStyles.qtd_select_input}
+              buttonTextStyle={{
+                fontSize: 14,
+                textAlign: "left",
+              }}
+              buttonTextAfterSelection={(selected, idx) => {
+                return selected.tamanho;
+              }}
+              rowTextForSelection={(selected, idx) => {
+                return selected.tamanho;
+              }}
+              onSelect={(item, idx) => {
+                return item.tamanho;
+              }}
+            />
+            <SelectDropdown
+              defaultButtonText="Cor"
+              data={cores}
+              buttonStyle={DetalheStyles.qtd_select_input}
+              buttonTextStyle={{
+                fontSize: 14,
+                textAlign: "left",
+              }}
+              buttonTextAfterSelection={(selected, idx) => {
+                return selected.cor;
+              }}
+              rowTextForSelection={(selected, idx) => {
+                return selected.cor;
+              }}
+              onSelect={(item, idx) => {
+                return item.cor;
+              }}
+            />
+            {/* <select style={DetalheStyles.qtd_select_input}>
               <option value="1" selected>
                 Cor
               </option>
               <option value="2">1</option>
-            </select>
+            </select> */}
           </View>
           <View
             style={[
@@ -87,10 +127,13 @@ export const ProdutoDetalhes = (comp) => {
             </Text>
           </View>
           <View style={[DetalheStyles.product_card_row, { marginVertical: 2 }]}>
-            <button style={DetalheStyles.product_card_buy_btn}>Comprar</button>
+            <ButtonGreen name="Comprar" action={() => console.log("comprar")} />
           </View>
           <View style={[DetalheStyles.product_card_row, { marginVertical: 2 }]}>
-            <button style={GlobalStyles.btn_hole}>Adicionar no carrinho</button>
+            <ButtonWhite
+              name="Adicionar ao carrinho"
+              action={() => console.log("carrinho")}
+            />
           </View>
         </View>
       </View>

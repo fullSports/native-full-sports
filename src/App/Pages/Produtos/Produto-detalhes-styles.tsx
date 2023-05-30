@@ -52,6 +52,8 @@ export const DetalheStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: GlobalColors.light_grey,
     fontWeight: "400",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 4,
   },
   qtd_select_input: {
@@ -60,6 +62,7 @@ export const DetalheStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: GlobalColors.light_grey,
     borderRadius: 4,
+    backgroundColor: GlobalColors.white,
   },
   product_card_desc_title: {
     textAlign: "left",

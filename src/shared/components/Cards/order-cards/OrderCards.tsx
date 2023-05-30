@@ -4,6 +4,7 @@ import { OrderCardStyles as style } from "./styles-order-cards";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { GlobalStyles as global } from "../../../../../styles-global";
+import { ButtonWhite } from "../../Buttons/default-buttons";
 const imgIlustrativa = require("../../../../App/assets/illustrations/teste_product_card.png");
 
 // comp: IPedidos
@@ -65,7 +66,10 @@ export const PedidosCliente = () => {
               Aguardando Pagamento
             </Text>
           </View>
-          <button style={global.btn_hole}>Cancelar pedido</button>
+          <ButtonWhite
+            name="Cancelar pedido"
+            action={() => console.log("cancelar")}
+          />
         </View>
       </View>
     </View>

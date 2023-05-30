@@ -11,13 +11,13 @@ export const CadastroUsuarioStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 10,
-    gap: 10,
+    gap: 5,
   },
   form_item_row: {
     width: "100%",
   },
   form_item_row_2: {
-    width: "48%",
+    width: "50%",
   },
   form_label: {
     fontSize: 13,
@@ -25,17 +25,7 @@ export const CadastroUsuarioStyles = StyleSheet.create({
     color: GlobalColors.input_placeholder,
     paddingVertical: 10,
   },
-  form_input_text: {
-    width: "100%",
-    height: 50,
-    borderBottomWidth: 2,
-    borderBottomColor: GlobalColors.neon_green,
-    backgroundColor: GlobalColors.input_bg,
-    borderTopRightRadius: 5,
-    borderTopLeftRadius: 5,
-    paddingHorizontal: 15,
-    color: GlobalColors.light_black,
-  },
+
   logo_header: {
     height: 80,
     width: 110,
@@ -46,5 +36,21 @@ export const CadastroUsuarioStyles = StyleSheet.create({
     textDecorationLine: "underline",
     color: GlobalColors.light_grey,
     textAlign: "center",
+  },
+  input_with_btn: {
+    flexDirection: "row",
+    borderBottomWidth: 2,
+    borderBottomColor: GlobalColors.neon_green,
+  },
+  input_btn: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    width: 50,
+    borderTopRightRadius: 5,
+    backgroundColor: GlobalColors.input_bg,
+  },
+  required_symbol: {
+    color: "red",
   },
 });
