@@ -5,7 +5,7 @@ import { GlobalStyles } from "../../../../styles-global";
 import {
   ButtonGreen,
   ButtonWhite,
-} from "../../../shared/components/Buttons/default-buttons";
+} from "../../../shared/components/Buttons/Default-Buttons";
 import SelectDropdown from "react-native-select-dropdown";
 import { GlobalColors } from "../../../shared/utils/styles/global-colors";
 
