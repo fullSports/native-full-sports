@@ -39,8 +39,9 @@ export default function Login({ navigation }) {
     }
   }
   return (
-    <Provider>
-      <Portal>
+    // <Provider>
+    <>
+      {/* <Portal>
         <Dialog visible={visible} style={style.AlertStyle}>
           <Dialog.Title style={[style.AlertStyleText, style.AlertStyleTitle]}>
             {errorTitle}
@@ -58,7 +59,7 @@ export default function Login({ navigation }) {
             </Button>
           </Dialog.Actions>
         </Dialog>
-      </Portal>
+      </Portal> */}
       <View style={style.LoginView}>
         <View style={style.LoginFormView}>
           <Text style={style.HeaderTitle}>Efetue seu login na plataforma.</Text>
@@ -116,6 +117,8 @@ export default function Login({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-    </Provider>
+    </>
+
+    // </Provider>
   );
 }
