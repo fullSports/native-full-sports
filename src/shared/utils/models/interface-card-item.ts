@@ -1,8 +1,8 @@
 export interface IProductCard {
   name: string;
   precoAnterior?: number;
-  precoAtual: number;
-  parcelamento: string;
+  precoAtual?: number;
+  parcelamento?: string;
   imgProduto?: any;
   linkTo?: string;
 }

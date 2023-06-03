@@ -9,15 +9,17 @@ import { validateEmptyParams } from "../../../shared/utils/functions/validate-in
 import { GlobalStyles as global } from "../../../../styles-global";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { regexEmail } from "../../../shared/utils/data/regex";
-
+import SyncStorage from "@react-native-async-storage/async-storage";
+import fullsports_api from "../../../environment/full-sports-api";
 export default function Login({ navigation }) {
-  const [email, setEmail] = React.useState("");
-  const [senha, setSenha] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [showPass, setShowPass] = useState<Boolean>(false);
-  const [visible, setVisible] = React.useState(false);
-  const [errorDesc, setErrorDesc] = React.useState("");
-  const [errorTitle, setErrorTitle] = React.useState("");
-
+  const [visible, setVisible] = useState(false);
+  const [errorDesc, setErrorDesc] = useState("");
+  const [errorTitle, setErrorTitle] = useState("");
+  const [mensagemErroBolean, setMensagemErroBolean] = useState(false);
+  const [menssagemErro, setMenssagemErro] = useState("");
   // const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
 
@@ -30,6 +32,31 @@ export default function Login({ navigation }) {
         setErrorTitle("E-mail inválido"),
         setErrorDesc("Endereço de e-mail incorreto. Insira um e-mail válido.")
       );
+    } else {
+      return setVisible(false), setErrorTitle(""), setErrorDesc("");
+    }
+  }
+
+  function realizarLogin() {
+    if (!visible) {
+      fullsports_api
+        .post("realizar-login", {
+          email,
+          senha,
+        })
+        .then((res) => {
+          if (
+            res.data.emailAndPassword === false ||
+            res.data.emailExists === false
+          ) {
+            setMensagemErroBolean(true);
+            setMenssagemErro(res.data.messagem);
+          } else {
+            setMensagemErroBolean(false);
+            SyncStorage.setItem("user", JSON.stringify(res.data.result));
+            navigation.navigate("Home");
+          }
+        });
     }
   }
   return (

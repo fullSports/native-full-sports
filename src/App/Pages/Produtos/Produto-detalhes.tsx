@@ -2,12 +2,12 @@ import { View, Text, Image, Button, TouchableOpacity } from "react-native";
 import { DetalheStyles } from "./Produto-detalhes-styles";
 import { useState } from "react";
 import { GlobalStyles } from "../../../../styles-global";
+import SelectDropdown from "react-native-select-dropdown";
+import { GlobalColors } from "../../../shared/utils/styles/global-colors";
 import {
   ButtonGreen,
   ButtonWhite,
-} from "../../../shared/components/Buttons/Default-Buttons";
-import SelectDropdown from "react-native-select-dropdown";
-import { GlobalColors } from "../../../shared/utils/styles/global-colors";
+} from "../../../shared/components/Buttons/default-buttons";
 
 const imgIlustrativa = require("../../assets/illustrations/teste_product_card.png");
 

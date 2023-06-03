@@ -6,7 +6,7 @@ import { CarrinhoStyles as style } from "./carrinho-styles";
 import {
   ButtonGreen,
   ButtonWhite,
-} from "../../../shared/components/Buttons/Default-Buttons";
+} from "../../../shared/components/Buttons/default-buttons";
 import { ScrollView } from "react-native-gesture-handler";
 
 export const Carrinho = (navigation) => {
