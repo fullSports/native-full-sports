@@ -13,7 +13,7 @@ export const DefaultButtonsStyles = StyleSheet.create({
   welcome_btn_green_txt: {
     color: GlobalColors.white,
     textTransform: "uppercase",
-    fontFamily: "Arial",
+    // fontFamily: "Arial",
     fontSize: 12,
   },
   welcome_btn_white: {
@@ -29,6 +29,6 @@ export const DefaultButtonsStyles = StyleSheet.create({
     color: GlobalColors.light_grey,
     textTransform: "uppercase",
     fontSize: 12,
-    fontFamily: "Arial",
+    // fontFamily: "Arial",
   },
 });

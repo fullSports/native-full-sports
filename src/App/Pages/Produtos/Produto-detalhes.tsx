@@ -7,7 +7,7 @@ import { GlobalColors } from "../../../shared/utils/styles/global-colors";
 import {
   ButtonGreen,
   ButtonWhite,
-} from "../../../shared/components/Buttons/default-buttons";
+} from "../../../shared/components/Buttons/default-Buttons";
 
 const imgIlustrativa = require("../../assets/illustrations/teste_product_card.png");
 

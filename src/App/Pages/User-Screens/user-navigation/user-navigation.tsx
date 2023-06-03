@@ -2,7 +2,9 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { AccessibilityBar } from "../../../../shared/components/Header/Header";
 import { UserNavStyles as style } from "./user-navigation-styles";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
-
+import { Button } from "react-native-paper";
+import SyncStorage from "@react-native-async-storage/async-storage";
+import { GlobalColors } from "../../../../shared/utils/styles/global-colors";
 const pfp = require("./../../../assets/illustrations/testE_pfp.png");
 
 export const UserNavigation = ({ navigation }) => {
@@ -12,6 +14,20 @@ export const UserNavigation = ({ navigation }) => {
       <View style={style.user_header}>
         <Image source={pfp} style={style.user_pfp} />
         <Text style={style.user_txt}>Mariana dos Santos Oliveira</Text>
+        <Button
+          onPress={() => {
+            SyncStorage.removeItem("user")
+            navigation.navigate("Home")
+          }}
+          style={{
+            backgroundColor: "green"
+          }}
+          icon="login"
+          textColor={GlobalColors.white}
+          disabled={false}
+        >
+          Logout
+        </Button>
       </View>
 
       <View style={{ marginVertical: 10 }}>

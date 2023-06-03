@@ -3,7 +3,7 @@ import { Image, ScrollView, Text, TextInput, View } from "react-native";
 import { CadastroUsuarioStyles as style } from "./Cadastro-styles";
 import { GlobalStyles as global } from "../../../../styles-global";
 import { GlobalColors } from "../../../shared/utils/styles/global-colors";
-import { ButtonGreen } from "../../../shared/components/Buttons/default-buttons";
+import { ButtonGreen } from "../../../shared/components/Buttons/default-Buttons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import { cep_ap_url } from "../../../environment/cep-api";

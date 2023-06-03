@@ -5,8 +5,10 @@ import { EditProfileStyles as style } from "./edit-profile-styles";
 import { GlobalStyles as global } from "../../../../../styles-global";
 import { CadastroUsuarioStyles as formStyle } from "../../../auth/Cadastro/Cadastro-styles";
 import { GlobalColors } from "../../../../shared/utils/styles/global-colors";
-import { ButtonGreen } from "../../../../shared/components/Buttons/Default-Buttons";
+import { ButtonGreen } from "../../../../shared/components/Buttons/default-Buttons";
 import { ScrollView } from "react-native-gesture-handler";
+import { Button } from "react-native-paper";
+import SyncStorage from "@react-native-async-storage/async-storage";
 const pfp = require("./../../../assets/illustrations/testE_pfp.png");
 
 export const EditUserProfile = ({ navigation }) => {
