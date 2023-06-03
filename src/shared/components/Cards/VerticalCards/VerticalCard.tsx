@@ -10,8 +10,6 @@ export const VerticalCard = (comp: IProductCard) => {
   return (
     <View style={styleCardV.cardVertical}>
       <Image
-        // onError={setImgError}
-        // onLoad={() => setLoadedImg(comp.imgProduto)}
         style={styleCardV.cardPicCover}
         source={
           onerror ? noProductImg : !cardimg ? noProductImg : { uri: cardimg }
