@@ -65,11 +65,11 @@ export default function Home({ navigation }) {
           <FlatList
             maxToRenderPerBatch={4}
             initialNumToRender={2}
-            style={{
-              height: "fit-content",
-              overflow: "hidden",
-              marginVertical: 15,
-            }}
+            // style={{
+            //   height: "fit-content",
+            //   overflow: "hidden",
+            //   marginVertical: 15,
+            // }}
             numColumns={2}
             keyExtractor={(item, idx) => item.name}
             data={selecaoProdutos}
@@ -94,11 +94,11 @@ export default function Home({ navigation }) {
           <FlatList
             maxToRenderPerBatch={4}
             initialNumToRender={2}
-            style={{
-              height: "fit-content",
-              overflow: "hidden",
-              marginVertical: 15,
-            }}
+            // style={{
+            //   height: "fit-content",
+            //   overflow: "hidden",
+            //   marginVertical: 15,
+            // }}
             numColumns={2}
             keyExtractor={(item, idx) => item.name}
             data={selecaoProdutos}

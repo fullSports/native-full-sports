@@ -1,11 +1,5 @@
 import { View } from "react-native";
-import {
-  Button,
-  Dialog,
-  Paragraph,
-  Provider,
-  Portal,
-} from "react-native-paper";
+import { Button, Dialog, Paragraph, Portal } from "react-native-paper";
 import React, { useState } from "react";
 import { Text, TextInput } from "react-native";
 import { LoginStyles as style } from "./Login-Styles";
