@@ -6,7 +6,7 @@ import { GlobalColors } from "../../../shared/utils/styles/global-colors";
 import { ButtonGreen } from "../../../shared/components/Buttons/default-Buttons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
-import { cep_ap_url } from "../../../environment/cep-api";
+import ApiCep from "../../../environment/cep-api";
 import { cpfMask, maskDate } from "../../../shared/utils/functions/masks";
 import {
   isNumeric,
@@ -34,7 +34,8 @@ export const CadastroUsuario = ({ navigation }) => {
   const [email, setEmail] = useState<string>();
   const [senha, setSenha] = useState<string>();
   const [showPass, setShowPass] = useState<boolean>(false);
-
+  const [carregandoCepMenssagem, setCarregandoCepMessagem] = useState(false);
+  const [carregandoCep, setCarregandoCep] = useState(false);
   // let query: ICadastroUsuario = {
   //   nome: nome,
   //   data_nasc: dataNasc,
@@ -50,16 +51,34 @@ export const CadastroUsuario = ({ navigation }) => {
   //   senha: senha,
   // };
 
-  function buscaEndereco(cep) {
-    fetch(cep_ap_url + cep.value)
-      .then((res) => res.json())
-      .then((data) => {
-        setCep(data.cep);
-        setCidade(data.city);
-        setBairro(data.neighborhood);
-        setEstado(data.state);
-        setRua(data.street);
-      });
+  function buscaCep() {
+    setCarregandoCepMessagem(false);
+    if (cep === '') {
+      setRua('');
+      setBairro('');
+      setEstado('');
+      setCidade('');
+    } else {
+      ApiCep.request({
+        method: 'GET',
+        url: cep,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+        .then((evento) => {
+          setCarregandoCep(false);
+          setRua(evento.data.street.split('-')[0]);
+          setBairro(evento.data.neighborhood);
+          setEstado(evento.data.state);
+          setCidade(evento.data.city);
+        })
+        .catch((err) => {
+          setCarregandoCep(false);
+          setCarregandoCepMessagem(true);
+          console.log(err);
+        });
+    }
   }
 
   function maskCpf(cpf) {
