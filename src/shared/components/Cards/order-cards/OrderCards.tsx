@@ -4,7 +4,7 @@ import { OrderCardStyles as style } from "./styles-order-cards";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { GlobalStyles as global } from "../../../../../styles-global";
-import { ButtonWhite } from "../../Buttons/default-buttons";
+import { ButtonWhite } from "../../Buttons/Default-Buttons";
 const imgIlustrativa = require("../../../../App/assets/illustrations/teste_product_card.png");
 
 // comp: IPedidos

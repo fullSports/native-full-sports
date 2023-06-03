@@ -5,7 +5,7 @@ import { EditProfileStyles as style } from "./edit-profile-styles";
 import { GlobalStyles as global } from "../../../../../styles-global";
 import { CadastroUsuarioStyles as formStyle } from "../../../auth/Cadastro/Cadastro-styles";
 import { GlobalColors } from "../../../../shared/utils/styles/global-colors";
-import { ButtonGreen } from "../../../../shared/components/Buttons/default-buttons";
+import { ButtonGreen } from "../../../../shared/components/Buttons/Default-Buttons";
 import { ScrollView } from "react-native-gesture-handler";
 const pfp = require("./../../../assets/illustrations/testE_pfp.png");
 
