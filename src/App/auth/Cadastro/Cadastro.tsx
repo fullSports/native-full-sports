@@ -86,7 +86,7 @@ export const CadastroUsuario = ({ navigation }) => {
       !validateInputs(senha)
     ) {
       // return;
-      return console.log("i know");
+      return console.log("n passa");
     }
 
     if (
@@ -98,7 +98,7 @@ export const CadastroUsuario = ({ navigation }) => {
     ) {
       return;
     }
-    console.log("asidjasid");
+    console.log("ok");
   }
 
   // useEffect(() => {
@@ -344,7 +344,11 @@ export const CadastroUsuario = ({ navigation }) => {
         </View>
       </View>
       <View style={style.form_row_1}>
-        <ButtonGreen name={"Realizar Cadastro"} action={efeturarCadastro} />
+        <ButtonGreen
+          width={370}
+          name={"Realizar Cadastro"}
+          action={efeturarCadastro}
+        />
       </View>
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
         <Text style={style.has_account_link}>Já tem uma conta?</Text>

@@ -19,11 +19,6 @@ export const GlobalStyles = StyleSheet.create({
     fontSize: 18,
   },
 
-  section_banner: {
-    width: 370,
-    height: 145,
-    marginVertical: 35,
-  },
   bottom_tab_txt: {
     fontSize: 10,
     fontWeight: "400",
