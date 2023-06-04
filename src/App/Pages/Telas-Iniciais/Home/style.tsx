@@ -18,11 +18,17 @@ export const homeStyle = StyleSheet.create({
   home_banner_container: {
     alignItems: "center",
     justifyContent: "center",
+    gap: 5,
   },
   section_shoes_cards: {},
   section_banner: {
-    width: 370,
-    height: 180,
+    width: 400,
+    height: 200,
     marginVertical: 35,
+  },
+  grid_shoes_container: {
+    flex: 2,
+    marginHorizontal: "auto",
+    width: 400,
   },
 });

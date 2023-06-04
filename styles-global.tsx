@@ -17,6 +17,7 @@ export const GlobalStyles = StyleSheet.create({
     marginTop: 35,
     fontWeight: "600",
     fontSize: 18,
+    marginBottom: 10,
   },
 
   bottom_tab_txt: {

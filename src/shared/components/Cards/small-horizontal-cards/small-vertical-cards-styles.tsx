@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
 import { GlobalColors } from "../../../utils/styles/global-colors";
 
-export const styleCardV = StyleSheet.create({
+export const styleSmallCardV = StyleSheet.create({
   cardVertical: {
-    height: 340,
-    width: 220,
+    height: 315,
+    width: 180,
     elevation: 40,
     borderRadius: 5,
     overflow: "hidden",
@@ -12,7 +12,7 @@ export const styleCardV = StyleSheet.create({
     backgroundColor: GlobalColors.white,
   },
   cardPicCover: {
-    height: 220,
+    height: 200,
     width: "100%",
   },
   cardDescBottom: {
@@ -21,7 +21,8 @@ export const styleCardV = StyleSheet.create({
   cardTitle: {
     color: GlobalColors.black,
     fontWeight: "600",
-    fontSize: 16,
+    fontSize: 14,
+    textTransform: "uppercase",
     marginBottom: 10,
   },
   cardPreviousPrice: {
@@ -41,6 +42,9 @@ export const styleCardV = StyleSheet.create({
     fontSize: 16,
   },
   cardPaymentTip: {
+    // position: "absolute",
+    // bottom: 0,
+    marginTop: 5,
     fontSize: 11,
     opacity: 0.8,
     color: GlobalColors.black_opacity,

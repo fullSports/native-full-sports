@@ -9,7 +9,8 @@ import {
 } from "../../../shared/components/Buttons/default-buttons";
 import { ScrollView } from "react-native-gesture-handler";
 
-export const Carrinho = (navigation) => {
+export const Carrinho = ({ route }) => {
+  console.log(route.params.exemplo);
   return (
     <>
       <AccessibilityBar />
