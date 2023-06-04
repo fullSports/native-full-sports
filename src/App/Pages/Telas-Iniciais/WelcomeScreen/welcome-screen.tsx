@@ -4,14 +4,11 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import {
   ButtonGreen,
   ButtonWhite,
-} from "../../../../shared/components/Buttons/Default-Buttons";
+} from "../../../../shared/components/Buttons/default-Buttons";
 const welcomePic = require("./../../../assets/illustrations/login-picture.svg");
 const fullSportsLogo = require("./../../../assets/illustrations/full-sports-logo.png");
 
 export const WelcomeScreen = ({ navigation }) => {
-  function teste() {
-    console.log("hello");
-  }
   return (
     <>
       <View style={style.welcome_screen_display}>

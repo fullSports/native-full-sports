@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { Button, Dialog, Paragraph, Portal } from "react-native-paper";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, TextInput } from "react-native";
 import { LoginStyles as style } from "./Login-Styles";
 import { GlobalColors } from "../../../shared/utils/styles/global-colors";
@@ -11,6 +11,7 @@ import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { regexEmail } from "../../../shared/utils/data/regex";
 import SyncStorage from "@react-native-async-storage/async-storage";
 import fullsports_api from "../../../environment/full-sports-api";
+import { AxiosError } from "axios";
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -33,16 +34,11 @@ export default function Login({ navigation }) {
         setErrorDesc("Endereço de e-mail incorreto. Insira um e-mail válido.")
       );
     } else {
-      return setVisible(false), setErrorTitle(""), setErrorDesc("");
-    }
-  }
-
-  function realizarLogin() {
-    if (!visible) {
+      setVisible(false), setErrorTitle(""), setErrorDesc("")
       fullsports_api
         .post("realizar-login", {
-          email,
-          senha,
+          email: email,
+          password: senha,
         })
         .then((res) => {
           if (
@@ -54,9 +50,14 @@ export default function Login({ navigation }) {
           } else {
             setMensagemErroBolean(false);
             SyncStorage.setItem("user", JSON.stringify(res.data.result));
-            navigation.navigate("Home");
+            return navigation.navigate("Home");
           }
-        });
+        }).catch((err) => {
+          console.log(err);
+          setMensagemErroBolean(true);
+          setMenssagemErro(err.response.data.message[0].toString());
+        });;
+
     }
   }
   return (
@@ -93,6 +94,10 @@ export default function Login({ navigation }) {
               style={global.form_input_text}
               value={email}
               placeholder="Insira seu e-mail"
+              onPressIn={() => {
+                setMensagemErroBolean(false);
+                setMenssagemErro("");
+              }}
               onChangeText={(email) => setEmail(email)}
             />
             <View style={style.input_with_btn}>
@@ -100,6 +105,10 @@ export default function Login({ navigation }) {
                 placeholderTextColor={GlobalColors.input_placeholder}
                 style={[global.form_input_text, { borderWidth: 0 }]}
                 value={senha}
+                onPressIn={() => {
+                  setMensagemErroBolean(false);
+                  setMenssagemErro("");
+                }}
                 secureTextEntry={showPass ? false : true}
                 placeholder="Insira sua senha"
                 onChangeText={(pass) => setSenha(pass)}
@@ -124,9 +133,8 @@ export default function Login({ navigation }) {
             >
               Entrar
             </Button>
+            {mensagemErroBolean ? (<Text style={{ color: "red" }}>{menssagemErro}</Text>) : <></>}
           </View>
-        </View>
-        <View style={style.LoginViewBottom}>
           <Text style={style.BottomTxtOption}>Não possui cadastro?</Text>
           <TouchableOpacity>
             <Text

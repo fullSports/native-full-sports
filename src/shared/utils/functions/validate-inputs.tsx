@@ -10,25 +10,20 @@ export const validateEmptyParams = (query) => {
 
 export function validateInputs(value) {
   if (value == undefined || value == "" || !value) {
-    return;
-  }
-  return true;
+    return false;
+  } else return true;
 }
 
 export function isNumeric(value) {
   if (!value.match(regexNumber)) {
-    console.log("naoé numero");
-    return;
-  }
-  return true;
+    return false;
+  } else return true;
 }
 
 export function validateEmail(value) {
   if (!value.match(regexEmail)) {
-    console.log("email incorreto");
-    return;
-  }
-  return true;
+    return false;
+  } else return true;
 }
 // export function validateMultiple(value) {
 //   Object.keys(value).forEach(

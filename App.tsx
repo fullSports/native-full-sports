@@ -15,12 +15,24 @@ import CategoriasList from "./src/App/Pages/Categorias-List/Categorias";
 import { Carrinho } from "./src/App/Pages/Carrinho/carrinho";
 import { EditUserProfile } from "./src/App/Pages/User-Screens/edit-profile.tsx/edit-profile";
 import { UserNavigation } from "./src/App/Pages/User-Screens/user-navigation/user-navigation";
+import { useEffect, useState } from "react";
+import SyncStorage from "@react-native-async-storage/async-storage";
+import fullsports_api from "./src/environment/full-sports-api";
 const BottomNavigator = createBottomTabNavigator();
 
-export default function App(navigation) {
+export default function App() {
   // auth
-  let authenticated = true;
-
+  const [authenticated, setauthenticated] = useState(false);
+  setInterval(function () {
+    const user = SyncStorage.getItem("user");
+    user.then((res) => {
+      if (res == null) {
+        setauthenticated(false);
+      } else {
+        setauthenticated(true);
+      }
+    })
+  },100)
   return (
     <>
       <View style={{ flex: 1 }}>
@@ -192,7 +204,7 @@ export default function App(navigation) {
               name="ProdutoDetalhes"
               component={ProdutoDetalhes}
             />
-            <BottomNavigator.Screen
+            {/* <BottomNavigator.Screen
               options={{
                 headerShown: false,
                 tabBarItemStyle: {
@@ -201,7 +213,7 @@ export default function App(navigation) {
               }}
               name="Login"
               component={Login}
-            />
+            /> */}
             <BottomNavigator.Screen
               options={{
                 headerShown: false,

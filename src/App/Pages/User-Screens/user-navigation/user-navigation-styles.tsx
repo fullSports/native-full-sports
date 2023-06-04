@@ -16,6 +16,15 @@ export const UserNavStyles = StyleSheet.create({
     height: 45,
     width: 45,
   },
+
+  user_pfpText: {
+    borderRadius: 100,
+    height: 45,
+    width: 45,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#a49898"
+  },
   user_txt: {
     color: GlobalColors.input_placeholder,
     fontSize: 15,

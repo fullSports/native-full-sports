@@ -49,7 +49,10 @@ export default function Home({ navigation }) {
         console.log("Error is: ", e);
       });
   }, []);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7e6588d721f60bace27a2d437e66dcd30bfba4eb
   return (
     <ScrollView>
       <AccessibilityBar />
