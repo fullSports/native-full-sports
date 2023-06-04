@@ -17,12 +17,20 @@ export const UserNavigation = ({ navigation }) => {
         setUser(JSON.parse(res))
       }
     })
+    console.log(user)
   }, [])
   return (
     <>
       <AccessibilityBar />
       <View style={style.user_header}>
-        <Image source={{ uri: user ? user.imagemPerfil.url : "" }} style={style.user_pfp} />
+        {user ? (<>
+          {user.imagemPerfil ?
+            (<Image source={{ uri: user.imagemPerfil.url }} style={style.user_pfp} />) :
+            (<View style={style.user_pfpText}>
+              <Text style={{ fontSize: 18, fontWeight: "600", }}>{user.nome.charAt(0)}</Text>
+            </View>
+            )}
+        </>) : <></>}
         <Text style={style.user_txt}>{user ? user.nome : null}</Text>
         <Button
           onPress={() => {
@@ -38,7 +46,7 @@ export const UserNavigation = ({ navigation }) => {
         >
           Logout
         </Button>
-      </View>
+      </View >
 
       <View style={{ marginVertical: 10 }}>
         <TouchableOpacity

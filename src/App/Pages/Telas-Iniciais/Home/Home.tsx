@@ -39,7 +39,6 @@ export default function Home({ navigation }) {
         | "calcado";
     });
   }, []);
-  console.log(listProdutos);
   return (
     <ScrollView>
       <AccessibilityBar />

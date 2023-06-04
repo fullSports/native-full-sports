@@ -17,6 +17,7 @@ import { ICadastroUsuario } from "../../../shared/utils/models/interface-cadastr
 import { MaskedTextInput } from "react-native-mask-text";
 import SelectDropdown from "react-native-select-dropdown";
 import { UFS } from "../../../shared/utils/data/regioes-br";
+import { Button } from "react-native-paper";
 
 const fullSportsLogo = require("./../../assets/illustrations/full-sports-logo.png");
 
@@ -27,13 +28,14 @@ export const CadastroUsuario = ({ navigation }) => {
   const [cep, setCep] = useState<string>();
   const [rua, setRua] = useState<string>();
   const [bairro, setBairro] = useState<string>();
-  const [estado, setEstado] = useState<string>();
+  const [estado, setEstado] = useState<string>("CE");
   const [cidade, setCidade] = useState<string>();
   const [numero, setNumero] = useState<string>();
   const [complemento, setComplemento] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [senha, setSenha] = useState<string>();
-  const [showPass, setShowPass] = useState<boolean>(false);
+  const [showPass, setShowPass] = useState<boolean>();
+  const [criarContaButton, setCriarContaButton] = useState<boolean>(false);
   const [carregandoCepMenssagem, setCarregandoCepMessagem] = useState(false);
   const [carregandoCep, setCarregandoCep] = useState(false);
   // let query: ICadastroUsuario = {
@@ -68,7 +70,7 @@ export const CadastroUsuario = ({ navigation }) => {
       })
         .then((evento) => {
           setCarregandoCep(false);
-          setRua(evento.data.street.split('-')[0]);
+          setRua(evento.data.street);
           setBairro(evento.data.neighborhood);
           setEstado(evento.data.state);
           setCidade(evento.data.city);
@@ -80,49 +82,6 @@ export const CadastroUsuario = ({ navigation }) => {
         });
     }
   }
-
-  function maskCpf(cpf) {
-    cpfMask(cpf.value);
-  }
-
-  function efeturarCadastro() {
-    console.log(cep);
-    console.log(cpf);
-    console.log(numero);
-    console.log(dataNasc);
-    if (
-      !validateInputs(nome) ||
-      !validateInputs(dataNasc) ||
-      !validateInputs(cpf) ||
-      !validateInputs(cep) ||
-      !validateInputs(rua) ||
-      !validateInputs(bairro) ||
-      !validateInputs(estado) ||
-      !validateInputs(cidade) ||
-      !validateInputs(numero) ||
-      !validateInputs(complemento) ||
-      !validateInputs(email) ||
-      !validateInputs(senha)
-    ) {
-      // return;
-      return console.log("n passa");
-    }
-
-    if (
-      !isNumeric(cpf) ||
-      !validateEmail(email) ||
-      !isNumeric(numero) ||
-      !isNumeric(cep) ||
-      !isNumeric(dataNasc)
-    ) {
-      return;
-    }
-    console.log("ok");
-  }
-
-  // useEffect(() => {
-  // });
-
   return (
     <ScrollView style={global.screenContainer}>
       <Image source={fullSportsLogo} style={style.logo_header} />
@@ -133,7 +92,7 @@ export const CadastroUsuario = ({ navigation }) => {
           </Text>
           <TextInput
             value={nome}
-            onChangeText={setNome}
+            onChangeText={(e) => setNome(e)}
             placeholderTextColor={GlobalColors.input_placeholder}
             placeholder="Informe seu nome completo"
             style={global.form_input_text}
@@ -155,6 +114,7 @@ export const CadastroUsuario = ({ navigation }) => {
             placeholderTextColor={GlobalColors.input_placeholder}
             placeholder="000.000.000-00"
             style={global.form_input_text}
+            keyboardType="numeric"
           />
           {/* <TextInput
             value={cpf}
@@ -174,11 +134,11 @@ export const CadastroUsuario = ({ navigation }) => {
             value={dataNasc}
             onChangeText={(e) => {
               setDataNasc(e);
-              console.log(e);
             }}
             placeholderTextColor={GlobalColors.input_placeholder}
             placeholder="dd/mm/aaaa"
             style={global.form_input_text}
+            keyboardType="numeric"
           />
           {/* <TextInput
             value={dataNasc}
@@ -195,7 +155,6 @@ export const CadastroUsuario = ({ navigation }) => {
           <Text style={style.form_label}>
             CEP (somente números) <Text style={style.required_symbol}>*</Text>
           </Text>
-
           <MaskedTextInput
             mask="99999-999"
             value={cep}
@@ -207,6 +166,7 @@ export const CadastroUsuario = ({ navigation }) => {
             placeholderTextColor={GlobalColors.input_placeholder}
             placeholder="00000-000"
             style={global.form_input_text}
+            keyboardType="numeric"
           />
           {/* <TextInput
             value={cep}
@@ -270,7 +230,6 @@ export const CadastroUsuario = ({ navigation }) => {
               return selected.sigla;
             }}
             onSelect={(item, idx) => {
-              console.log(item.sigla);
               return item.sigla;
             }}
           />
@@ -333,6 +292,7 @@ export const CadastroUsuario = ({ navigation }) => {
             placeholderTextColor={GlobalColors.input_placeholder}
             placeholder="Insira seu e-mail"
             style={global.form_input_text}
+            keyboardType="email-address"
           />
         </View>
       </View>
@@ -345,7 +305,7 @@ export const CadastroUsuario = ({ navigation }) => {
             <TextInput
               value={senha}
               onChangeText={setSenha}
-              secureTextEntry={showPass ? false : true}
+              secureTextEntry={showPass ? true : false}
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="Insira sua senha"
               style={[
@@ -355,19 +315,41 @@ export const CadastroUsuario = ({ navigation }) => {
             />
             <TouchableOpacity
               style={style.input_btn}
-              onPress={() => setShowPass(!showPass)}
             >
-              <Icon name={showPass ? "eye" : "eye-off"} size={18} />
+              <Icon name={!showPass ? "eye" : "eye-off"} size={18} onPress={() => setShowPass(!showPass)} />
             </TouchableOpacity>
           </View>
         </View>
       </View>
       <View style={style.form_row_1}>
-        <ButtonGreen
-          width={370}
-          name={"Realizar Cadastro"}
-          action={efeturarCadastro}
-        />
+        <Button
+          onPress={() => console.log("TRESTas")}
+          icon="account"
+          style={[
+            {
+              width: "100%",
+              height: 50,
+              borderRadius: 5,
+              justifyContent: "center",
+              backgroundColor: GlobalColors.neon_green,
+            },
+
+          ]}
+          textColor={GlobalColors.white}
+          disabled={!validateInputs(nome) ||
+            !validateInputs(cpf) ||
+            !validateInputs(cep) ||
+            !validateInputs(rua) ||
+            !validateInputs(bairro) ||
+            !validateInputs(estado) ||
+            !validateInputs(cidade) ||
+            !validateInputs(numero) ||
+            !validateInputs(complemento) ||
+            !validateInputs(email) ||
+            !validateInputs(senha)}
+        >
+          Criar Conta
+        </Button>
       </View>
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
         <Text style={style.has_account_link}>Já tem uma conta?</Text>

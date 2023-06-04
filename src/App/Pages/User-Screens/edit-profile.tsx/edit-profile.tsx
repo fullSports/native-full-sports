@@ -13,6 +13,9 @@ import SyncStorage from "@react-native-async-storage/async-storage";
 import ICliente from "../../../../shared/utils/interfaces/ICliente";
 import fullsports_api from "../../../../environment/full-sports-api";
 import cep_ap_url from "../../../../environment/cep-api";
+import { cpfMask } from "../../../../shared/utils/functions/masks";
+import { MaskedTextInput } from "react-native-mask-text";
+import { isNumeric, validateInputs } from "../../../../shared/utils/functions/validate-inputs";
 const pfp = require("./../../../assets/illustrations/testE_pfp.png");
 
 export const EditUserProfile = ({ navigation }) => {
@@ -49,6 +52,7 @@ export const EditUserProfile = ({ navigation }) => {
       fullsports_api
         .get<ICliente>(`listar-cliente/${user._id}`)
         .then((resposta) => {
+          console.log(resposta.data)
           setCpf(resposta.data.cpf);
           setNome(resposta.data.nome);
           setDataNascimento(resposta.data.dataNascimento);
@@ -79,7 +83,7 @@ export const EditUserProfile = ({ navigation }) => {
   }, [user]);
 
   function buscaCep() {
-    setCarregandoCep(true);
+    setCarregandoCep(false);
     setCarregandoCepMessagem(false);
     if (cep === '') {
       setCarregandoCep(false);
@@ -88,6 +92,7 @@ export const EditUserProfile = ({ navigation }) => {
       setEstado('');
       setCidade('');
     } else {
+      console.log(cep)
       cep_ap_url.request({
         method: 'GET',
         url: cep,
@@ -112,34 +117,51 @@ export const EditUserProfile = ({ navigation }) => {
 
   function atualizarCliente() {
     console.log("TRESTE")
-    if (user) {
-      fullsports_api
-        .put(`atualizar-cliente/${user._id}`, {
-          cpf,
-          nome,
-          dataNascimento,
-          sexo,
-          cep,
-          endereco: `${rua},${numero} -${complemento}- ${estado}, ${cidade}, ${bairro}`,
-        })
-        .then((res) => {
-          setSpinner(false);
-          console.log(res.data)
-          // alert("cliente atualizado com suceeso");
-          return navigation.navigate("Home")
-        })
-        .catch((err) => {
-          setCarregandoCep(false);
-          setCarregandoCepMessagem(true);
-          console.log(err);
-        });
-    }
+    setCarregandoCepMessagem(false)
+    setMensagemErroBolean(false)
+    if (
+      validateInputs(nome) ||
+      validateInputs(dataNascimento) ||
+      validateInputs(cpf) ||
+      validateInputs(cep) ||
+      validateInputs(rua) ||
+      validateInputs(bairro) ||
+      validateInputs(estado) ||
+      validateInputs(cidade) ||
+      validateInputs(numero) ||
+      validateInputs(complemento)
+    ) {
+      setCarregandoCepMessagem(false);
+      if (user) {
+        fullsports_api
+          .put(`atualizar-cliente/${user._id}`, {
+            cpf,
+            nome,
+            dataNascimento,
+            sexo,
+            cep,
+            endereco: `${rua},${numero} -${complemento}- ${estado}, ${cidade}, ${bairro}`,
+            imagemPerfil: imagemId,
+          })
+          .then((res) => {
+            setSpinner(false);
+            console.log(res.data)
+            // alert("cliente atualizado com suceeso");
+            return navigation.navigate("Home")
+          })
+          .catch((err) => {
+            setCarregandoCep(false);
+            setCarregandoCepMessagem(true);
+            console.log(err);
+          });
+      } else setMensagemErroBolean(true)
+    };
   }
   return (
     <ScrollView>
       <AccessibilityBar />
       <View style={[style.header_user_profile, global.screenContainer]}>
-        <Image source={{ uri: user ? user.imagemPerfil.url : null }} style={style.user_pfp} />
+        <Image source={{ uri: imagemPerfilurl }} style={style.user_pfp} />
         <View>
           <View style={style.user_info_row}>
             <Icon name="pencil-box-outline" style={style.user_porfile_icon} />
@@ -148,7 +170,7 @@ export const EditUserProfile = ({ navigation }) => {
           <View>
             <View style={style.user_info_row}>
               <Text style={style.header_user_name}>
-                {user ? user.nome : ""}
+                {nome}
               </Text>
             </View>
           </View>
@@ -176,30 +198,42 @@ export const EditUserProfile = ({ navigation }) => {
               placeholder="00.000.000-00"
               style={global.form_input_text}
               value={cpf}
-              onChangeText={(t) => setCpf(t)}
+              keyboardType="numeric"
+              onChangeText={async (t) => setCpf(await cpfMask(t))}
             />
           </View>
           <View style={formStyle.form_item_row_2}>
             <Text style={formStyle.form_label}>Data de nascimento</Text>
-            <TextInput
+            <MaskedTextInput
+              mask="99/99/9999"
+              value={dataNascimento}
+              onChangeText={(e) => {
+                setDataNascimento(e);
+              }}
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="dd/mm/aaaa"
               style={global.form_input_text}
-              value={dataNascimento}
-              onChangeText={(t) => setDataNascimento(t)}
+              keyboardType="numeric"
             />
           </View>
         </View>
         <View style={formStyle.form_row_2}>
           <View style={formStyle.form_item_row_2}>
             <Text style={formStyle.form_label}>CEP (somente números)</Text>
-            <TextInput
+            <MaskedTextInput
+              mask="99999-999"
+              value={cep}
+              onChangeText={(e) => {
+                setCep(e);
+              }}
+              maxLength={9}
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="00000-000"
+              keyboardType="numeric"
+              onBlur={() => buscaCep()}
               style={global.form_input_text}
-              value={cep}
-              onChangeText={(t) => setCep(t)}
             />
+            <Text style={{ color: "red" }}>{!carregandoCepMenssagem ? "" : "cep não encontrado"}</Text>
           </View>
           <View style={formStyle.form_item_row_2}>
             <Text style={formStyle.form_label}>Rua</Text>
@@ -252,6 +286,7 @@ export const EditUserProfile = ({ navigation }) => {
               placeholder="Ex.: 190"
               style={global.form_input_text}
               value={numero}
+              keyboardType="numeric"
               onChangeText={(t) => setNumero(t)}
             />
           </View>
