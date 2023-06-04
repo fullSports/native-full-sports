@@ -118,6 +118,7 @@ export const DetalheStyles = StyleSheet.create({
   },
   product_card_desc_txt: {
     textAlign: "justify",
+    marginVertical: 5,
     fontSize: 12,
     color: GlobalColors.light_grey,
   },

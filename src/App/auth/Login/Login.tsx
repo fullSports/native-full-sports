@@ -34,7 +34,7 @@ export default function Login({ navigation }) {
         setErrorDesc("Endereço de e-mail incorreto. Insira um e-mail válido.")
       );
     } else {
-      setVisible(false), setErrorTitle(""), setErrorDesc("")
+      setVisible(false), setErrorTitle(""), setErrorDesc("");
       fullsports_api
         .post("realizar-login", {
           email: email,
@@ -52,36 +52,16 @@ export default function Login({ navigation }) {
             SyncStorage.setItem("user", JSON.stringify(res.data.result));
             return navigation.navigate("Home");
           }
-        }).catch((err) => {
+        })
+        .catch((err) => {
           console.log(err);
           setMensagemErroBolean(true);
           setMenssagemErro(err.response.data.message[0].toString());
-        });;
-
+        });
     }
   }
   return (
-    // <Provider>
     <>
-      {/* <Portal>
-        <Dialog visible={visible} style={style.AlertStyle}>
-          <Dialog.Title style={[style.AlertStyleText, style.AlertStyleTitle]}>
-            {errorTitle}
-          </Dialog.Title>
-          <Dialog.Content>
-            <Paragraph
-              style={[style.AlertStyleText, style.AlertStyleParagraph]}
-            >
-              {errorDesc}
-            </Paragraph>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button textColor={GlobalColors.neon_green} onPress={hideDialog}>
-              OK
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal> */}
       <View style={style.LoginView}>
         <View style={style.LoginFormView}>
           <Text style={style.HeaderTitle}>Efetue seu login na plataforma.</Text>
@@ -133,7 +113,11 @@ export default function Login({ navigation }) {
             >
               Entrar
             </Button>
-            {mensagemErroBolean ? (<Text style={{ color: "red" }}>{menssagemErro}</Text>) : <></>}
+            {mensagemErroBolean ? (
+              <Text style={{ color: "red" }}>{menssagemErro}</Text>
+            ) : (
+              <></>
+            )}
           </View>
           <Text style={style.BottomTxtOption}>Não possui cadastro?</Text>
           <TouchableOpacity>
@@ -147,7 +131,5 @@ export default function Login({ navigation }) {
         </View>
       </View>
     </>
-
-    // </Provider>
   );
 }

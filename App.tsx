@@ -7,7 +7,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View, Text } from "react-native";
 import { GlobalColors } from "./src/shared/utils/styles/global-colors";
 import { GlobalStyles } from "./styles-global";
-import { ProdutoDetalhes } from "./src/App/Pages/Produtos/Produto-detalhes";
 import UserPedidos from "./src/App/Pages/Pedidos/user-pedidos";
 import { WelcomeScreen } from "./src/App/Pages/Telas-Iniciais/WelcomeScreen/welcome-screen";
 import { CadastroUsuario } from "./src/App/auth/Cadastro/Cadastro";
@@ -18,11 +17,14 @@ import { useEffect, useState } from "react";
 import SyncStorage from "@react-native-async-storage/async-storage";
 import fullsports_api from "./src/environment/full-sports-api";
 import { CategoriasList } from "./src/App/Pages/Categorias-List/Categorias";
+import { CategoriasBusca } from "./src/App/Pages/Categorias/categoria-busca";
+import { ProdutoDetalhes } from "./src/App/Pages/Produto-Detalhes/Produto-detalhes";
+
 const BottomNavigator = createBottomTabNavigator();
 
 export default function App() {
   // auth
-  const [authenticated, setauthenticated] = useState(false);
+  const [authenticated, setauthenticated] = useState<boolean>(false);
   setInterval(function () {
     const user = SyncStorage.getItem("user");
     user.then((res) => {
@@ -253,6 +255,16 @@ export default function App() {
               }}
               name="EditUserProfile"
               component={EditUserProfile}
+            />
+            <BottomNavigator.Screen
+              options={{
+                headerShown: false,
+                tabBarItemStyle: {
+                  display: "none",
+                },
+              }}
+              name="CategoriasBusca"
+              component={CategoriasBusca}
             />
           </BottomNavigator.Navigator>
         </NavigationContainer>

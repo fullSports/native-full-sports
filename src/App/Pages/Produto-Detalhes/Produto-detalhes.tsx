@@ -1,39 +1,34 @@
-import {
-  View,
-  Text,
-  Image,
-  Button,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
+import SyncStorage from "@react-native-async-storage/async-storage";
+
 import { DetalheStyles as style } from "./Produto-detalhes-styles";
 import { useEffect, useState } from "react";
-import { GlobalStyles } from "../../../../styles-global";
-import SelectDropdown from "react-native-select-dropdown";
 import { GlobalColors } from "../../../shared/utils/styles/global-colors";
 
 import fullsports_api from "../../../environment/full-sports-api";
 import IProduto from "../../../shared/utils/interfaces/IProduto";
-import Iimagem from "../../../shared/utils/interfaces/Iimagem";
 import {
   ButtonGreen,
   ButtonWhite,
 } from "../../../shared/components/Buttons/default-Buttons";
+import ICliente from "../../../shared/utils/interfaces/ICliente";
 
 const imgIlustrativa = require("../../assets/illustrations/teste_product_card.png");
 
 export const ProdutoDetalhes = ({ route, navigation }) => {
-  const [numItems, setNumItems] = useState<number>(0);
+  const [numItems, setNumItems] = useState<number>(1);
   const [produtoDetails, setProdutoDetails] = useState<IProduto>();
   const [categoriaProduto, setCategoriaProduto] = useState<string>("");
-  const [produtoImagens, setProdutoImagens] = useState<Iimagem>();
-
-  const cores = [{ cor: "rosa" }, { cor: "azul" }, { cor: "preto" }];
-  const tamanho = [{ tamanho: "GG" }, { tamanho: "G" }, { tamanho: "M" }];
+  const [userID, setUserID] = useState<ICliente>();
 
   useEffect(() => {
     // console.log(route.params.category);
     // console.log(route.params.route);
+
+    async function addToCarrinho() {
+      const userLogado = JSON.parse(await SyncStorage.getItem("user"));
+      setUserID(userLogado._id);
+    }
 
     fullsports_api
       .get<IProduto>(`listar-produto/${route.params.idProduto}`)
@@ -41,9 +36,31 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
         setProdutoDetails(res.data);
         setCategoriaProduto(Object.keys(res.data.categoriaProduto)[0]);
       });
+
+    addToCarrinho();
   }, [ProdutoDetalhes]);
 
-  console.log(produtoDetails);
+  // console.log(route.params.idProduto);
+  console.log(userID);
+
+  function adicionarCarrinho() {
+    try {
+      SyncStorage.setItem(
+        "carrinho",
+        JSON.stringify({
+          pedido: {
+            quantidade: numItems,
+            produto: route.params.idProduto,
+            clienteID: userID,
+          },
+        })
+      );
+    } catch (e) {
+      console.log("error is: ", e);
+    }
+
+    navigation.navigate("Carrinho");
+  }
 
   return (
     <>
@@ -82,7 +99,7 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                 <View style={style.product_card_qtd_select}>
                   <TouchableOpacity
                     style={style.qtd_select_btn}
-                    disabled={numItems == 0}
+                    disabled={numItems == 1}
                     onPress={() => setNumItems(numItems - 1)}
                   >
                     <Text>-</Text>
@@ -111,7 +128,7 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                 <Text style={style.product_card_desc_title}>
                   Sobre este produto
                 </Text>
-                <ScrollView style={{ height: 80 }}>
+                <ScrollView style={{ height: 60 }}>
                   <View style={style.desc_info_container}>
                     <View style={style.desc_info}>
                       <Text style={style.desc_info_title}>Marca:</Text>
@@ -119,7 +136,12 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                         {produtoDetails.categoriaProduto[
                           categoriaProduto
                         ].fornecedor.nomeEmpresa.slice(0, 30)}
-                        ...
+                        {produtoDetails.categoriaProduto[categoriaProduto]
+                          .fornecedor.nomeEmpresa.length > 30 ? (
+                          <Text>...</Text>
+                        ) : (
+                          ""
+                        )}
                       </Text>
                     </View>
                     <View style={style.desc_info}>
@@ -131,13 +153,13 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                         }
                       </Text>
                     </View>
+                    <Text style={style.product_card_desc_txt}>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                      Facere ut porro modi ab enim recusandae consequuntur minus
+                      fugit perferendis dolore ad voluptatem doloremque quas
+                      pariatur sequi expedita, harum fugiat totam.
+                    </Text>
                   </View>
-                  <Text style={style.product_card_desc_txt}>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Facere ut porro modi ab enim recusandae consequuntur minus
-                    fugit perferendis dolore ad voluptatem doloremque quas
-                    pariatur sequi expedita, harum fugiat totam.
-                  </Text>
                 </ScrollView>
               </View>
               <View style={[style.product_card_row, { marginVertical: 2 }]}>
@@ -151,11 +173,7 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                 <ButtonWhite
                   width={330}
                   name="Adicionar ao carrinho"
-                  action={() =>
-                    navigation.navigate("Carrinho", {
-                      exemplo: "hello world",
-                    })
-                  }
+                  action={() => adicionarCarrinho()}
                 />
               </View>
             </View>

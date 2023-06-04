@@ -11,8 +11,10 @@ export interface IProductCard {
 }
 
 export interface ICartCard {
-  productName: string;
-  productPrice: number;
-  qtdProduct: number;
-  sizeProduct?: string;
+  produtoNome: string;
+  produtoPreco: number;
+  qtdProduto: number;
+  tamanhoProduto?: string;
+  src: string | any;
+  action: () => void;
 }

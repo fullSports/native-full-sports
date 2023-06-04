@@ -14,7 +14,7 @@ export const CategoriasBusca = ({ route, navigation }) => {
   useEffect(() => {
     console.log(`buscar-produto/${route.params.route}`);
     fullsports_api
-      .get(`buscar-produto/${route.params.route}`)
+      .get(`buscar-produto/roupas`)
       .then((res) => {
         setCategoriaProdutos(res.data);
       })
@@ -30,7 +30,7 @@ export const CategoriasBusca = ({ route, navigation }) => {
         <View style={style.roupas_container}>
           {/* <Text style={global.section_title}>{route.params.pageName}</Text> */}
           <Text style={[global.section_title, { marginBottom: 25 }]}>
-            {/* {route.params.pageName} */}
+            {route.params.pageName}
           </Text>
           <FlatList
             initialNumToRender={15}
