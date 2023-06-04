@@ -11,13 +11,13 @@ import { ProdutoDetalhes } from "./src/App/Pages/Produtos/Produto-detalhes";
 import UserPedidos from "./src/App/Pages/Pedidos/user-pedidos";
 import { WelcomeScreen } from "./src/App/Pages/Telas-Iniciais/WelcomeScreen/welcome-screen";
 import { CadastroUsuario } from "./src/App/auth/Cadastro/Cadastro";
-import CategoriasList from "./src/App/Pages/Categorias-List/Categorias";
 import { Carrinho } from "./src/App/Pages/Carrinho/carrinho";
 import { EditUserProfile } from "./src/App/Pages/User-Screens/edit-profile.tsx/edit-profile";
 import { UserNavigation } from "./src/App/Pages/User-Screens/user-navigation/user-navigation";
 import { useEffect, useState } from "react";
 import SyncStorage from "@react-native-async-storage/async-storage";
 import fullsports_api from "./src/environment/full-sports-api";
+import { CategoriasList } from "./src/App/Pages/Categorias-List/Categorias";
 const BottomNavigator = createBottomTabNavigator();
 
 export default function App() {
@@ -31,8 +31,8 @@ export default function App() {
       } else {
         setauthenticated(true);
       }
-    })
-  },100)
+    });
+  }, 100);
   return (
     <>
       <View style={{ flex: 1 }}>

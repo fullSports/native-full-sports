@@ -11,13 +11,14 @@ import { useEffect, useState } from "react";
 import { GlobalStyles } from "../../../../styles-global";
 import SelectDropdown from "react-native-select-dropdown";
 import { GlobalColors } from "../../../shared/utils/styles/global-colors";
-import {
-  ButtonGreen,
-  ButtonWhite,
-} from "../../../shared/components/Buttons/default-buttons";
+
 import fullsports_api from "../../../environment/full-sports-api";
 import IProduto from "../../../shared/utils/interfaces/IProduto";
 import Iimagem from "../../../shared/utils/interfaces/Iimagem";
+import {
+  ButtonGreen,
+  ButtonWhite,
+} from "../../../shared/components/Buttons/default-Buttons";
 
 const imgIlustrativa = require("../../assets/illustrations/teste_product_card.png");
 
