@@ -21,7 +21,6 @@ import { CategoriasBusca } from "./src/App/Pages/Categorias/categoria-busca";
 import { ProdutoDetalhes } from "./src/App/Pages/Produto-Detalhes/Produto-detalhes";
 
 const BottomNavigator = createBottomTabNavigator();
-
 export default function App() {
   // auth
   const [authenticated, setauthenticated] = useState<boolean>(false);
@@ -34,6 +33,7 @@ export default function App() {
         setauthenticated(true);
       }
     });
+
   }, 100);
   return (
     <>

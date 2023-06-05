@@ -6,7 +6,11 @@ export const GlobalStyles = StyleSheet.create({
     padding: 10,
     paddingTop: "8%"
   },
-
+  Carregando: {
+    justifyContent: "center",
+    width: "50%",
+    height: 100
+  },
   home_banner: {
     width: "100%",
     height: 200,
