@@ -4,6 +4,7 @@ import { GlobalColors } from "./src/shared/utils/styles/global-colors";
 export const GlobalStyles = StyleSheet.create({
   screenContainer: {
     padding: 10,
+    paddingTop: "8%"
   },
 
   home_banner: {

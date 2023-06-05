@@ -12,9 +12,7 @@ export const VerticalCard = (comp: IProductCard) => {
     <View style={styleCardV.cardVertical}>
       <Image
         style={styleCardV.cardPicCover}
-        source={
-          onerror ? noProductImg : !cardimg ? noProductImg : { uri: cardimg }
-        }
+        source={{ uri: comp.src }}
       />
       <View style={styleCardV.cardDescBottom}>
         <Text style={styleCardV.cardTitle}>{comp.produtoName}</Text>

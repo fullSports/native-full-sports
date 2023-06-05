@@ -82,7 +82,7 @@ export const EditUserProfile = ({ navigation }) => {
     }
   }, [user]);
 
-  function buscaCep() {
+  const buscaCep = () => {
     setCarregandoCep(false);
     setCarregandoCepMessagem(false);
     if (cep === '') {
@@ -115,7 +115,7 @@ export const EditUserProfile = ({ navigation }) => {
     }
   }
 
-  function atualizarCliente() {
+  const atualizarCliente = () => {
     console.log("TRESTE")
     setCarregandoCepMessagem(false)
     setMensagemErroBolean(false)

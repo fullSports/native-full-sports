@@ -10,12 +10,12 @@ export const HorizontalCard = (comp: IProductCard) => {
 
   return (
     <TouchableOpacity style={styleCardH.cardHorizontal}>
-      <Image
+      {/* <Image
         style={styleCardH.cardPicCover}
         source={
           onerror ? noProductImg : !cardimg ? noProductImg : { uri: cardimg }
         }
-      />
+      /> */}
       <View style={styleCardH.cardHDesc}>
         <Text style={styleCardH.cardHTile}>{comp.produtoName}</Text>
         <Text style={styleCardH.cardHPreco}>R$ {comp.PrecoAtual}</Text>

@@ -14,7 +14,7 @@ export const CartCards = (comp: ICartCard) => {
         <View style={style.card_info_align}>
           <Image
             style={style.card_product_img}
-            source={onerror ? noImg : !imgProduto ? noImg : { uri: imgProduto }}
+            source={{ uri: imgProduto }}
           />
           <View style={style.card_txt_info}>
             <Text style={style.card_info_title}>{comp.produtoNome}</Text>
