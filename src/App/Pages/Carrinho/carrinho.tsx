@@ -9,7 +9,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import {
   ButtonGreen,
   ButtonWhite,
-} from "../../../shared/components/Buttons/default-buttons";
+} from "../../../shared/components/Buttons/Default-Buttons";
 import { useEffect, useState } from "react";
 import IProduto from "../../../shared/utils/interfaces/IProduto";
 import fullsports_api from "../../../environment/full-sports-api";

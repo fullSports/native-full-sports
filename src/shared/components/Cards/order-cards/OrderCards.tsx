@@ -5,7 +5,7 @@ import { OrderCardStyles as style } from "./styles-order-cards";
 import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { GlobalStyles as global } from "../../../../../styles-global";
-import { ButtonWhite } from "../../Buttons/default-buttons";
+import { ButtonWhite } from "../../Buttons/Default-Buttons";
 import { IPedidos } from "../../../utils/models/interface-pedidos";
 import fullsports_api from "../../../../environment/full-sports-api";
 const imgIlustrativa = require("../../../../App/assets/illustrations/teste_product_card.png");

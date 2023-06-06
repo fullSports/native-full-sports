@@ -10,7 +10,7 @@ import IProduto from "../../../shared/utils/interfaces/IProduto";
 import {
   ButtonGreen,
   ButtonWhite,
-} from "../../../shared/components/Buttons/default-buttons";
+} from "../../../shared/components/Buttons/Default-Buttons";
 import ICliente from "../../../shared/utils/interfaces/ICliente";
 
 const imgIlustrativa = require("../../assets/illustrations/teste_product_card.png");
@@ -20,29 +20,27 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
   const [produtoDetails, setProdutoDetails] = useState<IProduto>();
   const [categoriaProduto, setCategoriaProduto] = useState<string>("");
   const [userID, setUserID] = useState<ICliente>();
-
+  const [spinner, setSpinner] = useState(true);
   useEffect(() => {
-    // console.log(route.params.category);
-    // console.log(route.params.route);
-
+    setSpinner(true);
     async function addToCarrinho() {
       const userLogado = JSON.parse(await SyncStorage.getItem("user"));
       setUserID(userLogado._id);
     }
-
     fullsports_api
       .get<IProduto>(`listar-produto/${route.params.idProduto}`)
       .then((res) => {
+        console.log(res.data.categoriaProduto[Object.keys(res.data.categoriaProduto)[0]].imagemProduto[0])
         setProdutoDetails(res.data);
         setCategoriaProduto(Object.keys(res.data.categoriaProduto)[0]);
+        setSpinner(false);
+      }).catch((err) => {
+        console.log(err)
+        setSpinner(false);
       });
 
     addToCarrinho();
-  }, [ProdutoDetalhes]);
-
-  // console.log(route.params.idProduto);
-  console.log(userID);
-
+  }, []);
   function adicionarCarrinho() {
     try {
       SyncStorage.setItem(
@@ -64,7 +62,7 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
 
   return (
     <>
-      {produtoDetails ? (
+      {!spinner ? (
         <View
           style={[
             style.product_card_container,
@@ -72,6 +70,7 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
           ]}
         >
           <>
+            {console.log(produtoDetails.categoriaProduto)}
             <Image
               source={{
                 uri: produtoDetails.categoriaProduto[categoriaProduto]
@@ -106,6 +105,7 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                   </TouchableOpacity>
                   <Text style={style.qtd_select_btn_txt}>{numItems}</Text>
                   <TouchableOpacity
+                    disabled={numItems == parseInt(produtoDetails.categoriaProduto[categoriaProduto].quantidade)}
                     style={style.qtd_select_btn}
                     onPress={() => setNumItems(numItems + 1)}
                   >
@@ -170,17 +170,20 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                 />
               </View>
               <View style={[style.product_card_row, { marginVertical: 2 }]}>
-                <ButtonWhite
-                  width={330}
-                  name="Adicionar ao carrinho"
-                  action={() => adicionarCarrinho()}
-                />
+                <TouchableOpacity onPress={adicionarCarrinho}>
+                  <ButtonWhite
+                    width={330}
+                    name="Adicionar ao carrinho"
+                    action={() => { }}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           </>
         </View>
+
       ) : (
-        <></>
+        <><Text>TESTE</Text ></>
       )}
     </>
   );
