@@ -22,8 +22,8 @@ export const homeStyle = StyleSheet.create({
   },
   section_shoes_cards: {},
   section_banner: {
-    width: 400,
-    height: 200,
+    width: "100%",
+    height: 160,
     marginVertical: 35,
   },
   grid_shoes_container: {

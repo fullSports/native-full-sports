@@ -10,6 +10,7 @@ export const CategoriasList = ({ navigation }) => {
       <AccessibilityBar />
       <View style={CategoriaStyles.categoriasContainer}>
         <TouchableOpacity
+          style={CategoriaStyles.CategoryCard}
           onPress={() =>
             navigation.navigate("CategoriasBusca", {
               route: "roupas",
@@ -17,7 +18,7 @@ export const CategoriasList = ({ navigation }) => {
             })
           }
         >
-          <View style={CategoriaStyles.CategoryCard}>
+          <View style={{ height: 90 }}>
             <ImageBackground
               source={imgTeste}
               resizeMode="cover"
@@ -30,6 +31,7 @@ export const CategoriasList = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
+          style={CategoriaStyles.CategoryCard}
           onPress={() =>
             navigation.navigate("CategoriasBusca", {
               route: "calcados",
@@ -37,7 +39,7 @@ export const CategoriasList = ({ navigation }) => {
             })
           }
         >
-          <View style={CategoriaStyles.CategoryCard}>
+          <View style={{ height: 90 }}>
             <ImageBackground
               source={imgTeste}
               resizeMode="cover"
@@ -51,6 +53,7 @@ export const CategoriasList = ({ navigation }) => {
         </TouchableOpacity>
 
         <TouchableOpacity
+          style={CategoriaStyles.CategoryCard}
           onPress={() =>
             navigation.navigate("CategoriasBusca", {
               route: "suplementos",
@@ -58,7 +61,7 @@ export const CategoriasList = ({ navigation }) => {
             })
           }
         >
-          <View style={CategoriaStyles.CategoryCard}>
+          <View style={{ height: 90 }}>
             <ImageBackground
               source={imgTeste}
               resizeMode="cover"
@@ -74,6 +77,7 @@ export const CategoriasList = ({ navigation }) => {
         </TouchableOpacity>
 
         <TouchableOpacity
+          style={CategoriaStyles.CategoryCard}
           onPress={() =>
             navigation.navigate("CategoriasBusca", {
               route: "equipamentos",
@@ -81,7 +85,7 @@ export const CategoriasList = ({ navigation }) => {
             })
           }
         >
-          <View style={CategoriaStyles.CategoryCard}>
+          <View style={{ height: 90 }}>
             <ImageBackground
               source={imgTeste}
               resizeMode="cover"

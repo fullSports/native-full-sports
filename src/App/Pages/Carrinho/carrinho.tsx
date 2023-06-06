@@ -9,47 +9,71 @@ import { ScrollView } from "react-native-gesture-handler";
 import {
   ButtonGreen,
   ButtonWhite,
-} from "../../../shared/components/Buttons/default-Buttons";
+} from "../../../shared/components/Buttons/default-buttons";
 import { useEffect, useState } from "react";
 import IProduto from "../../../shared/utils/interfaces/IProduto";
 import fullsports_api from "../../../environment/full-sports-api";
+import ICarrinho from "../../../shared/utils/interfaces/IPedido";
 
 const empty_cart = require("./../../assets/illustrations/empty_cart_img.png");
 
 export const Carrinho = ({ route, navigation }) => {
-  const [itensCarrinho, setItensCarrinho] = useState();
+  const [itensCarrinho, setItensCarrinho] = useState<any>([]);
   const [quantidade, setQuantidade] = useState<number>();
   const [produtoPedido, setProdutoPedido] = useState<IProduto>();
   const [categoriaProduto, setCategoriaProduto] = useState<string>("");
+  const [spinner, setSpinner] = useState(false);
+  const [emptyCart, setEmptyCart] = useState<boolean>();
+
+  async function getCarrinho() {
+    setSpinner(true);
+    try {
+      const carrinho = JSON.parse(await SyncStorage.getItem("carrinho"));
+      setItensCarrinho(carrinho.pedido);
+      setQuantidade(carrinho.pedido.quantidade);
+
+      fullsports_api
+        .get(`listar-produto/${carrinho.pedido.produto}`)
+        .then((res) => {
+          setProdutoPedido(res.data);
+          setCategoriaProduto(Object.keys(res.data.categoriaProduto)[0]);
+        });
+      setEmptyCart(false);
+    } catch (e) {
+      setEmptyCart(true);
+      console.log("error is:", e);
+    }
+  }
 
   useEffect(() => {
-    async function getCarrinho() {
-      try {
-        const carrinho = JSON.parse(
-          (await SyncStorage.getItem("carrinho")) as string
-        );
-        setItensCarrinho(carrinho);
-        setQuantidade(carrinho.pedido.quantidade);
-
-        fullsports_api
-          .get(`listar-produto/${carrinho.pedido.produto}`)
-          .then((res) => {
-            setProdutoPedido(res.data);
-            setCategoriaProduto(Object.keys(res.data.categoriaProduto)[0]);
-          });
-      } catch (e) {
-        console.log("error is:", e);
-      }
-    }
     getCarrinho();
   }, []);
 
-  console.log(produtoPedido);
-  console.log(itensCarrinho);
-  if (itensCarrinho) {
+  function realizarPedido() {
+    setSpinner(true);
+    fullsports_api
+      .request({
+        method: "POST",
+        url: "realizar-pedido",
+        data: {
+          quantidadePedido: itensCarrinho.quantidadePedido,
+          produto: itensCarrinho.produto,
+          cliente: itensCarrinho.clienteID,
+        },
+      })
+      .then(() => {
+        console.log("sucesso");
+        SyncStorage.removeItem("carrinho");
+        setItensCarrinho(null);
+        navigation.navigate("Home");
+      })
+      .catch((e) => console.log("error is:", e));
+  }
+
+  if (emptyCart == false) {
     return (
       <>
-        {produtoPedido ? (
+        {produtoPedido && spinner ? (
           <>
             <AccessibilityBar />
             <View style={[global.screenContainer, style.screen_view]}>
@@ -83,7 +107,7 @@ export const Carrinho = ({ route, navigation }) => {
                 <ButtonGreen
                   width={350}
                   name="Finalizar pedido"
-                  action={() => console.log("finalizar pedido")}
+                  action={() => realizarPedido()}
                 />
                 <ButtonWhite
                   width={350}
@@ -101,10 +125,16 @@ export const Carrinho = ({ route, navigation }) => {
         )}
       </>
     );
-  } else if (!itensCarrinho) {
+  }
+  if (emptyCart == true) {
     return (
       <View style={style.empty_cart_container}>
-        <Image source={empty_cart} />
+        <Image source={empty_cart} style={style.empty_cart_img} />
+        <ButtonGreen
+          width={300}
+          name="Ir às compras!"
+          action={() => navigation.navigate("Home")}
+        />
       </View>
     );
   }

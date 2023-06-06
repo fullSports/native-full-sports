@@ -21,25 +21,41 @@ import SyncStorage from "@react-native-async-storage/async-storage";
 import IRecomendacao from "../../../../shared/utils/interfaces/Recomendacaao/IRecomendacao";
 import ICliente from "../../../../shared/utils/interfaces/ICliente";
 import IBuscaRecomendacao from "../../../../shared/utils/interfaces/Recomendacaao/IBuscaaRecomendacao";
+
 const homeBanner = require("../../../assets/illustrations/homepage-banner.png");
-// const shoeSection = require("../../../assets/illustrations/capa-tenis-section.png");
-const productsSection = require("../../../assets/illustrations/capa-producxts-section.png");
+const pic_calcados_section = require("../../../assets/illustrations/capa-tenis-section.png");
 const SVGCarregando = require("../../../assets/illustrations/Spinner-1s-200px.gif");
+
 export default function Home({ navigation }) {
   const [listProdutos, setListProdutos] = useState<IProduto[]>([]);
   const [spinner, setSpinner] = useState(false);
   const [listCalcados, setListCalcados] = useState<any>([]);
   const [productType, setProductType] = useState<[]>();
   const [authenticated, setauthenticated] = useState<boolean>(false);
-  const [produtosRecomendados, setProdutosReomendados] = useState<IProduto[]>([]);
-  useEffect(() => {
+  const [produtosRecomendados, setProdutosReomendados] = useState<IProduto[]>(
+    []
+  );
+
+  // separei as funcoes por blocos pra chamar no usereffect sem misturar
+  function listarCalcados() {
+    fullsports_api
+      .get("buscar-produto/calcados")
+      .then((res) => {
+        setListCalcados(res.data);
+        console.log(listCalcados);
+      })
+      .catch((e) => console.log(e));
+  }
+
+  function listarRecomendacoes() {
     const user = async () => {
-      const user = await SyncStorage.getItem("user")
+      const user = await SyncStorage.getItem("user");
       setSpinner(true);
+
       if (user != null) {
-        const user1 = JSON.parse(user)
+        const user1 = JSON.parse(user);
         fullsports_api
-          .get<IRecomendacao[]>('listar-recomendacoes')
+          .get<IRecomendacao[]>("listar-recomendacoes")
           .then((resRecomendacao) => {
             for (const recomendacao of resRecomendacao.data) {
               if (recomendacao.user._id === user1._id) {
@@ -49,7 +65,7 @@ export default function Home({ navigation }) {
                   .then((res) => {
                     setListProdutos(res.data.producstRemains);
                     setProdutosReomendados(res.data.recommendations);
-                    setSpinner(false)
+                    setSpinner(false);
                   })
                   .catch((err) => console.log(err));
                 break;
@@ -61,15 +77,21 @@ export default function Home({ navigation }) {
           });
       } else {
         fullsports_api
-          .get<IProduto[]>('listar-produtos')
+          .get<IProduto[]>("listar-produtos")
           .then((res) => {
             setListProdutos(res.data);
+
             setSpinner(false);
           })
           .catch((err) => console.log(err));
       }
-    }
+    };
     user();
+  }
+
+  useEffect(() => {
+    listarCalcados();
+    listarRecomendacoes();
   }, [authenticated]);
   setInterval(function () {
     const user = SyncStorage.getItem("user");
@@ -92,20 +114,130 @@ export default function Home({ navigation }) {
   //     }
   //   });
   // }, 500)
+
   return (
-    <ScrollView >
+    <ScrollView>
       <AccessibilityBar />
       <Header {...navigation} />
       <View style={style.home_banner_container}>
         <Image source={homeBanner} style={style.home_banner} />
       </View>
-      {!spinner ? <>
-        {!authenticated ? (<>
-          <Text style={global.sectionTitle}>Ofertas da Semana</Text>
-          {/* <ScrollView horizontal={true}>
-          <View style={style.homeView}>
-            <View style={style.cardSlider}>
-              {listProdutos?.map((item: IProduto) => {
+      {/* mantem a sessao ofertas da semana indepoendente de estar logado ou nao */}
+      {/* aqui ta filtrando so os produtos dentro de uma faixa se preco especifica */}
+      {!spinner ? (
+        <>
+          <>
+            <Text style={global.sectionTitle}>Ofertas da Semana</Text>
+            <ScrollView horizontal={true}>
+              <View style={style.homeView}>
+                <View style={style.cardSlider}>
+                  {listProdutos?.map((item: IProduto) => {
+                    let obj = Object.keys(
+                      item.categoriaProduto
+                    )[0].toString() as
+                      | "roupa"
+                      | "equipamento"
+                      | "suplemento"
+                      | "calcado";
+                    let parcelamento = (
+                      parseFloat(item.categoriaProduto[obj].preco) / 12
+                    ).toFixed(2);
+                    parcelamento.replace(".", ",");
+                    if (parseFloat(item.categoriaProduto[obj].preco) < 60) {
+                      return (
+                        <TouchableOpacity
+                          key={item._id}
+                          onPress={() =>
+                            navigation.navigate("ProdutoDetalhes", {
+                              idProduto: item._id,
+                            })
+                          }
+                        >
+                          <VerticalCard
+                            src={
+                              item.categoriaProduto[obj].imagemProduto[0].url
+                            }
+                            PrecoAtual={item.categoriaProduto[obj].preco}
+                            precoParcelado={parcelamento}
+                            key={item._id}
+                            produtoName={item.categoriaProduto[obj].nome}
+                          />
+                        </TouchableOpacity>
+                      );
+                    }
+                  })}
+                </View>
+              </View>
+            </ScrollView>
+          </>
+          {/* deixa so essa com a verificacao de autenticado ja que exige q tenha usuario */}
+          {authenticated ? (
+            <>
+              <Text style={global.sectionTitle}>Recomendados para Você</Text>
+              <ScrollView horizontal={true}>
+                <View style={style.homeView}>
+                  <View style={style.cardSlider}>
+                    {produtosRecomendados?.map((item: IProduto) => {
+                      let obj = Object.keys(
+                        item.categoriaProduto
+                      )[0].toString() as
+                        | "roupa"
+                        | "equipamento"
+                        | "suplemento"
+                        | "calcado";
+                      let parcelamento = (
+                        parseFloat(item.categoriaProduto[obj].preco) / 12
+                      ).toFixed(2);
+                      parcelamento.replace(".", ",");
+
+                      return (
+                        <TouchableOpacity
+                          key={item._id}
+                          onPress={() =>
+                            navigation.navigate("ProdutoDetalhes", {
+                              idProduto: item._id,
+                            })
+                          }
+                        >
+                          <VerticalCard
+                            src={
+                              item.categoriaProduto[obj].imagemProduto[0].url
+                            }
+                            PrecoAtual={item.categoriaProduto[obj].preco}
+                            precoParcelado={parcelamento}
+                            key={item._id}
+                            produtoName={item.categoriaProduto[obj].nome}
+                          />
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                </View>
+              </ScrollView>
+            </>
+          ) : (
+            <></>
+          )}
+        </>
+      ) : (
+        <></>
+      )}
+      {!spinner ? (
+        <>
+          <Image source={pic_calcados_section} style={style.section_banner} />
+          <View
+            style={{
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <FlatList
+              initialNumToRender={10}
+              numColumns={2}
+              maxToRenderPerBatch={4}
+              data={listCalcados}
+              renderItem={({ item }) => {
                 let obj = Object.keys(item.categoriaProduto)[0].toString() as
                   | "roupa"
                   | "equipamento"
@@ -115,124 +247,33 @@ export default function Home({ navigation }) {
                   parseFloat(item.categoriaProduto[obj].preco) / 12
                 ).toFixed(2);
                 parcelamento.replace(".", ",");
-                if (parseFloat(item.categoriaProduto[obj].preco) < 60) {
-                  return (
+
+                return (
+                  <SafeAreaView style={{ height: 330, width: 190 }}>
                     <TouchableOpacity
-                      key={item._id}
-                      onPress={() =>
-                        navigation.navigate("ProdutoDetalhes", {
-                          idProduto: item._id,
-                        })
-                      }
+                      onPress={() => navigation.navigate("ProdutoDetalhes")}
                     >
-                      <VerticalCard
-                        src={item.categoriaProduto[obj].imagemProduto[0].url}
-                        PrecoAtual={item.categoriaProduto[obj].preco}
-                        precoParcelado={parcelamento}
+                      <SmallVerticalCard
                         key={item._id}
                         produtoName={item.categoriaProduto[obj].nome}
+                        PrecoAtual={item.categoriaProduto[obj].preco}
+                        src={item.categoriaProduto[obj].imagemProduto[0].url}
+                        precoParcelado={item.categoriaProduto[obj].preco}
+                        linkTo="ProdutoDetalhes"
                       />
                     </TouchableOpacity>
-                  );
-                }
-              })}
-            </View>
+                  </SafeAreaView>
+                );
+              }}
+              keyExtractor={(item) => item._id}
+            />
           </View>
-        </ScrollView> */}
-        </>) :
-          (<>
-            <Text style={global.sectionTitle}>Recomendados para Você</Text>
-            <ScrollView horizontal={true}>
-              <View style={style.homeView}>
-                <View style={style.cardSlider}>
-                  {produtosRecomendados?.map((item: IProduto) => {
-                    let obj = Object.keys(item.categoriaProduto)[0].toString() as
-                      | "roupa"
-                      | "equipamento"
-                      | "suplemento"
-                      | "calcado";
-                    let parcelamento = (
-                      parseFloat(item.categoriaProduto[obj].preco) / 12
-                    ).toFixed(2);
-                    parcelamento.replace(".", ",");
-
-                    return (
-                      <TouchableOpacity
-                        key={item._id}
-                        onPress={() =>
-                          navigation.navigate("ProdutoDetalhes", {
-                            idProduto: item._id,
-                          })
-                        }
-                      >
-                        <VerticalCard
-                          src={item.categoriaProduto[obj].imagemProduto[0].url}
-                          PrecoAtual={item.categoriaProduto[obj].preco}
-                          precoParcelado={parcelamento}
-                          key={item._id}
-                          produtoName={item.categoriaProduto[obj].nome}
-                        />
-                      </TouchableOpacity>
-                    );
-
-                  })}
-                </View>
-              </View>
-            </ScrollView>
-          </>)}
-      </> : <>
-      </>}
-      {/* <Button title="aaa" onPress={() => navigation.navigate("Login")} /> */}
-      {!spinner ?
-        <SafeAreaView style={style.home_banner_container}>
-          <Image source={productsSection} style={style.section_banner} />
-          <FlatList
-            numColumns={2}
-            maxToRenderPerBatch={2}
-            data={listProdutos}
-            renderItem={({ item }) => {
-              let obj = Object.keys(item.categoriaProduto)[0].toString() as
-                | "roupa"
-                | "equipamento"
-                | "suplemento"
-                | "calcado";
-              let parcelamento = (
-                parseFloat(item.categoriaProduto[obj].preco) / 12
-              ).toFixed(2);
-              parcelamento.replace(".", ",");
-
-              // if (String(obj) == "calcado") {
-              return (
-                <SafeAreaView style={{ height: 310, width: 185 }}>
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("ProdutoDetalhes", {
-                        idProduto: item._id,
-                      })
-                    }
-                  >
-                    <SmallVerticalCard
-                      key={item._id}
-                      produtoName={item.categoriaProduto[obj].nome}
-                      PrecoAtual={item.categoriaProduto[obj].preco}
-                      src={item.categoriaProduto[obj].imagemProduto[0].url}
-                      precoParcelado={item.categoriaProduto[obj].preco}
-                      linkTo="ProdutoDetalhes"
-                    />
-                  </TouchableOpacity>
-                </SafeAreaView>
-              );
-              // } else {
-              //   return <></>;
-              // }
-            }}
-            keyExtractor={(item) => item._id}
-          />
-        </SafeAreaView>
-        : <View style={style.home_banner_container}>
+        </>
+      ) : (
+        <View style={style.home_banner_container}>
           <Image source={SVGCarregando} style={global.Carregando} />
         </View>
-      }
+      )}
       {/* <View style={style.home_banner_container}>
           <Text style={global.sectionTitle}>Recomendados para você</Text>
           <FlatList

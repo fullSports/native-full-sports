@@ -23,7 +23,7 @@ export const UserNavStyles = StyleSheet.create({
     width: 45,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#a49898"
+    backgroundColor: "#a49898",
   },
   user_txt: {
     color: GlobalColors.input_placeholder,
@@ -37,7 +37,7 @@ export const UserNavStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 20,
-    marginVertical: 5,
+    marginVertical: 2,
   },
   user_nav_opts_icon: {
     fontSize: 24,
@@ -50,5 +50,9 @@ export const UserNavStyles = StyleSheet.create({
   },
   user_nav_opts_arrow: {
     fontSize: 18,
+  },
+  logout_btn: {
+    textDecorationLine: "underline",
+    color: GlobalColors.black_opacity,
   },
 });

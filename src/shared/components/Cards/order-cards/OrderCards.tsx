@@ -1,15 +1,52 @@
+import SyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { Image, Text, View } from "react-native";
 import { OrderCardStyles as style } from "./styles-order-cards";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { GlobalStyles as global } from "../../../../../styles-global";
-import { ButtonWhite } from "../../Buttons/default-Buttons";
+import { ButtonWhite } from "../../Buttons/default-buttons";
+import { IPedidos } from "../../../utils/models/interface-pedidos";
+import fullsports_api from "../../../../environment/full-sports-api";
 const imgIlustrativa = require("../../../../App/assets/illustrations/teste_product_card.png");
 
 // comp: IPedidos
 export const PedidosCliente = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
+  const [listaPedidos, setListaPedidos] = useState<IPedidos[]>([]);
+  const [spinner, setSpinner] = useState(false);
+  const [user, setUser] = useState<any>();
+
+  // function getPedido() {
+  //   setSpinner(true);
+
+  //   try {
+  //     fullsports_api.get<IPedidos[]>("listar-pedidos").then((res) => {
+  //       setListaPedidos(res.data);
+  //       console.log(res.data);
+  //       setSpinner(false);
+  //     });
+  //   } catch (e) {
+  //     console.log("error is", e);
+  //   }
+  // }
+
+  // async function listarPedido() {
+  //   const user = await SyncStorage.getItem("user");
+
+  //   listaPedidos.map((item) => {
+  //     return <>if(item._id == user._id)</>;
+  //   });
+  // }
+
+  // useEffect(() => {
+  //   async function testing() {
+  //     const usern = await SyncStorage.getItem("user");
+  //     setUser(usern);
+  //   }
+  //   testing();
+  //   getPedido();
+  // }, []);
 
   return (
     <View

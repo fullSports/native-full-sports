@@ -14,7 +14,7 @@ export const CategoriasBusca = ({ route, navigation }) => {
   useEffect(() => {
     console.log(`buscar-produto/${route.params.route}`);
     fullsports_api
-      .get(`buscar-produto/roupas`)
+      .get(`buscar-produto/${route.params.route}`)
       .then((res) => {
         setCategoriaProdutos(res.data);
       })

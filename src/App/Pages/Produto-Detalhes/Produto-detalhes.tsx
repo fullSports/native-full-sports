@@ -10,7 +10,7 @@ import IProduto from "../../../shared/utils/interfaces/IProduto";
 import {
   ButtonGreen,
   ButtonWhite,
-} from "../../../shared/components/Buttons/default-Buttons";
+} from "../../../shared/components/Buttons/default-buttons";
 import ICliente from "../../../shared/utils/interfaces/ICliente";
 
 const imgIlustrativa = require("../../assets/illustrations/teste_product_card.png");
@@ -49,7 +49,7 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
         "carrinho",
         JSON.stringify({
           pedido: {
-            quantidade: numItems,
+            quantidadePedido: numItems,
             produto: route.params.idProduto,
             clienteID: userID,
           },

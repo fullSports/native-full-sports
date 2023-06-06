@@ -17,5 +17,11 @@ export const CarrinhoStyles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    height: "100%",
+  },
+  empty_cart_img: {
+    width: 220,
+    height: 220,
+    marginVertical: 20,
   },
 });

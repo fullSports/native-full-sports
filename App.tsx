@@ -33,7 +33,6 @@ export default function App() {
         setauthenticated(true);
       }
     });
-
   }, 100);
   return (
     <>
