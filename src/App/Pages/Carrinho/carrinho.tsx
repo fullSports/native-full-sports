@@ -31,9 +31,13 @@ export const Carrinho = ({ route, navigation }) => {
       const carrinho = JSON.parse(await SyncStorage.getItem("carrinho"));
       setItensCarrinho(carrinho.pedido);
       setQuantidade(carrinho.pedido.quantidade);
-
+      const token = await SyncStorage.getItem("access_token");
       fullsports_api
-        .get(`listar-produto/${carrinho.pedido.produto}`)
+        .get(`listar-produto/${carrinho.pedido.produto}`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        })
         .then((res) => {
           setProdutoPedido(res.data);
           setCategoriaProduto(Object.keys(res.data.categoriaProduto)[0]);
@@ -49,12 +53,16 @@ export const Carrinho = ({ route, navigation }) => {
     getCarrinho();
   }, []);
 
-  function realizarPedido() {
+  async function realizarPedido() {
     setSpinner(true);
+    const token = await SyncStorage.getItem("access_token");
     fullsports_api
       .request({
         method: "POST",
         url: "realizar-pedido",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
         data: {
           quantidadePedido: itensCarrinho.quantidadePedido,
           produto: itensCarrinho.produto,

@@ -24,7 +24,7 @@ export default function Login({ navigation }) {
   // const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
 
-  function validateInfo() {
+  async function validateInfo() {
     validateEmptyParams(senha);
     validateEmptyParams(email);
     if (!email.match(regexEmail)) {
@@ -35,10 +35,15 @@ export default function Login({ navigation }) {
       );
     } else {
       setVisible(false), setErrorTitle(""), setErrorDesc("");
+      const token = await SyncStorage.getItem("access_token");
       fullsports_api
         .post("realizar-login", {
           email: email,
           password: senha,
+        }, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
         })
         .then((res) => {
           if (

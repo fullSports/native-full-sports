@@ -35,11 +35,23 @@ export default function Home({ navigation }) {
   const [produtosRecomendados, setProdutosReomendados] = useState<IProduto[]>(
     []
   );
-
+  const [token, setToken] = useState('');
+  useEffect(() => {
+    const GetTonke = async () => {
+      const token = await SyncStorage.getItem("access_token");
+      return setToken(token);
+    }
+    GetTonke();
+  }, []);
   // separei as funcoes por blocos pra chamar no usereffect sem misturar
-  function listarCalcados() {
+  async function listarCalcados() {
+    const token = await SyncStorage.getItem("access_token");
     fullsports_api
-      .get("buscar-produto/calcados")
+      .get("buscar-produto/calcados", {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then((res) => {
         setListCalcados(res.data);
         console.log(listCalcados);
@@ -55,13 +67,21 @@ export default function Home({ navigation }) {
       if (user != null) {
         const user1 = JSON.parse(user);
         fullsports_api
-          .get<IRecomendacao[]>("listar-recomendacoes")
-          .then((resRecomendacao) => {
+          .get<IRecomendacao[]>("listar-recomendacoes", {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          .then(async (resRecomendacao) => {
             for (const recomendacao of resRecomendacao.data) {
               if (recomendacao.user._id === user1._id) {
                 console.log(recomendacao.click_roupas);
                 fullsports_api
-                  .get<IBuscaRecomendacao>(`recomendacao/${recomendacao._id}`)
+                  .get<IBuscaRecomendacao>(`recomendacao/${recomendacao._id}`, {
+                    headers: {
+                      'Authorization': `Bearer ${token}`
+                    }
+                  })
                   .then((res) => {
                     setListProdutos(res.data.producstRemains);
                     setProdutosReomendados(res.data.recommendations);
@@ -77,10 +97,13 @@ export default function Home({ navigation }) {
           });
       } else {
         fullsports_api
-          .get<IProduto[]>("listar-produtos")
+          .get<IProduto[]>("listar-produtos", {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
           .then((res) => {
             setListProdutos(res.data);
-
             setSpinner(false);
           })
           .catch((err) => console.log(err));
@@ -90,9 +113,11 @@ export default function Home({ navigation }) {
   }
 
   useEffect(() => {
-    listarCalcados();
-    listarRecomendacoes();
-  }, [authenticated]);
+    if (token != '') {
+      listarCalcados();
+      listarRecomendacoes();
+    }
+  }, [authenticated, token]);
   setInterval(function () {
     const user = SyncStorage.getItem("user");
     user.then((res) => {

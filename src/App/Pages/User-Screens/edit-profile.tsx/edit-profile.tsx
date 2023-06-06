@@ -40,6 +40,15 @@ export const EditUserProfile = ({ navigation }) => {
   const [cadastrarNovaFoto, setCadastrarNovaFoto] = useState(false);
   const [carregandoCep, setCarregandoCep] = useState(false);
   const [carregandoCepMenssagem, setCarregandoCepMessagem] = useState(false);
+  const [token, setToken] = useState('');
+  useEffect(() => {
+    const GetTonke = async () => {
+      const token = await SyncStorage.getItem("access_token");
+      return setToken(token);
+    }
+    GetTonke();
+  }, []);
+
   useEffect(() => {
     SyncStorage.getItem("user").then(res => {
       if (res !== null) {
@@ -48,9 +57,13 @@ export const EditUserProfile = ({ navigation }) => {
     })
   }, []);
   useEffect(() => {
-    if (user) {
+    if (user && token !== '') {
       fullsports_api
-        .get<ICliente>(`listar-cliente/${user._id}`)
+        .get<ICliente>(`listar-cliente/${user._id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
         .then((resposta) => {
           console.log(resposta.data)
           setCpf(resposta.data.cpf);
@@ -80,7 +93,7 @@ export const EditUserProfile = ({ navigation }) => {
           setMenssagemErro('Erro na requisição');
         });
     }
-  }, [user]);
+  }, [user, token]);
 
   const buscaCep = () => {
     setCarregandoCep(false);
@@ -142,6 +155,10 @@ export const EditUserProfile = ({ navigation }) => {
             cep,
             endereco: `${rua},${numero} -${complemento}- ${estado}, ${cidade}, ${bairro}`,
             imagemPerfil: imagemId,
+          }, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
           })
           .then((res) => {
             setSpinner(false);

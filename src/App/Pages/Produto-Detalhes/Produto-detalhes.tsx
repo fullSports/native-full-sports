@@ -21,6 +21,15 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
   const [categoriaProduto, setCategoriaProduto] = useState<string>("");
   const [userID, setUserID] = useState<ICliente>();
   const [spinner, setSpinner] = useState(true);
+  const [token, setToken] = useState('');
+  useEffect(() => {
+    console.log(`buscar-produto/${route.params.route}`);
+    const GetTonke = async () => {
+      const token = await SyncStorage.getItem("access_token");
+      return setToken(token);
+    }
+    GetTonke();
+  }, []);
   useEffect(() => {
     setSpinner(true);
     async function addToCarrinho() {
@@ -28,7 +37,11 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
       setUserID(userLogado._id);
     }
     fullsports_api
-      .get<IProduto>(`listar-produto/${route.params.idProduto}`)
+      .get<IProduto>(`listar-produto/${route.params.idProduto}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then((res) => {
         console.log(res.data.categoriaProduto[Object.keys(res.data.categoriaProduto)[0]].imagemProduto[0])
         setProdutoDetails(res.data);
@@ -36,11 +49,10 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
         setSpinner(false);
       }).catch((err) => {
         console.log(err)
-        setSpinner(false);
       });
 
     addToCarrinho();
-  }, []);
+  }, [token]);
   function adicionarCarrinho() {
     try {
       SyncStorage.setItem(

@@ -7,21 +7,32 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { SmallVerticalCard } from "../../../shared/components/Cards/small-horizontal-cards/small-vertical-cards";
 import { categoriasStyles as style } from "./categorias-busca-styles";
 import { GlobalStyles as global } from "../../../../styles-global";
-
+import SyncStorage from "@react-native-async-storage/async-storage";
 export const CategoriasBusca = ({ route, navigation }) => {
   const [categoriaProdutos, setCategoriaProdutos] = useState([]);
-
+  const [token, setToken] = useState('');
   useEffect(() => {
     console.log(`buscar-produto/${route.params.route}`);
+    const GetTonke = async () => {
+      const token = await SyncStorage.getItem("access_token");
+      return setToken(token);
+    }
+    GetTonke();
+  }, []);
+  useEffect(() => {
     fullsports_api
-      .get(`buscar-produto/${route.params.route}`)
+      .get(`buscar-produto/${route.params.route}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then((res) => {
         setCategoriaProdutos(res.data);
       })
       .catch((e) => {
         console.log("Error is: ", e);
       });
-  }, []);
+  }, [token])
 
   return (
     <>
