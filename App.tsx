@@ -42,10 +42,10 @@ export default function App() {
         clientID: String(process.env.REACT_APP_CLIENTID),
         clientSecret: String(process.env.REACT_APP_CLIENSECRET),
       }).then(async (res) => {
-        await SyncStorage.setItem('access_token', res.data.access_token);
+        SyncStorage.setItem('access_token', res.data.access_token);
         setTokenSetado(true);
       }).catch((err: AxiosError) => {
-        console.log("error ao buscar o token")
+        console.log("error ao buscar o token");
         console.log(err.toJSON())
       });
     }
@@ -61,7 +61,8 @@ export default function App() {
       console.log("error ao buscar o token")
       console.log(err.toJSON())
     });
-  }, 7000);
+  }, 170000);
+  console.log(tokenSetado)
   return (
     <>
       {tokenSetado ? (
