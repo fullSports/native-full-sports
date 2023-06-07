@@ -12,7 +12,6 @@ export const CategoriasBusca = ({ route, navigation }) => {
   const [categoriaProdutos, setCategoriaProdutos] = useState([]);
   const [token, setToken] = useState('');
   useEffect(() => {
-    console.log(`buscar-produto/${route.params.route}`);
     const GetTonke = async () => {
       const token = await SyncStorage.getItem("access_token");
       return setToken(token);

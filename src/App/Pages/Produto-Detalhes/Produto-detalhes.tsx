@@ -23,7 +23,6 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
   const [spinner, setSpinner] = useState(true);
   const [token, setToken] = useState('');
   useEffect(() => {
-    console.log(`buscar-produto/${route.params.route}`);
     const GetTonke = async () => {
       const token = await SyncStorage.getItem("access_token");
       return setToken(token);

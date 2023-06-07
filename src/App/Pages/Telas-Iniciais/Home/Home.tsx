@@ -276,7 +276,9 @@ export default function Home({ navigation }) {
                 return (
                   <SafeAreaView style={{ height: 330, width: 190 }}>
                     <TouchableOpacity
-                      onPress={() => navigation.navigate("ProdutoDetalhes")}
+                      onPress={() => {
+                        navigation.navigate("ProdutoDetalhes")
+                    }}
                     >
                       <SmallVerticalCard
                         key={item._id}
