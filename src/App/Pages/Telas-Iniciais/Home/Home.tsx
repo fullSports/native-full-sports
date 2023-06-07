@@ -261,7 +261,7 @@ export default function Home({ navigation }) {
               initialNumToRender={10}
               numColumns={2}
               maxToRenderPerBatch={4}
-              data={listCalcados}
+              data={listProdutos}
               renderItem={({ item }) => {
                 let obj = Object.keys(item.categoriaProduto)[0].toString() as
                   | "roupa"
