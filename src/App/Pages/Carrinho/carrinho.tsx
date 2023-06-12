@@ -13,11 +13,14 @@ import {
 import { useEffect, useState } from "react";
 import IProduto from "../../../shared/utils/interfaces/IProduto";
 import fullsports_api from "../../../environment/full-sports-api";
-import ICarrinho from "../../../shared/utils/interfaces/IPedido";
+import { useIsFocused } from "@react-navigation/native";
+import { CustomSpinner } from "../../../shared/components/Spinner/custom-spinner";
 
 const empty_cart = require("./../../assets/illustrations/empty_cart_img.png");
 
 export const Carrinho = ({ route, navigation }) => {
+  const isFocused = useIsFocused();
+
   const [itensCarrinho, setItensCarrinho] = useState<any>([]);
   const [quantidade, setQuantidade] = useState<number>();
   const [produtoPedido, setProdutoPedido] = useState<IProduto>();
@@ -29,9 +32,13 @@ export const Carrinho = ({ route, navigation }) => {
     setSpinner(true);
     try {
       const carrinho = JSON.parse(await SyncStorage.getItem("carrinho"));
-      setItensCarrinho(carrinho.pedido);
-      setQuantidade(carrinho.pedido.quantidade);
       const token = await SyncStorage.getItem("access_token");
+
+      setItensCarrinho(carrinho.pedido);
+      // setItensCarrinho((oldCart) => [...oldCart, carrinho.pedido]);
+      console.log(itensCarrinho);
+      setQuantidade(carrinho.pedido.quantidadePedido);
+
       fullsports_api
         .get(`listar-produto/${carrinho.pedido.produto}`, {
           headers: {
@@ -42,6 +49,7 @@ export const Carrinho = ({ route, navigation }) => {
           setProdutoPedido(res.data);
           setCategoriaProduto(Object.keys(res.data.categoriaProduto)[0]);
         });
+
       setEmptyCart(false);
     } catch (e) {
       setEmptyCart(true);
@@ -50,8 +58,10 @@ export const Carrinho = ({ route, navigation }) => {
   }
 
   useEffect(() => {
-    getCarrinho();
-  }, []);
+    if (isFocused) {
+      getCarrinho();
+    }
+  }, [isFocused]);
 
   async function realizarPedido() {
     setSpinner(true);
@@ -129,7 +139,7 @@ export const Carrinho = ({ route, navigation }) => {
             </View>
           </>
         ) : (
-          <></>
+          <CustomSpinner />
         )}
       </>
     );

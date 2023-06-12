@@ -13,8 +13,12 @@ import {
 } from "../../../shared/components/Buttons/Default-Buttons";
 import ICliente from "../../../shared/utils/interfaces/ICliente";
 import { getTonken } from "../../../shared/utils/functions/get-token-access";
+import { useIsFocused } from "@react-navigation/native";
+import { CustomSpinner } from "../../../shared/components/Spinner/custom-spinner";
 
 export const ProdutoDetalhes = ({ route, navigation }) => {
+  const isFocused = useIsFocused();
+
   const [numItems, setNumItems] = useState<number>(1);
   const [produtoDetails, setProdutoDetails] = useState<IProduto>();
   const [categoriaProduto, setCategoriaProduto] = useState<string>("");
@@ -26,31 +30,28 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
     getTonken(setToken);
 
     setSpinner(true);
-    async function addToCarrinho() {
-      const userLogado = JSON.parse(await SyncStorage.getItem("user"));
-      setUserID(userLogado._id);
-    }
-    fullsports_api
-      .get<IProduto>(`listar-produto/${route.params.idProduto}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(
-          res.data.categoriaProduto[Object.keys(res.data.categoriaProduto)[0]]
-            .imagemProduto[0]
-        );
-        setProdutoDetails(res.data);
-        setCategoriaProduto(Object.keys(res.data.categoriaProduto)[0]);
-        setSpinner(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
 
-    addToCarrinho();
-  }, [token]);
+    if (isFocused) {
+      fullsports_api
+        .get<IProduto>(`listar-produto/${route.params.idProduto}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          console.log(
+            res.data.categoriaProduto[Object.keys(res.data.categoriaProduto)[0]]
+              .imagemProduto[0]
+          );
+          setProdutoDetails(res.data);
+          setCategoriaProduto(Object.keys(res.data.categoriaProduto)[0]);
+          setSpinner(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [token, isFocused]);
   function adicionarCarrinho() {
     try {
       SyncStorage.setItem(
@@ -198,9 +199,7 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
           </>
         </View>
       ) : (
-        <>
-          <Text>TESTE</Text>
-        </>
+        <CustomSpinner />
       )}
     </>
   );

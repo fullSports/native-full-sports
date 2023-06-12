@@ -21,6 +21,7 @@ import SyncStorage from "@react-native-async-storage/async-storage";
 import IRecomendacao from "../../../../shared/utils/interfaces/Recomendacaao/IRecomendacao";
 import IBuscaRecomendacao from "../../../../shared/utils/interfaces/Recomendacaao/IBuscaaRecomendacao";
 import { getTonken } from "../../../../shared/utils/functions/get-token-access";
+import { CustomSpinner } from "../../../../shared/components/Spinner/custom-spinner";
 
 const homeBanner = require("../../../assets/illustrations/homepage-banner.png");
 const pic_calcados_section = require("../../../assets/illustrations/capa-tenis-section.png");
@@ -47,7 +48,7 @@ export default function Home({ navigation }) {
       })
       .then((res) => {
         setListCalcados(res.data);
-        console.log(listCalcados);
+        // console.log(listCalcados);
       })
       .catch((e) => console.log(e));
   }
@@ -68,7 +69,7 @@ export default function Home({ navigation }) {
           .then(async (resRecomendacao) => {
             for (const recomendacao of resRecomendacao.data) {
               if (recomendacao.user._id === user1._id) {
-                console.log(recomendacao.click_roupas);
+                // console.log(recomendacao.click_roupas);
                 fullsports_api
                   .get<IBuscaRecomendacao>(`recomendacao/${recomendacao._id}`, {
                     headers: {
@@ -272,7 +273,9 @@ export default function Home({ navigation }) {
                   <SafeAreaView style={{ height: 330, width: 190 }}>
                     <TouchableOpacity
                       onPress={() => {
-                        navigation.navigate("ProdutoDetalhes");
+                        navigation.navigate("ProdutoDetalhes", {
+                          idProduto: item._id,
+                        });
                       }}
                     >
                       <SmallVerticalCard
@@ -292,9 +295,7 @@ export default function Home({ navigation }) {
           </View>
         </>
       ) : (
-        <View style={style.home_banner_container}>
-          <Image source={SVGCarregando} style={global.Carregando} />
-        </View>
+        <CustomSpinner />
       )}
       {/* <View style={style.home_banner_container}>
           <Text style={global.sectionTitle}>Recomendados para você</Text>
