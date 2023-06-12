@@ -35,8 +35,8 @@ export const Carrinho = ({ route, navigation }) => {
       fullsports_api
         .get(`listar-produto/${carrinho.pedido.produto}`, {
           headers: {
-            "Authorization": `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         })
         .then((res) => {
           setProdutoPedido(res.data);
@@ -61,7 +61,7 @@ export const Carrinho = ({ route, navigation }) => {
         method: "POST",
         url: "realizar-pedido",
         headers: {
-          "Authorization": `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         data: {
           quantidadePedido: itensCarrinho.quantidadePedido,

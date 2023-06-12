@@ -19,8 +19,8 @@ import IProduto from "../../../../shared/utils/interfaces/IProduto";
 import { SmallVerticalCard } from "../../../../shared/components/Cards/small-horizontal-cards/small-vertical-cards";
 import SyncStorage from "@react-native-async-storage/async-storage";
 import IRecomendacao from "../../../../shared/utils/interfaces/Recomendacaao/IRecomendacao";
-import ICliente from "../../../../shared/utils/interfaces/ICliente";
 import IBuscaRecomendacao from "../../../../shared/utils/interfaces/Recomendacaao/IBuscaaRecomendacao";
+import { getTonken } from "../../../../shared/utils/functions/get-token-access";
 
 const homeBanner = require("../../../assets/illustrations/homepage-banner.png");
 const pic_calcados_section = require("../../../assets/illustrations/capa-tenis-section.png");
@@ -35,22 +35,15 @@ export default function Home({ navigation }) {
   const [produtosRecomendados, setProdutosReomendados] = useState<IProduto[]>(
     []
   );
-  const [token, setToken] = useState('');
-  useEffect(() => {
-    const GetTonke = async () => {
-      const token = await SyncStorage.getItem("access_token");
-      return setToken(token);
-    }
-    GetTonke();
-  }, []);
+  const [token, setToken] = useState("");
   // separei as funcoes por blocos pra chamar no usereffect sem misturar
   async function listarCalcados() {
     const token = await SyncStorage.getItem("access_token");
     fullsports_api
       .get("buscar-produto/calcados", {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => {
         setListCalcados(res.data);
@@ -69,8 +62,8 @@ export default function Home({ navigation }) {
         fullsports_api
           .get<IRecomendacao[]>("listar-recomendacoes", {
             headers: {
-              'Authorization': `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           })
           .then(async (resRecomendacao) => {
             for (const recomendacao of resRecomendacao.data) {
@@ -79,8 +72,8 @@ export default function Home({ navigation }) {
                 fullsports_api
                   .get<IBuscaRecomendacao>(`recomendacao/${recomendacao._id}`, {
                     headers: {
-                      'Authorization': `Bearer ${token}`
-                    }
+                      Authorization: `Bearer ${token}`,
+                    },
                   })
                   .then((res) => {
                     setListProdutos(res.data.producstRemains);
@@ -99,8 +92,8 @@ export default function Home({ navigation }) {
         fullsports_api
           .get<IProduto[]>("listar-produtos", {
             headers: {
-              'Authorization': `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           })
           .then((res) => {
             setListProdutos(res.data);
@@ -113,7 +106,9 @@ export default function Home({ navigation }) {
   }
 
   useEffect(() => {
-    if (token != '') {
+    getTonken(setToken);
+
+    if (token != "") {
       listarCalcados();
       listarRecomendacoes();
     }
@@ -277,8 +272,8 @@ export default function Home({ navigation }) {
                   <SafeAreaView style={{ height: 330, width: 190 }}>
                     <TouchableOpacity
                       onPress={() => {
-                        navigation.navigate("ProdutoDetalhes")
-                    }}
+                        navigation.navigate("ProdutoDetalhes");
+                      }}
                     >
                       <SmallVerticalCard
                         key={item._id}

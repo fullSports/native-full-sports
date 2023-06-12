@@ -12,8 +12,7 @@ import {
   ButtonWhite,
 } from "../../../shared/components/Buttons/Default-Buttons";
 import ICliente from "../../../shared/utils/interfaces/ICliente";
-
-const imgIlustrativa = require("../../assets/illustrations/teste_product_card.png");
+import { getTonken } from "../../../shared/utils/functions/get-token-access";
 
 export const ProdutoDetalhes = ({ route, navigation }) => {
   const [numItems, setNumItems] = useState<number>(1);
@@ -21,15 +20,11 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
   const [categoriaProduto, setCategoriaProduto] = useState<string>("");
   const [userID, setUserID] = useState<ICliente>();
   const [spinner, setSpinner] = useState(true);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
+
   useEffect(() => {
-    const GetTonke = async () => {
-      const token = await SyncStorage.getItem("access_token");
-      return setToken(token);
-    }
-    GetTonke();
-  }, []);
-  useEffect(() => {
+    getTonken(setToken);
+
     setSpinner(true);
     async function addToCarrinho() {
       const userLogado = JSON.parse(await SyncStorage.getItem("user"));
@@ -38,16 +33,20 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
     fullsports_api
       .get<IProduto>(`listar-produto/${route.params.idProduto}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => {
-        console.log(res.data.categoriaProduto[Object.keys(res.data.categoriaProduto)[0]].imagemProduto[0])
+        console.log(
+          res.data.categoriaProduto[Object.keys(res.data.categoriaProduto)[0]]
+            .imagemProduto[0]
+        );
         setProdutoDetails(res.data);
         setCategoriaProduto(Object.keys(res.data.categoriaProduto)[0]);
         setSpinner(false);
-      }).catch((err) => {
-        console.log(err)
+      })
+      .catch((err) => {
+        console.log(err);
       });
 
     addToCarrinho();
@@ -116,7 +115,13 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                   </TouchableOpacity>
                   <Text style={style.qtd_select_btn_txt}>{numItems}</Text>
                   <TouchableOpacity
-                    disabled={numItems == parseInt(produtoDetails.categoriaProduto[categoriaProduto].quantidade)}
+                    disabled={
+                      numItems ==
+                      parseInt(
+                        produtoDetails.categoriaProduto[categoriaProduto]
+                          .quantidade
+                      )
+                    }
                     style={style.qtd_select_btn}
                     onPress={() => setNumItems(numItems + 1)}
                   >
@@ -185,16 +190,17 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                   <ButtonWhite
                     width={330}
                     name="Adicionar ao carrinho"
-                    action={() => { }}
+                    action={() => {}}
                   />
                 </TouchableOpacity>
               </View>
             </View>
           </>
         </View>
-
       ) : (
-        <><Text>TESTE</Text ></>
+        <>
+          <Text>TESTE</Text>
+        </>
       )}
     </>
   );

@@ -7,23 +7,18 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { SmallVerticalCard } from "../../../shared/components/Cards/small-horizontal-cards/small-vertical-cards";
 import { categoriasStyles as style } from "./categorias-busca-styles";
 import { GlobalStyles as global } from "../../../../styles-global";
-import SyncStorage from "@react-native-async-storage/async-storage";
+import { getTonken } from "../../../shared/utils/functions/get-token-access";
 export const CategoriasBusca = ({ route, navigation }) => {
   const [categoriaProdutos, setCategoriaProdutos] = useState([]);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
+
   useEffect(() => {
-    const GetTonke = async () => {
-      const token = await SyncStorage.getItem("access_token");
-      return setToken(token);
-    }
-    GetTonke();
-  }, []);
-  useEffect(() => {
+    getTonken(setToken);
     fullsports_api
       .get(`buscar-produto/${route.params.route}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => {
         setCategoriaProdutos(res.data);
@@ -31,7 +26,7 @@ export const CategoriasBusca = ({ route, navigation }) => {
       .catch((e) => {
         console.log("Error is: ", e);
       });
-  }, [token])
+  }, [token]);
 
   return (
     <>
