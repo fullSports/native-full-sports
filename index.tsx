@@ -22,4 +22,4 @@ export default function indexApp() {
   );
 }
 
-AppRegistry.registerComponent("Full Sports App", () => App);
+AppRegistry.registerComponent("Full Sports App", () => indexApp);

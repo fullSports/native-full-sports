@@ -29,11 +29,13 @@ export const AccessibilityBar = () => {
         icon="help-circle-outline"
         iconColor={GlobalColors.white}
         size={15}
+        style={{ paddingTop: "40%" }}
       />
       <IconButton
         icon="contrast-circle"
         iconColor={GlobalColors.white}
         size={15}
+        style={{ paddingTop: "40%" }}
       />
     </View>
   );

@@ -137,68 +137,23 @@ export default function Home({ navigation }) {
   // }, 500)
 
   return (
-    <ScrollView>
+    <>
       <AccessibilityBar />
+      <ScrollView  horizontal={false}>
       <Header {...navigation} />
-      <View style={style.home_banner_container}>
-        <Image source={homeBanner} style={style.home_banner} />
-      </View>
-      {/* mantem a sessao ofertas da semana indepoendente de estar logado ou nao */}
-      {/* aqui ta filtrando so os produtos dentro de uma faixa se preco especifica */}
-      {!spinner ? (
-        <>
+        <View style={style.home_banner_container}>
+          <Image source={homeBanner} style={style.home_banner} />
+        </View>
+        {/* mantem a sessao ofertas da semana indepoendente de estar logado ou nao */}
+        {/* aqui ta filtrando so os produtos dentro de uma faixa se preco especifica */}
+        {!spinner ? (
           <>
-            <Text style={global.sectionTitle}>Ofertas da Semana</Text>
-            <ScrollView horizontal={true}>
-              <View style={style.homeView}>
-                <View style={style.cardSlider}>
-                  {listProdutos?.map((item: IProduto) => {
-                    let obj = Object.keys(
-                      item.categoriaProduto
-                    )[0].toString() as
-                      | "roupa"
-                      | "equipamento"
-                      | "suplemento"
-                      | "calcado";
-                    let parcelamento = (
-                      parseFloat(item.categoriaProduto[obj].preco) / 12
-                    ).toFixed(2);
-                    parcelamento.replace(".", ",");
-                    if (parseFloat(item.categoriaProduto[obj].preco) < 60) {
-                      return (
-                        <TouchableOpacity
-                          key={item._id}
-                          onPress={() =>
-                            navigation.navigate("ProdutoDetalhes", {
-                              idProduto: item._id,
-                            })
-                          }
-                        >
-                          <VerticalCard
-                            src={
-                              item.categoriaProduto[obj].imagemProduto[0].url
-                            }
-                            PrecoAtual={item.categoriaProduto[obj].preco}
-                            precoParcelado={parcelamento}
-                            key={item._id}
-                            produtoName={item.categoriaProduto[obj].nome}
-                          />
-                        </TouchableOpacity>
-                      );
-                    }
-                  })}
-                </View>
-              </View>
-            </ScrollView>
-          </>
-          {/* deixa so essa com a verificacao de autenticado ja que exige q tenha usuario */}
-          {authenticated ? (
             <>
-              <Text style={global.sectionTitle}>Recomendados para Você</Text>
+              <Text style={global.sectionTitle}>Ofertas da Semana</Text>
               <ScrollView horizontal={true}>
                 <View style={style.homeView}>
                   <View style={style.cardSlider}>
-                    {produtosRecomendados?.map((item: IProduto) => {
+                    {listProdutos?.map((item: IProduto) => {
                       let obj = Object.keys(
                         item.categoriaProduto
                       )[0].toString() as
@@ -210,94 +165,142 @@ export default function Home({ navigation }) {
                         parseFloat(item.categoriaProduto[obj].preco) / 12
                       ).toFixed(2);
                       parcelamento.replace(".", ",");
-
-                      return (
-                        <TouchableOpacity
-                          key={item._id}
-                          onPress={() =>
-                            navigation.navigate("ProdutoDetalhes", {
-                              idProduto: item._id,
-                            })
-                          }
-                        >
-                          <VerticalCard
-                            src={
-                              item.categoriaProduto[obj].imagemProduto[0].url
-                            }
-                            PrecoAtual={item.categoriaProduto[obj].preco}
-                            precoParcelado={parcelamento}
+                      if (parseFloat(item.categoriaProduto[obj].preco) < 60) {
+                        return (
+                          <TouchableOpacity
                             key={item._id}
-                            produtoName={item.categoriaProduto[obj].nome}
-                          />
-                        </TouchableOpacity>
-                      );
+                            onPress={() =>
+                              navigation.navigate("ProdutoDetalhes", {
+                                idProduto: item._id,
+                              })
+                            }
+                          >
+                            <VerticalCard
+                              src={
+                                item.categoriaProduto[obj].imagemProduto[0].url
+                              }
+                              PrecoAtual={item.categoriaProduto[obj].preco}
+                              precoParcelado={parcelamento}
+                              key={item._id}
+                              produtoName={item.categoriaProduto[obj].nome}
+                            />
+                          </TouchableOpacity>
+                        );
+                      }
                     })}
                   </View>
                 </View>
               </ScrollView>
             </>
-          ) : (
-            <></>
-          )}
-        </>
-      ) : (
-        <></>
-      )}
-      {!spinner ? (
-        <>
-          <Image source={pic_calcados_section} style={style.section_banner} />
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <FlatList
-              initialNumToRender={10}
-              numColumns={2}
-              maxToRenderPerBatch={4}
-              data={listProdutos}
-              renderItem={({ item }) => {
-                let obj = Object.keys(item.categoriaProduto)[0].toString() as
-                  | "roupa"
-                  | "equipamento"
-                  | "suplemento"
-                  | "calcado";
-                let parcelamento = (
-                  parseFloat(item.categoriaProduto[obj].preco) / 12
-                ).toFixed(2);
-                parcelamento.replace(".", ",");
+            {/* deixa so essa com a verificacao de autenticado ja que exige q tenha usuario */}
+            {authenticated ? (
+              <>
+                <Text style={global.sectionTitle}>Recomendados para Você</Text>
+                <ScrollView horizontal={true}>
+                  <View style={style.homeView}>
+                    <View style={style.cardSlider}>
+                      {produtosRecomendados?.map((item: IProduto) => {
+                        let obj = Object.keys(
+                          item.categoriaProduto
+                        )[0].toString() as
+                          | "roupa"
+                          | "equipamento"
+                          | "suplemento"
+                          | "calcado";
+                        let parcelamento = (
+                          parseFloat(item.categoriaProduto[obj].preco) / 12
+                        ).toFixed(2);
+                        parcelamento.replace(".", ",");
 
-                return (
-                  <SafeAreaView style={{ height: 330, width: 190 }}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        navigation.navigate("ProdutoDetalhes", {
-                          idProduto: item._id,
-                        });
-                      }}
-                    >
-                      <SmallVerticalCard
-                        key={item._id}
-                        produtoName={item.categoriaProduto[obj].nome}
-                        PrecoAtual={item.categoriaProduto[obj].preco}
-                        src={item.categoriaProduto[obj].imagemProduto[0].url}
-                        precoParcelado={item.categoriaProduto[obj].preco}
-                        linkTo="ProdutoDetalhes"
-                      />
-                    </TouchableOpacity>
-                  </SafeAreaView>
-                );
-              }}
-              keyExtractor={(item) => item._id}
-            />
-          </View>
-        </>
-      ) : (
-        <CustomSpinner />
-      )}
-      {/* <View style={style.home_banner_container}>
+                        return (
+                          <TouchableOpacity
+                            key={item._id}
+                            onPress={() =>
+                              navigation.navigate("ProdutoDetalhes", {
+                                idProduto: item._id,
+                              })
+                            }
+                          >
+                            <VerticalCard
+                              src={
+                                item.categoriaProduto[obj].imagemProduto[0].url
+                              }
+                              PrecoAtual={item.categoriaProduto[obj].preco}
+                              precoParcelado={parcelamento}
+                              key={item._id}
+                              produtoName={item.categoriaProduto[obj].nome}
+                            />
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </View>
+                  </View>
+                </ScrollView>
+              </>
+            ) : (
+              <></>
+            )}
+          </>
+        ) : (
+          <></>
+        )}
+        {!spinner ? (
+          <>
+            <ScrollView>
+              <Image source={pic_calcados_section} style={style.section_banner} />
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <FlatList
+                  initialNumToRender={10}
+                  numColumns={2}
+                  maxToRenderPerBatch={4}
+                  data={listProdutos}
+                  renderItem={({ item }) => {
+                    let obj = Object.keys(item.categoriaProduto)[0].toString() as
+                      | "roupa"
+                      | "equipamento"
+                      | "suplemento"
+                      | "calcado";
+                    let parcelamento = (
+                      parseFloat(item.categoriaProduto[obj].preco) / 12
+                    ).toFixed(2);
+                    parcelamento.replace(".", ",");
+
+                    return (
+                      <SafeAreaView style={{ height: 330, width: 190 }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigation.navigate("ProdutoDetalhes", {
+                              idProduto: item._id,
+                            });
+                          }}
+                        >
+                          <SmallVerticalCard
+                            key={item._id}
+                            produtoName={item.categoriaProduto[obj].nome}
+                            PrecoAtual={item.categoriaProduto[obj].preco}
+                            src={item.categoriaProduto[obj].imagemProduto[0].url}
+                            precoParcelado={item.categoriaProduto[obj].preco}
+                            linkTo="ProdutoDetalhes"
+                          />
+                        </TouchableOpacity>
+                      </SafeAreaView>
+                    );
+                  }}
+                  keyExtractor={(item) => item._id}
+                />
+              </View>
+            </ScrollView>
+          </>
+        ) : (
+          <CustomSpinner />
+        )}
+        {/* <View style={style.home_banner_container}>
           <Text style={global.sectionTitle}>Recomendados para você</Text>
           <FlatList
             maxToRenderPerBatch={4}
@@ -327,7 +330,8 @@ export default function Home({ navigation }) {
             )}
           />
         </View> */}
-      {/* </Header> */}
-    </ScrollView>
+        {/* </Header> */}
+      </ScrollView>
+    </>
   );
 }

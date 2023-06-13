@@ -175,140 +175,141 @@ export const EditUserProfile = ({ navigation }) => {
     };
   }
   return (
-    <ScrollView>
+    <>
       <AccessibilityBar />
-      <View style={[style.header_user_profile, global.screenContainer]}>
-        <Image source={{ uri: imagemPerfilurl }} style={style.user_pfp} />
-        <View>
-          <View style={style.user_info_row}>
-            <Icon name="pencil-box-outline" style={style.user_porfile_icon} />
-            <Text style={style.header_title}>Editar informações do perfil</Text>
-          </View>
+      <ScrollView>
+        <View style={[style.header_user_profile, global.screenContainer]}>
+          <Image source={{ uri: imagemPerfilurl }} style={style.user_pfp} />
           <View>
             <View style={style.user_info_row}>
-              <Text style={style.header_user_name}>
-                {nome}
-              </Text>
+              <Icon name="pencil-box-outline" style={style.user_porfile_icon} />
+              <Text style={style.header_title}>Editar informações do perfil</Text>
+            </View>
+            <View>
+              <View style={style.user_info_row}>
+                <Text style={style.header_user_name}>
+                  {nome}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
 
-      <View style={global.screenContainer}>
-        <View style={formStyle.form_row_1}>
-          <View style={formStyle.form_item_row}>
-            <Text style={formStyle.form_label}>Nome</Text>
-            <TextInput
-              placeholderTextColor={GlobalColors.input_placeholder}
-              placeholder="Informe seu nome completo"
-              style={global.form_input_text}
-              value={nome}
-              onChangeText={(t) => setNome(t)}
-            />
+        <View style={global.screenContainer}>
+          <View style={formStyle.form_row_1}>
+            <View style={formStyle.form_item_row}>
+              <Text style={formStyle.form_label}>Nome</Text>
+              <TextInput
+                placeholderTextColor={GlobalColors.input_placeholder}
+                placeholder="Informe seu nome completo"
+                style={global.form_input_text}
+                value={nome}
+                onChangeText={(t) => setNome(t)}
+              />
+            </View>
           </View>
-        </View>
-        <View style={formStyle.form_row_2}>
-          <View style={formStyle.form_item_row_2}>
-            <Text style={formStyle.form_label}>CPF (somente números)</Text>
-            <TextInput
-              placeholderTextColor={GlobalColors.input_placeholder}
-              placeholder="00.000.000-00"
-              style={global.form_input_text}
-              value={cpf}
-              keyboardType="numeric"
-              onChangeText={async (t) => setCpf(await cpfMask(t))}
-            />
+          <View style={formStyle.form_row_2}>
+            <View style={formStyle.form_item_row_2}>
+              <Text style={formStyle.form_label}>CPF (somente números)</Text>
+              <TextInput
+                placeholderTextColor={GlobalColors.input_placeholder}
+                placeholder="00.000.000-00"
+                style={global.form_input_text}
+                value={cpf}
+                keyboardType="numeric"
+                onChangeText={async (t) => setCpf(await cpfMask(t))}
+              />
+            </View>
+            <View style={formStyle.form_item_row_2}>
+              <Text style={formStyle.form_label}>Data de nascimento</Text>
+              <MaskedTextInput
+                mask="99/99/9999"
+                value={dataNascimento}
+                onChangeText={(e) => {
+                  setDataNascimento(e);
+                }}
+                placeholderTextColor={GlobalColors.input_placeholder}
+                placeholder="dd/mm/aaaa"
+                style={global.form_input_text}
+                keyboardType="numeric"
+              />
+            </View>
           </View>
-          <View style={formStyle.form_item_row_2}>
-            <Text style={formStyle.form_label}>Data de nascimento</Text>
-            <MaskedTextInput
-              mask="99/99/9999"
-              value={dataNascimento}
-              onChangeText={(e) => {
-                setDataNascimento(e);
-              }}
-              placeholderTextColor={GlobalColors.input_placeholder}
-              placeholder="dd/mm/aaaa"
-              style={global.form_input_text}
-              keyboardType="numeric"
-            />
+          <View style={formStyle.form_row_2}>
+            <View style={formStyle.form_item_row_2}>
+              <Text style={formStyle.form_label}>CEP (somente números)</Text>
+              <MaskedTextInput
+                mask="99999-999"
+                value={cep}
+                onChangeText={(e) => {
+                  setCep(e);
+                }}
+                maxLength={9}
+                placeholderTextColor={GlobalColors.input_placeholder}
+                placeholder="00000-000"
+                keyboardType="numeric"
+                onBlur={() => buscaCep()}
+                style={global.form_input_text}
+              />
+              <Text style={{ color: "red" }}>{!carregandoCepMenssagem ? "" : "cep não encontrado"}</Text>
+            </View>
+            <View style={formStyle.form_item_row_2}>
+              <Text style={formStyle.form_label}>Rua</Text>
+              <TextInput
+                placeholderTextColor={GlobalColors.input_placeholder}
+                placeholder="Ex.: Rua Alegria"
+                style={global.form_input_text}
+                value={rua}
+                onChangeText={(t) => setRua(t)}
+              />
+            </View>
           </View>
-        </View>
-        <View style={formStyle.form_row_2}>
-          <View style={formStyle.form_item_row_2}>
-            <Text style={formStyle.form_label}>CEP (somente números)</Text>
-            <MaskedTextInput
-              mask="99999-999"
-              value={cep}
-              onChangeText={(e) => {
-                setCep(e);
-              }}
-              maxLength={9}
-              placeholderTextColor={GlobalColors.input_placeholder}
-              placeholder="00000-000"
-              keyboardType="numeric"
-              onBlur={() => buscaCep()}
-              style={global.form_input_text}
-            />
-            <Text style={{ color: "red" }}>{!carregandoCepMenssagem ? "" : "cep não encontrado"}</Text>
+          <View style={formStyle.form_row_2}>
+            <View style={formStyle.form_item_row_2}>
+              <Text style={formStyle.form_label}>Bairro</Text>
+              <TextInput
+                placeholderTextColor={GlobalColors.input_placeholder}
+                placeholder="Ex.: Bairro Felicidade"
+                style={global.form_input_text}
+                value={bairro}
+                onChangeText={(t) => setBairro(t)}
+              />
+            </View>
+            <View style={formStyle.form_item_row_2}>
+              <Text style={formStyle.form_label}>Estado</Text>
+              <TextInput
+                placeholderTextColor={GlobalColors.input_placeholder}
+                placeholder="Ex.: SP"
+                style={global.form_input_text}
+                value={estado}
+                onChangeText={(t) => setEstado(t)}
+              />
+            </View>
           </View>
-          <View style={formStyle.form_item_row_2}>
-            <Text style={formStyle.form_label}>Rua</Text>
-            <TextInput
-              placeholderTextColor={GlobalColors.input_placeholder}
-              placeholder="Ex.: Rua Alegria"
-              style={global.form_input_text}
-              value={rua}
-              onChangeText={(t) => setRua(t)}
-            />
+          <View style={formStyle.form_row_2}>
+            <View style={formStyle.form_item_row_2}>
+              <Text style={formStyle.form_label}>Cidade</Text>
+              <TextInput
+                placeholderTextColor={GlobalColors.input_placeholder}
+                placeholder="Ex.: São Paulo"
+                style={global.form_input_text}
+                value={cidade}
+                onChangeText={(t) => setCidade(t)}
+              />
+            </View>
+            <View style={formStyle.form_item_row_2}>
+              <Text style={formStyle.form_label}>Número</Text>
+              <TextInput
+                placeholderTextColor={GlobalColors.input_placeholder}
+                placeholder="Ex.: 190"
+                style={global.form_input_text}
+                value={numero}
+                keyboardType="numeric"
+                onChangeText={(t) => setNumero(t)}
+              />
+            </View>
           </View>
-        </View>
-        <View style={formStyle.form_row_2}>
-          <View style={formStyle.form_item_row_2}>
-            <Text style={formStyle.form_label}>Bairro</Text>
-            <TextInput
-              placeholderTextColor={GlobalColors.input_placeholder}
-              placeholder="Ex.: Bairro Felicidade"
-              style={global.form_input_text}
-              value={bairro}
-              onChangeText={(t) => setBairro(t)}
-            />
-          </View>
-          <View style={formStyle.form_item_row_2}>
-            <Text style={formStyle.form_label}>Estado</Text>
-            <TextInput
-              placeholderTextColor={GlobalColors.input_placeholder}
-              placeholder="Ex.: SP"
-              style={global.form_input_text}
-              value={estado}
-              onChangeText={(t) => setEstado(t)}
-            />
-          </View>
-        </View>
-        <View style={formStyle.form_row_2}>
-          <View style={formStyle.form_item_row_2}>
-            <Text style={formStyle.form_label}>Cidade</Text>
-            <TextInput
-              placeholderTextColor={GlobalColors.input_placeholder}
-              placeholder="Ex.: São Paulo"
-              style={global.form_input_text}
-              value={cidade}
-              onChangeText={(t) => setCidade(t)}
-            />
-          </View>
-          <View style={formStyle.form_item_row_2}>
-            <Text style={formStyle.form_label}>Número</Text>
-            <TextInput
-              placeholderTextColor={GlobalColors.input_placeholder}
-              placeholder="Ex.: 190"
-              style={global.form_input_text}
-              value={numero}
-              keyboardType="numeric"
-              onChangeText={(t) => setNumero(t)}
-            />
-          </View>
-        </View>
-        {/* <View style={formStyle.form_row_1}>
+          {/* <View style={formStyle.form_row_1}>
           <View style={formStyle.form_item_row}>
             <Text style={formStyle.form_label}>E-mail</Text>
             <TextInput
@@ -330,16 +331,16 @@ export const EditUserProfile = ({ navigation }) => {
             />
           </View>
         </View> */}
-        <View style={formStyle.form_row_1}>
-          <TouchableOpacity onPress={() => atualizarCliente()}>
-            <ButtonGreen
-              width={370}
-              name={"salvar alterações"}
-              action={() => console.log("ETSTe")}
-            />
-          </TouchableOpacity>
+          <View style={formStyle.form_row_1}>
+            <TouchableOpacity onPress={() => atualizarCliente()}>
+              <ButtonGreen
+                width={370}
+                name={"salvar alterações"}
+                action={() => console.log("ETSTe")}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </ScrollView>
-  );
+      </ScrollView>
+    </>);
 };
