@@ -139,8 +139,8 @@ export default function Home({ navigation }) {
   return (
     <>
       <AccessibilityBar />
-      <ScrollView  horizontal={false}>
-      <Header {...navigation} />
+      <ScrollView >
+        <Header {...navigation} />
         <View style={style.home_banner_container}>
           <Image source={homeBanner} style={style.home_banner} />
         </View>
@@ -246,15 +246,9 @@ export default function Home({ navigation }) {
         )}
         {!spinner ? (
           <>
-            <ScrollView>
-              <Image source={pic_calcados_section} style={style.section_banner} />
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+
+            <Image source={pic_calcados_section} style={style.section_banner} />
+            {/* <SafeAreaView>
                 <FlatList
                   initialNumToRender={10}
                   numColumns={2}
@@ -272,7 +266,7 @@ export default function Home({ navigation }) {
                     parcelamento.replace(".", ",");
 
                     return (
-                      <SafeAreaView style={{ height: 330, width: 190 }}>
+                      <View style={{ height: 330, width: 190 }}>
                         <TouchableOpacity
                           onPress={() => {
                             navigation.navigate("ProdutoDetalhes", {
@@ -289,17 +283,63 @@ export default function Home({ navigation }) {
                             linkTo="ProdutoDetalhes"
                           />
                         </TouchableOpacity>
-                      </SafeAreaView>
+                      </View>
                     );
                   }}
                   keyExtractor={(item) => item._id}
                 />
+              </SafeAreaView> */}
+            <ScrollView>
+              <View style={{
+                flex: 1,
+                justifyContent: "space-between",
+                flexDirection: "row",
+                flexWrap: "wrap",
+              }}>
+                {listProdutos?.map((item: IProduto) => {
+                  let obj = Object.keys(
+                    item.categoriaProduto
+                  )[0].toString() as
+                    | "roupa"
+                    | "equipamento"
+                    | "suplemento"
+                    | "calcado";
+                  let parcelamento = (
+                    parseFloat(item.categoriaProduto[obj].preco) / 12
+                  ).toFixed(2);
+                  parcelamento.replace(".", ",");
+
+                  return (
+                    <View style={{ margin: 10 }} key={`view-produto-${item._id}`}>
+                      <TouchableOpacity
+                        key={item._id}
+                        onPress={() =>
+                          navigation.navigate("ProdutoDetalhes", {
+                            idProduto: item._id,
+                          })
+                        }
+                      >
+                        <SmallVerticalCard
+                          src={
+                            item.categoriaProduto[obj].imagemProduto[0].url
+                          }
+                          PrecoAtual={item.categoriaProduto[obj].preco}
+                          precoParcelado={parcelamento}
+                          key={item._id}
+                          produtoName={item.categoriaProduto[obj].nome}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  );
+                })}
               </View>
+
             </ScrollView>
           </>
         ) : (
           <CustomSpinner />
-        )}
+        )
+        }
         {/* <View style={style.home_banner_container}>
           <Text style={global.sectionTitle}>Recomendados para você</Text>
           <FlatList
@@ -331,7 +371,7 @@ export default function Home({ navigation }) {
           />
         </View> */}
         {/* </Header> */}
-      </ScrollView>
+      </ScrollView >
     </>
   );
 }

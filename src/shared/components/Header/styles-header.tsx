@@ -6,7 +6,7 @@ export const Styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-    height: 40,
+    height: 0,
     backgroundColor: GlobalColors.neon_green,
     paddingHorizontal: 12,
   },

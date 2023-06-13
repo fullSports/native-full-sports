@@ -3,7 +3,7 @@ import { GlobalColors } from "../../../utils/styles/global-colors";
 
 export const styleSmallCardV = StyleSheet.create({
   cardVertical: {
-    height: 315,
+    height: 340,
     width: 180,
     elevation: 40,
     borderRadius: 5,
