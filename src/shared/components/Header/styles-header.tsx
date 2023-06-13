@@ -6,9 +6,8 @@ export const Styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-    height: 0,
+    height: "7%",
     backgroundColor: GlobalColors.neon_green,
-    paddingHorizontal: 12,
   },
   header_logo_actions: {
     flexDirection: "row",

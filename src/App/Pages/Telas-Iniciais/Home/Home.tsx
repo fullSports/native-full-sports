@@ -287,7 +287,7 @@ export default function Home({ navigation }) {
                   keyExtractor={(item) => item._id}
                 />
               </SafeAreaView> */}
-            <ScrollView>
+            <ScrollView style={{ flex: 1 }}>
               <View style={{
                 flex: 1,
                 justifyContent: "space-between",
