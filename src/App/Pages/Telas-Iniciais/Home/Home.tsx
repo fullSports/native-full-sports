@@ -25,8 +25,6 @@ import { CustomSpinner } from "../../../../shared/components/Spinner/custom-spin
 
 const homeBanner = require("../../../assets/illustrations/homepage-banner.png");
 const pic_calcados_section = require("../../../assets/illustrations/capa-tenis-section.png");
-const SVGCarregando = require("../../../assets/illustrations/Spinner-1s-200px.gif");
-
 export default function Home({ navigation }) {
   const [listProdutos, setListProdutos] = useState<IProduto[]>([]);
   const [spinner, setSpinner] = useState(false);
