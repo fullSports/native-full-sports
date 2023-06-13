@@ -3,11 +3,11 @@ import { GlobalColors } from "../../../utils/styles/global-colors";
 
 export const OrderCardStyles = StyleSheet.create({
   card_container: {
-    width: "95%",
+    width: 400,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 15,
+    borderRadius: 17,
     elevation: 3,
     alignSelf: "center",
     marginVertical: 5,
@@ -21,23 +21,21 @@ export const OrderCardStyles = StyleSheet.create({
     // height: 130,
   },
   card_arrow: {
-    height: "100%",
     width: 30,
     justifyContent: "flex-end",
   },
   card_product_photo: {
     height: 95,
     width: 95,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
     borderRadius: 10,
   },
   carD_details_txt: {
+    width: "70%",
     gap: 5,
   },
 
   card_expanded_detailhes: {
-    flexDirection: "column",
-    width: "100%",
     paddingHorizontal: 15,
   },
   card_expanded_txt_container: {
@@ -45,14 +43,13 @@ export const OrderCardStyles = StyleSheet.create({
     borderBottomColor: GlobalColors.bg_light_grey,
     borderBottomWidth: 1,
     borderTopWidth: 1,
-    paddingVertical: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginVertical: 15,
-    gap: 10,
+    marginTop: 10,
+    justifyContent: "flex-start",
+    alignContent: "flex-start",
+    alignItems: "flex-start"
   },
   card_expanded_detailhes_col: {
+    margin: 2,
     flexDirection: "row",
     gap: 5,
   },

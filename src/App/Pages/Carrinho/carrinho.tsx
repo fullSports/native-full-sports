@@ -79,9 +79,9 @@ export const Carrinho = ({ route, navigation }) => {
           cliente: itensCarrinho.clienteID,
         },
       })
-      .then(() => {
+      .then(async () => {
         console.log("sucesso");
-        SyncStorage.removeItem("carrinho");
+        await SyncStorage.removeItem("carrinho");
         setItensCarrinho(null);
         navigation.navigate("Home");
       })

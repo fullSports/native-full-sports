@@ -26,7 +26,8 @@ export default function App() {
   // auth
   const [authenticated, setauthenticated] = useState<boolean>(false);
   const [tokenSetado, setTokenSetado] = useState(false);
-  setInterval(function () {
+  const [pedidiExiste, setPedidiExiste] = useState(false);
+  setInterval(async function () {
     const user = SyncStorage.getItem("user");
     user.then((res) => {
       if (res == null) {
@@ -35,7 +36,7 @@ export default function App() {
         setauthenticated(true);
       }
     });
-  }, 100);
+  }, 10);
   useEffect(() => {
     const GetToken = async () => {
       return fullsports_api
@@ -78,7 +79,7 @@ export default function App() {
             <BottomNavigator.Navigator
               // trocar pra teste a rota inicial ^_^
               initialRouteName={authenticated ? "Home" : "WelcomeScreen"}
-              // initialRouteName="CategoriasBusca"
+            // initialRouteName="CategoriasBusca"
             >
               <BottomNavigator.Screen
                 name="Home"

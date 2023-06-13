@@ -7,6 +7,7 @@ export default interface IPedido {
   produto: IProduto;
   cliente: ICliente;
   total: number;
+  dataCadastro: string;
 }
 
 // export default interface ICarrinho {

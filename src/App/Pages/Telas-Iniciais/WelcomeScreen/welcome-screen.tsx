@@ -5,6 +5,7 @@ import {
   ButtonGreen,
   ButtonWhite,
 } from "../../../../shared/components/Buttons/Default-Buttons";
+import {useEffect} from "react"
 const welcomePic = require("./../../../assets/illustrations/welcome_page_img.png");
 const fullSportsLogo = require("./../../../assets/illustrations/full-sports-logo.png");
 

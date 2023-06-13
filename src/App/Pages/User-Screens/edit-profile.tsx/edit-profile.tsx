@@ -73,10 +73,10 @@ export const EditUserProfile = ({ navigation }) => {
           setCep(resposta.data.cep);
           const enderecoSplit = resposta.data.endereco.split('-');
           setComplemento(enderecoSplit[1]);
-          setEstado(enderecoSplit[2].split(",")[0]);
-          setCidade(enderecoSplit[2].split(",")[1]);
-          setBairro(enderecoSplit[2].split(",")[2]);
-          setRua(enderecoSplit[0].split(',')[0])
+          setEstado(enderecoSplit[2].split(",")[0].trim());
+          setCidade(enderecoSplit[2].split(",")[1].trim());
+          setBairro(enderecoSplit[2].split(",")[2].trim());
+          setRua(enderecoSplit[0].split(',')[0].trim())
           const numeroSlit = enderecoSplit[0].split(',');
           setNumero(numeroSlit[numeroSlit.length - 1]);
           if (!resposta.data.imagemPerfil) {
