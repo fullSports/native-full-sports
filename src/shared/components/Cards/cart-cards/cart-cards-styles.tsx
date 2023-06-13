@@ -8,7 +8,7 @@ export const CartCardsStyles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     borderRadius: 15,
-    elevation: 10,
+    elevation: 3,
     alignSelf: "center",
     marginVertical: 5,
     backgroundColor: GlobalColors.white,

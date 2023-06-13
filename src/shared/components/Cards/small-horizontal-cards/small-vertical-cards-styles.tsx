@@ -3,12 +3,11 @@ import { GlobalColors } from "../../../utils/styles/global-colors";
 
 export const styleSmallCardV = StyleSheet.create({
   cardVertical: {
-    height: 390,
-    width: 160,
-    elevation: 40,
+    height: 315,
+    width: 180,
+    elevation: 3,
     borderRadius: 5,
     overflow: "hidden",
-
     backgroundColor: GlobalColors.white,
   },
   cardPicCover: {
@@ -21,7 +20,7 @@ export const styleSmallCardV = StyleSheet.create({
   cardTitle: {
     color: GlobalColors.black,
     fontWeight: "600",
-    fontSize: 14,
+    fontSize: 13,
     textTransform: "uppercase",
     marginBottom: 10,
   },

@@ -10,6 +10,7 @@ import { GlobalStyles as global } from "../../../../styles-global";
 import { getTonken } from "../../../shared/utils/functions/get-token-access";
 import { useIsFocused } from "@react-navigation/native";
 import { CustomSpinner } from "../../../shared/components/Spinner/custom-spinner";
+import IProduto from "../../../shared/utils/interfaces/IProduto";
 
 export const CategoriasBusca = ({ route, navigation }) => {
   const isFocused = useIsFocused();
@@ -25,6 +26,7 @@ export const CategoriasBusca = ({ route, navigation }) => {
       if (isFocused) {
         fullsports_api
           .get(`buscar-produto/${route.params.route}`, {
+            // .get(`buscar-produto/calcados`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -46,54 +48,90 @@ export const CategoriasBusca = ({ route, navigation }) => {
       <AccessibilityBar />
       {categoriaProdutos && !spinner ? (
         <ScrollView>
-          <View style={style.roupas_container}>
-            {/* <Text style={global.section_title}>{route.params.pageName}</Text> */}
-            <Text style={[global.section_title, { marginBottom: 25 }]}>
-              {route.params.pageName}
-            </Text>
-            <FlatList
-              initialNumToRender={15}
-              numColumns={2}
-              maxToRenderPerBatch={2}
-              data={categoriaProdutos}
-              renderItem={({ item }) => {
-                let obj = Object.keys(item.categoriaProduto)[0].toString() as
-                  | "roupa"
-                  | "equipamento"
-                  | "suplemento"
-                  | "calcado";
-                let parcelamento = (
-                  parseFloat(item.categoriaProduto[obj].preco) / 12
-                ).toFixed(2);
-                parcelamento.replace(".", ",");
+          <View style={global.row_2_items}>
+            {categoriaProdutos?.map((item: IProduto) => {
+              let obj = Object.keys(item.categoriaProduto)[0].toString() as
+                | "roupa"
+                | "equipamento"
+                | "suplemento"
+                | "calcado";
+              let parcelamento = (
+                parseFloat(item.categoriaProduto[obj].preco) / 12
+              ).toFixed(2);
+              parcelamento.replace(".", ",");
 
-                return (
-                  <SafeAreaView style={{ height: 325, width: 190 }}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate("ProdutoDetalhes", {
-                          idProduto: item._id,
-                          // category: route.params.route,
-                        })
-                      }
-                    >
-                      <SmallVerticalCard
-                        key={item._id}
-                        produtoName={item.categoriaProduto[obj].nome}
-                        PrecoAtual={item.categoriaProduto[obj].preco}
-                        src={item.categoriaProduto[obj].imagemProduto[0].url}
-                        precoParcelado={item.categoriaProduto[obj].preco}
-                        linkTo="ProdutoDetalhes"
-                      />
-                    </TouchableOpacity>
-                  </SafeAreaView>
-                );
-              }}
-              keyExtractor={(item) => item._id}
-            />
+              return (
+                <View style={{ margin: 2 }} key={`view-produto-${item._id}`}>
+                  <TouchableOpacity
+                    key={item._id}
+                    onPress={() =>
+                      navigation.navigate("ProdutoDetalhes", {
+                        idProduto: item._id,
+                      })
+                    }
+                  >
+                    <SmallVerticalCard
+                      src={item.categoriaProduto[obj].imagemProduto[0].url}
+                      PrecoAtual={item.categoriaProduto[obj].preco}
+                      precoParcelado={parcelamento}
+                      key={item._id}
+                      produtoName={item.categoriaProduto[obj].nome}
+                    />
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
           </View>
         </ScrollView>
       ) : (
+        // <ScrollView>
+        //   <View style={style.roupas_container}>
+        //     {/* <Text style={global.section_title}>{route.params.pageName}</Text> */}
+        //     <Text style={[global.section_title, { marginBottom: 25 }]}>
+        //       {route.params.pageName}
+        //     </Text>
+        //     <FlatList
+        //       initialNumToRender={15}
+        //       numColumns={2}
+        //       maxToRenderPerBatch={2}
+        //       data={categoriaProdutos}
+        //       renderItem={({ item }) => {
+        //         let obj = Object.keys(item.categoriaProduto)[0].toString() as
+        //           | "roupa"
+        //           | "equipamento"
+        //           | "suplemento"
+        //           | "calcado";
+        //         let parcelamento = (
+        //           parseFloat(item.categoriaProduto[obj].preco) / 12
+        //         ).toFixed(2);
+        //         parcelamento.replace(".", ",");
+
+        //         return (
+        //           <View style={global.row_2_items}>
+        //             <TouchableOpacity
+        //               onPress={() =>
+        //                 navigation.navigate("ProdutoDetalhes", {
+        //                   idProduto: item._id,
+        //                   // category: route.params.route,
+        //                 })
+        //               }
+        //             >
+        //               <SmallVerticalCard
+        //                 key={item._id}
+        //                 produtoName={item.categoriaProduto[obj].nome}
+        //                 PrecoAtual={item.categoriaProduto[obj].preco}
+        //                 src={item.categoriaProduto[obj].imagemProduto[0].url}
+        //                 precoParcelado={item.categoriaProduto[obj].preco}
+        //                 linkTo="ProdutoDetalhes"
+        //               />
+        //             </TouchableOpacity>
+        //           </View>
+        //         );
+        //       }}
+        //       keyExtractor={(item) => item._id}
+        //     />
+        //   </View>
+        // </ScrollView>
         <CustomSpinner />
       )}
     </>

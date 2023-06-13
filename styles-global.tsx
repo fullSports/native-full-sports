@@ -73,4 +73,12 @@ export const GlobalStyles = StyleSheet.create({
     paddingHorizontal: 15,
     color: GlobalColors.light_black,
   },
+
+  row_2_items: {
+    flex: 1,
+    justifyContent: "center",
+    gap: 5,
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
 });

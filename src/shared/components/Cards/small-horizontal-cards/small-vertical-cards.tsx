@@ -9,12 +9,13 @@ export const SmallVerticalCard = (comp: IProductCard) => {
 
   return (
     <View style={style.cardVertical}>
-      <Image
-        style={style.cardPicCover}
-        source={{uri: cardimg}}
-      />
+      <Image style={style.cardPicCover} source={{ uri: cardimg }} />
       <View style={style.cardDescBottom}>
-        <Text style={style.cardTitle}>{comp.produtoName}</Text>
+        <Text style={style.cardTitle}>
+          {comp.produtoName.length > 20
+            ? comp.produtoName.slice(0, 20) + "..."
+            : comp.produtoName}
+        </Text>
         {comp.PrecoAnterior ? (
           <Text style={style.cardPreviousPrice}>
             de R$ {comp.PrecoAnterior}

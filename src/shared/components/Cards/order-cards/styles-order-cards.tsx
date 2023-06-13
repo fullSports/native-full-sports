@@ -8,7 +8,7 @@ export const OrderCardStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 15,
-    elevation: 10,
+    elevation: 3,
     alignSelf: "center",
     marginVertical: 5,
     backgroundColor: GlobalColors.white,

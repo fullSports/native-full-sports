@@ -5,7 +5,7 @@ export const styleCardV = StyleSheet.create({
   cardVertical: {
     height: 340,
     width: 220,
-    elevation: 40,
+    elevation: 3,
     borderRadius: 5,
     overflow: "hidden",
 

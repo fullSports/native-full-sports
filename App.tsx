@@ -38,38 +38,48 @@ export default function App() {
   }, 100);
   useEffect(() => {
     const GetToken = async () => {
-      return fullsports_api.post('auth/login-app', {
-        clientID: String(process.env.REACT_APP_CLIENTID),
-        clientSecret: String(process.env.REACT_APP_CLIENSECRET),
-      }).then(async (res) => {
-        SyncStorage.setItem('access_token', res.data.access_token);
-        setTokenSetado(true);
-      }).catch((err: AxiosError) => {
-        console.log("error ao buscar o token");
-        console.log(err.toJSON())
-      });
-    }
+      return fullsports_api
+        .post("auth/login-app", {
+          clientID: String(process.env.REACT_APP_CLIENTID),
+          clientSecret: String(process.env.REACT_APP_CLIENSECRET),
+        })
+        .then(async (res) => {
+          SyncStorage.setItem("access_token", res.data.access_token);
+          setTokenSetado(true);
+        })
+        .catch((err: AxiosError) => {
+          console.log("error ao buscar o token");
+          console.log(err.toJSON());
+        });
+    };
     GetToken();
   }, []);
   setInterval(async () => {
-    fullsports_api.post('auth/login-app', {
-      clientID: String(process.env.REACT_APP_CLIENTID),
-      clientSecret: String(process.env.REACT_APP_CLIENSECRET),
-    }).then(async (res) => {
-      await SyncStorage.setItem('access_token', res.data.access_token);
-    }).catch((err: AxiosError) => {
-      console.log("error ao buscar o token")
-      console.log(err.toJSON())
-    });
+    fullsports_api
+      .post("auth/login-app", {
+        clientID: String(process.env.REACT_APP_CLIENTID),
+        clientSecret: String(process.env.REACT_APP_CLIENSECRET),
+      })
+      .then(async (res) => {
+        await SyncStorage.setItem("access_token", res.data.access_token);
+      })
+      .catch((err: AxiosError) => {
+        console.log("error ao buscar o token");
+        console.log(err.toJSON());
+      });
   }, 170000);
-  console.log(tokenSetado)
+  console.log(tokenSetado);
   return (
     <>
       {tokenSetado ? (
         <View style={{ flex: 1 }}>
           {/* define as rotas dos atalhos no bottom */}
           <NavigationContainer>
-            <BottomNavigator.Navigator initialRouteName="Home">
+            <BottomNavigator.Navigator
+              // trocar pra teste a rota inicial ^_^
+              initialRouteName={authenticated ? "Home" : "WelcomeScreen"}
+              // initialRouteName="CategoriasBusca"
+            >
               <BottomNavigator.Screen
                 name="Home"
                 component={Home}
@@ -297,9 +307,10 @@ export default function App() {
               />
             </BottomNavigator.Navigator>
           </NavigationContainer>
-        </View>) :
-        (<></>)}
+        </View>
+      ) : (
+        <></>
+      )}
     </>
   );
-
 }

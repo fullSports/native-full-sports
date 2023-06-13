@@ -10,12 +10,13 @@ export const VerticalCard = (comp: IProductCard) => {
 
   return (
     <View style={styleCardV.cardVertical}>
-      <Image
-        style={styleCardV.cardPicCover}
-        source={{ uri: comp.src }}
-      />
+      <Image style={styleCardV.cardPicCover} source={{ uri: comp.src }} />
       <View style={styleCardV.cardDescBottom}>
-        <Text style={styleCardV.cardTitle}>{comp.produtoName}</Text>
+        <Text style={styleCardV.cardTitle}>
+          {comp.produtoName.length > 20
+            ? comp.produtoName.slice(0, 20) + "..."
+            : comp.produtoName}
+        </Text>
         {comp.PrecoAnterior ? (
           <Text style={styleCardV.cardPreviousPrice}>
             de R$ {comp.PrecoAnterior}

@@ -137,7 +137,7 @@ export default function Home({ navigation }) {
   return (
     <>
       <AccessibilityBar />
-      <ScrollView >
+      <ScrollView>
         <Header {...navigation} />
         <View style={style.home_banner_container}>
           <Image source={homeBanner} style={style.home_banner} />
@@ -244,7 +244,6 @@ export default function Home({ navigation }) {
         )}
         {!spinner ? (
           <>
-
             <Image source={pic_calcados_section} style={style.section_banner} />
             {/* <SafeAreaView>
                 <FlatList
@@ -287,17 +286,12 @@ export default function Home({ navigation }) {
                   keyExtractor={(item) => item._id}
                 />
               </SafeAreaView> */}
+
+            {/* Deixar essa seção somente pra tenis*/}
             <ScrollView style={{ flex: 1 }}>
-              <View style={{
-                flex: 1,
-                justifyContent: "space-between",
-                flexDirection: "row",
-                flexWrap: "wrap",
-              }}>
-                {listProdutos?.map((item: IProduto) => {
-                  let obj = Object.keys(
-                    item.categoriaProduto
-                  )[0].toString() as
+              <View style={global.row_2_items}>
+                {listCalcados?.map((item: IProduto) => {
+                  let obj = Object.keys(item.categoriaProduto)[0].toString() as
                     | "roupa"
                     | "equipamento"
                     | "suplemento"
@@ -308,7 +302,10 @@ export default function Home({ navigation }) {
                   parcelamento.replace(".", ",");
 
                   return (
-                    <View style={{ margin: 10 }} key={`view-produto-${item._id}`}>
+                    <View
+                      style={{ margin: 2 }}
+                      key={`view-produto-${item._id}`}
+                    >
                       <TouchableOpacity
                         key={item._id}
                         onPress={() =>
@@ -318,9 +315,7 @@ export default function Home({ navigation }) {
                         }
                       >
                         <SmallVerticalCard
-                          src={
-                            item.categoriaProduto[obj].imagemProduto[0].url
-                          }
+                          src={item.categoriaProduto[obj].imagemProduto[0].url}
                           PrecoAtual={item.categoriaProduto[obj].preco}
                           precoParcelado={parcelamento}
                           key={item._id}
@@ -331,13 +326,11 @@ export default function Home({ navigation }) {
                   );
                 })}
               </View>
-
             </ScrollView>
           </>
         ) : (
           <CustomSpinner />
-        )
-        }
+        )}
         {/* <View style={style.home_banner_container}>
           <Text style={global.sectionTitle}>Recomendados para você</Text>
           <FlatList
@@ -369,7 +362,7 @@ export default function Home({ navigation }) {
           />
         </View> */}
         {/* </Header> */}
-      </ScrollView >
+      </ScrollView>
     </>
   );
 }
