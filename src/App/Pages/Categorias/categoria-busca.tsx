@@ -32,6 +32,7 @@ export const CategoriasBusca = ({ route, navigation }) => {
             },
           })
           .then((res) => {
+            console.log(res.data)
             setCategoriaProdutos(res.data);
             setSpinner(false);
           })
@@ -50,7 +51,7 @@ export const CategoriasBusca = ({ route, navigation }) => {
         <ScrollView>
           <View style={global.row_2_items}>
             {categoriaProdutos?.map((item: IProduto) => {
-              let obj = Object.keys(item.categoriaProduto)[0].toString() as
+              const obj = Object.keys(item.categoriaProduto)[0].toString() as
                 | "roupa"
                 | "equipamento"
                 | "suplemento"
@@ -59,6 +60,7 @@ export const CategoriasBusca = ({ route, navigation }) => {
                 parseFloat(item.categoriaProduto[obj].preco) / 12
               ).toFixed(2);
               parcelamento.replace(".", ",");
+              console.log()
 
               return (
                 <View style={{ margin: 2 }} key={`view-produto-${item._id}`}>

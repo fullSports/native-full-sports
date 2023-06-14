@@ -31,20 +31,6 @@ export default function UserPedidos({ navigation }) {
   useEffect(() => {
     buscarPedido();
   }, []);
-  // setTimeout(() => {
-  //   const pedidoAtualizado = SyncStorage.getItem("pedidoAtualizado")
-  //   pedidoAtualizado.then(async (Res) => {
-  //     console.log(Res);
-  //     if (Res != null) {
-  //       setListaPedidos([]);
-  //       setSpinner(true);
-  //       buscarPedido();
-  //       await SyncStorage.removeItem("pedidoAtualizado");
-  //     } else {
-
-  //     }
-  //   })
-  // },10)
   setInterval(async function () {
     const pedidoAtualizado = SyncStorage.getItem("pedidoAtualizado")
     pedidoAtualizado.then(async (Res) => {

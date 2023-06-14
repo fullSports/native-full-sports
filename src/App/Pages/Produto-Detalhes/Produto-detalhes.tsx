@@ -33,6 +33,9 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
     setSpinner(true);
 
     if (isFocused) {
+      SyncStorage.getItem("user").then((Res) => {
+        setUserID(JSON.parse(Res)._id)
+      })
       fullsports_api
         .get<IProduto>(`listar-produto/${route.params.idProduto}`, {
           headers: {
@@ -55,6 +58,12 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
   }, [token, isFocused]);
   function adicionarCarrinho() {
     try {
+      console.log({
+        numItems: numItems,
+        quantidadePedido: numItems,
+        produto: route.params.idProduto,
+        clienteID: userID,
+      })
       SyncStorage.setItem(
         "carrinho",
         JSON.stringify({
@@ -195,7 +204,7 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                       <ButtonWhite
                         width={330}
                         name="Adicionar ao carrinho"
-                        action={() => {}}
+                        action={() => { }}
                       />
                     </TouchableOpacity>
                   </View>

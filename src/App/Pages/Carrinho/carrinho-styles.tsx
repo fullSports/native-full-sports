@@ -11,7 +11,7 @@ export const CarrinhoStyles = StyleSheet.create({
   },
 
   screen_view: {
-    height: "95%",
+    height: "80%",
   },
   empty_cart_container: {
     flexDirection: "column",
