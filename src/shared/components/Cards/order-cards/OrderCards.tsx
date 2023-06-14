@@ -1,6 +1,6 @@
 import SyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons as Icon, Entypo, Feather } from "@expo/vector-icons";
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableHighlight, View } from "react-native";
 import { OrderCardStyles as style } from "./styles-order-cards";
 import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -75,23 +75,25 @@ export const PedidosCliente = ({ pedido }: PedidoCliente) => {
             : { height: 130 },
         ]}
       >
-        <TouchableOpacity
-          style={{ flexDirection: "row" }}
+        <TouchableHighlight
+          underlayColor={GlobalColors.white}
           onPress={Expanded}
         >
-          <Image source={{ uri: `${pedido.produto.categoriaProduto[obj].imagemProduto[0].url}` }} style={style.card_product_photo} />
-          <View style={style.carD_details_txt} >
-            <Text style={global.card_product_name}>
-              {pedido.produto.categoriaProduto[obj].nome}
-            </Text>
-            <Text style={global.card_info_txt}> {pedido.produto.categoriaProduto[obj].sexo},  {pedido.produto.categoriaProduto[obj].tamanho}, {pedido.quantidadePedido}x</Text>
-            <Text style={global.card_info_txt}>Realizada {new Date(pedido.dataCadastro).toLocaleString()}</Text>
-            <Text style={global.card_product_price}>R$ {pedido.produto.categoriaProduto[obj].preco}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <Image source={{ uri: `${pedido.produto.categoriaProduto[obj].imagemProduto[0].url}` }} style={style.card_product_photo} />
+            <View style={style.carD_details_txt} >
+              <Text style={global.card_product_name}>
+                {pedido.produto.categoriaProduto[obj].nome}
+              </Text>
+              <Text style={global.card_info_txt}> {pedido.produto.categoriaProduto[obj].sexo},  {pedido.produto.categoriaProduto[obj].tamanho}, {pedido.quantidadePedido}x</Text>
+              <Text style={global.card_info_txt}>Realizada {new Date(pedido.dataCadastro).toLocaleString()}</Text>
+              <Text style={global.card_product_price}>R$ {pedido.produto.categoriaProduto[obj].preco}</Text>
+            </View>
+            <View style={style.card_arrow}>
+              <Icon name={expanded ? "chevron-up" : "chevron-down"} size={20} />
+            </View>
           </View>
-          <View style={style.card_arrow}>
-            <Icon name={expanded ? "chevron-up" : "chevron-down"} size={20} />
-          </View>
-        </TouchableOpacity>
+        </TouchableHighlight >
 
         <View style={expanded ? style.card_expanded_detailhes : style.visible}>
           <View style={style.card_expanded_txt_container}>
@@ -128,13 +130,14 @@ export const PedidosCliente = ({ pedido }: PedidoCliente) => {
             </Text>
           </View> */}
             {!spinnerPedido ?
-              (<TouchableOpacity onPress={cancelarPedido} >
+              (<TouchableHighlight
+                underlayColor={GlobalColors.white} onPress={cancelarPedido} >
                 <ButtonWhite
                   width={330}
                   name="Cancelar pedido"
                   action={() => { }}
                 />
-              </TouchableOpacity>) : (<>
+              </TouchableHighlight>) : (<>
                 <CustomSpinner />
               </>)
             }

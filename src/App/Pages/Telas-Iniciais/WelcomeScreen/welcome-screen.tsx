@@ -1,11 +1,12 @@
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableHighlight, View } from "react-native";
 import { WelcomeStyles as style } from "./welcome-screen-styles";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import {
   ButtonGreen,
   ButtonWhite,
 } from "../../../../shared/components/Buttons/Default-Buttons";
-import {useEffect} from "react"
+import { useEffect } from "react"
+import { GlobalColors } from "../../../../shared/utils/styles/global-colors";
 const welcomePic = require("./../../../assets/illustrations/welcome_page_img.png");
 const fullSportsLogo = require("./../../../assets/illustrations/full-sports-logo.png");
 
@@ -26,20 +27,24 @@ export const WelcomeScreen = ({ navigation }) => {
             </Text>
           </View>
           <View style={style.welcome_btns_group}>
-            <ButtonGreen
-              width={370}
-              action={() => navigation.navigate("Login")}
-              name="Realizar Login"
-            />
-            <ButtonWhite
-              width={370}
-              action={() => navigation.navigate("CadastroUsuario")}
-              name="Criar conta"
-            />
+            <TouchableHighlight underlayColor={GlobalColors.white}  onPress={() => navigation.navigate("Login")}>
+              <ButtonGreen
+                width={370}
+                action={() => navigation.navigate("Login")}
+                name="Realizar Login"
+              />
+            </TouchableHighlight >
+            <TouchableHighlight underlayColor={GlobalColors.white}   onPress={() => navigation.navigate("CadastroUsuario")}>
+              <ButtonWhite
+                width={370}
+                action={() => navigation.navigate("CadastroUsuario")}
+                name="Criar conta"
+              />
+            </TouchableHighlight>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+          <TouchableHighlight underlayColor={GlobalColors.white}  onPress={() => navigation.navigate("Home")}>
             <Text style={style.welcome_ignore}>Dispensar</Text>
-          </TouchableOpacity>
+          </TouchableHighlight>
         </View>
       </View>
     </>

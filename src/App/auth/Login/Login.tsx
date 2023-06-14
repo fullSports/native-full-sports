@@ -23,7 +23,6 @@ export default function Login({ navigation }) {
   const [menssagemErro, setMenssagemErro] = useState("");
   // const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
-
   async function validateInfo() {
     validateEmptyParams(senha);
     validateEmptyParams(email);
@@ -46,9 +45,10 @@ export default function Login({ navigation }) {
           }
         })
         .then((res) => {
+          console.log(res.data)
           if (
             res.data.emailAndPassword === false ||
-            res.data.emailExists === false
+            !res.data.emailExists
           ) {
             setMensagemErroBolean(true);
             setMenssagemErro(res.data.messagem);
@@ -61,7 +61,7 @@ export default function Login({ navigation }) {
         .catch((err) => {
           console.log(err);
           setMensagemErroBolean(true);
-          setMenssagemErro(err.response.data.message[0].toString());
+          setMenssagemErro(Array.isArray(err.response.data.message) ? err.response.data.message[0].toString() : err.response.data.message);
         });
     }
   }
@@ -123,6 +123,14 @@ export default function Login({ navigation }) {
             ) : (
               <></>
             )}
+            {visible ? (
+              <>
+                <Text style={{ color: "red" }}>{errorDesc || errorTitle}</Text>
+              </>
+            ) : (
+              <></>
+            )}
+
           </View>
           <Text style={style.BottomTxtOption}>Não possui cadastro?</Text>
           <TouchableOpacity>
