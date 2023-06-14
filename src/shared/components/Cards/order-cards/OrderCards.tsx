@@ -17,7 +17,7 @@ interface PedidoCliente {
   pedido: IPedido
 }
 // comp: IPedidos
-export const PedidosCliente = ({ pedido }: PedidoCliente, { navegaation }) => {
+export const PedidosCliente = ({ pedido }: PedidoCliente) => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const [listaPedidos, setListaPedidos] = useState<IPedidos[]>([]);
   const [spinner, setSpinner] = useState(false);
@@ -41,10 +41,10 @@ export const PedidosCliente = ({ pedido }: PedidoCliente, { navegaation }) => {
     setRua(enderecoSplit[0].split(',')[0])
     const numeroSlit = enderecoSplit[0].split(',');
     setNumero(numeroSlit[numeroSlit.length - 1]);
+    setSpinnerPedido(false)
   }, []);
   const cancelarPedido = async () => {
-    console.log("Cancelaar")
-    setSpinnerPedido(true);
+    setSpinner(true);
     const token = await SyncStorage.getItem("access_token");
     return fullsports_api
       .delete(`deletar-pedido/${pedido._id}`, {
@@ -52,10 +52,10 @@ export const PedidosCliente = ({ pedido }: PedidoCliente, { navegaation }) => {
           Authorization: `Bearer ${token}`
         }
       })
-      .then(() => {
+      .then(async () => {
+        await SyncStorage.setItem("pedidoAtualizado", JSON.stringify({ pedidoAtualizado: true }))
         setSpinnerPedido(false);
         alert('Pedido cancelado com sucesso');
-        return navegaation.navigate("Home")
       })
       .catch((err) => {
         console.log(err);
