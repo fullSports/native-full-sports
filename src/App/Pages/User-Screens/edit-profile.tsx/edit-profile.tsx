@@ -15,73 +15,76 @@ import fullsports_api from "../../../../environment/full-sports-api";
 import cep_ap_url from "../../../../environment/cep-api";
 import { cpfMask } from "../../../../shared/utils/functions/masks";
 import { MaskedTextInput } from "react-native-mask-text";
-import { isNumeric, validateInputs } from "../../../../shared/utils/functions/validate-inputs";
+import {
+  isNumeric,
+  validateInputs,
+} from "../../../../shared/utils/functions/validate-inputs";
 const pfp = require("./../../../assets/illustrations/testE_pfp.png");
 
 export const EditUserProfile = ({ navigation }) => {
   const [user, setUser] = useState<ICliente>();
-  const [cpf, setCpf] = useState('');
-  const [nome, setNome] = useState('');
-  const [dataNascimento, setDataNascimento] = useState('');
-  const [sexo, setSexo] = useState('');
-  const [cep, setCep] = useState('');
-  const [rua, setRua] = useState('');
-  const [bairro, setBairro] = useState('');
-  const [estado, setEstado] = useState('');
-  const [cidade, setCidade] = useState('');
-  const [complemento, setComplemento] = useState('');
-  const [numero, setNumero] = useState('');
+  const [cpf, setCpf] = useState("");
+  const [nome, setNome] = useState("");
+  const [dataNascimento, setDataNascimento] = useState("");
+  const [sexo, setSexo] = useState("");
+  const [cep, setCep] = useState("");
+  const [rua, setRua] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [estado, setEstado] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [complemento, setComplemento] = useState("");
+  const [numero, setNumero] = useState("");
   const [file, setImagem] = useState<File | null>(null);
   const [spinner, setSpinner] = useState(false);
-  const [imagemId, setImagemID] = useState('');
-  const [imagemPerfilurl, setImagemPerfilurl] = useState('');
+  const [imagemId, setImagemID] = useState("");
+  const [imagemPerfilurl, setImagemPerfilurl] = useState("");
   const [mensagemErroBolean, setMensagemErroBolean] = useState(false);
-  const [menssagemErro, setMenssagemErro] = useState('');
+  const [menssagemErro, setMenssagemErro] = useState("");
   const [cadastrarNovaFoto, setCadastrarNovaFoto] = useState(false);
   const [carregandoCep, setCarregandoCep] = useState(false);
   const [carregandoCepMenssagem, setCarregandoCepMessagem] = useState(false);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
   useEffect(() => {
     const GetTonke = async () => {
       const token = await SyncStorage.getItem("access_token");
       return setToken(token);
-    }
+    };
     GetTonke();
   }, []);
 
   useEffect(() => {
-    SyncStorage.getItem("user").then(res => {
+    SyncStorage.getItem("user").then((res) => {
       if (res !== null) {
-        setUser(JSON.parse(res))
+        setUser(JSON.parse(res));
       }
-    })
+    });
   }, []);
   useEffect(() => {
-    if (user && token !== '') {
+    if (user && token !== "") {
       fullsports_api
         .get<ICliente>(`listar-cliente/${user._id}`, {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         })
         .then((resposta) => {
-          console.log(resposta.data)
+          console.log(resposta.data);
           setCpf(resposta.data.cpf);
           setNome(resposta.data.nome);
           setDataNascimento(resposta.data.dataNascimento);
           setSexo(resposta.data.sexo);
           setCep(resposta.data.cep);
-          const enderecoSplit = resposta.data.endereco.split('-');
+          const enderecoSplit = resposta.data.endereco.split("-");
           setComplemento(enderecoSplit[1]);
           setEstado(enderecoSplit[2].split(",")[0].trim());
           setCidade(enderecoSplit[2].split(",")[1].trim());
           setBairro(enderecoSplit[2].split(",")[2].trim());
-          setRua(enderecoSplit[0].split(',')[0].trim())
-          const numeroSlit = enderecoSplit[0].split(',');
+          setRua(enderecoSplit[0].split(",")[0].trim());
+          const numeroSlit = enderecoSplit[0].split(",");
           setNumero(numeroSlit[numeroSlit.length - 1]);
           if (!resposta.data.imagemPerfil) {
-            setImagemID('');
-            setImagemPerfilurl('');
+            setImagemID("");
+            setImagemPerfilurl("");
           } else {
             setImagemID(resposta.data.imagemPerfil._id);
             setImagemPerfilurl(resposta.data.imagemPerfil.url);
@@ -90,7 +93,7 @@ export const EditUserProfile = ({ navigation }) => {
         .catch((err) => {
           console.log(err);
           setMensagemErroBolean(true);
-          setMenssagemErro('Erro na requisição');
+          setMenssagemErro("Erro na requisição");
         });
     }
   }, [user, token]);
@@ -98,24 +101,25 @@ export const EditUserProfile = ({ navigation }) => {
   const buscaCep = () => {
     setCarregandoCep(false);
     setCarregandoCepMessagem(false);
-    if (cep === '') {
+    if (cep === "") {
       setCarregandoCep(false);
-      setRua('');
-      setBairro('');
-      setEstado('');
-      setCidade('');
+      setRua("");
+      setBairro("");
+      setEstado("");
+      setCidade("");
     } else {
-      console.log(cep)
-      cep_ap_url.request({
-        method: 'GET',
-        url: cep,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
+      console.log(cep);
+      cep_ap_url
+        .request({
+          method: "GET",
+          url: cep,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+        })
         .then((evento) => {
           setCarregandoCep(false);
-          setRua(evento.data.street.split('-')[0]);
+          setRua(evento.data.street.split("-")[0]);
           setBairro(evento.data.neighborhood);
           setEstado(evento.data.state);
           setCidade(evento.data.city);
@@ -126,12 +130,12 @@ export const EditUserProfile = ({ navigation }) => {
           console.log(err);
         });
     }
-  }
+  };
 
   const atualizarCliente = () => {
-    console.log("TRESTE")
-    setCarregandoCepMessagem(false)
-    setMensagemErroBolean(false)
+    console.log("TRESTE");
+    setCarregandoCepMessagem(false);
+    setMensagemErroBolean(false);
     if (
       validateInputs(nome) ||
       validateInputs(dataNascimento) ||
@@ -147,33 +151,37 @@ export const EditUserProfile = ({ navigation }) => {
       setCarregandoCepMessagem(false);
       if (user) {
         fullsports_api
-          .put(`atualizar-cliente/${user._id}`, {
-            cpf,
-            nome,
-            dataNascimento,
-            sexo,
-            cep,
-            endereco: `${rua},${numero} -${complemento}- ${estado}, ${cidade}, ${bairro}`,
-            imagemPerfil: imagemId,
-          }, {
-            headers: {
-              'Authorization': `Bearer ${token}`
+          .put(
+            `atualizar-cliente/${user._id}`,
+            {
+              cpf,
+              nome,
+              dataNascimento,
+              sexo,
+              cep,
+              endereco: `${rua},${numero} -${complemento}- ${estado}, ${cidade}, ${bairro}`,
+              imagemPerfil: imagemId,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             }
-          })
+          )
           .then((res) => {
             setSpinner(false);
-            console.log(res.data)
+            console.log(res.data);
             // alert("cliente atualizado com suceeso");
-            return navigation.navigate("Home")
+            return navigation.navigate("Home");
           })
           .catch((err) => {
             setCarregandoCep(false);
             setCarregandoCepMessagem(true);
             console.log(err);
           });
-      } else setMensagemErroBolean(true)
-    };
-  }
+      } else setMensagemErroBolean(true);
+    }
+  };
   return (
     <>
       <AccessibilityBar />
@@ -183,13 +191,13 @@ export const EditUserProfile = ({ navigation }) => {
           <View>
             <View style={style.user_info_row}>
               <Icon name="pencil-box-outline" style={style.user_porfile_icon} />
-              <Text style={style.header_title}>Editar informações do perfil</Text>
+              <Text style={style.header_title}>
+                Editar informações do perfil
+              </Text>
             </View>
             <View>
               <View style={style.user_info_row}>
-                <Text style={style.header_user_name}>
-                  {nome}
-                </Text>
+                <Text style={style.header_user_name}>{nome}</Text>
               </View>
             </View>
           </View>
@@ -251,7 +259,9 @@ export const EditUserProfile = ({ navigation }) => {
                 onBlur={() => buscaCep()}
                 style={global.form_input_text}
               />
-              <Text style={{ color: "red" }}>{!carregandoCepMenssagem ? "" : "cep não encontrado"}</Text>
+              <Text style={{ color: "red" }}>
+                {!carregandoCepMenssagem ? "" : "cep não encontrado"}
+              </Text>
             </View>
             <View style={formStyle.form_item_row_2}>
               <Text style={formStyle.form_label}>Rua</Text>
@@ -331,10 +341,10 @@ export const EditUserProfile = ({ navigation }) => {
             />
           </View>
         </View> */}
-          <View style={formStyle.form_row_1}>
+          <View>
             <TouchableOpacity onPress={() => atualizarCliente()}>
               <ButtonGreen
-                width={370}
+                width={390}
                 name={"salvar alterações"}
                 action={() => console.log("ETSTe")}
               />
@@ -342,5 +352,6 @@ export const EditUserProfile = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
-    </>);
+    </>
+  );
 };

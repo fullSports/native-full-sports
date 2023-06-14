@@ -12,13 +12,12 @@ export const DetalheStyles = StyleSheet.create({
   product_card_desc: {
     backgroundColor: GlobalColors.white,
     height: "100%",
-    borderTopLeftRadius: 80,
-    borderTopRightRadius: 80,
+    // borderTopLeftRadius: 80,
+    // borderTopRightRadius: 80,
     padding: 10,
     paddingTop: 30,
     alignItems: "center",
-    elevation: 5,
-    // position: "absolute",
+    // elevation: 5,
   },
   product_card_row: {
     marginBottom: 20,

@@ -48,7 +48,7 @@ export const Carrinho = ({ route, navigation }) => {
         .then((res) => {
           setProdutoPedido(res.data);
           setCategoriaProduto(Object.keys(res.data.categoriaProduto)[0]);
-          setSpinner(false)
+          setSpinner(false);
         });
 
       setEmptyCart(false);
@@ -67,7 +67,7 @@ export const Carrinho = ({ route, navigation }) => {
   async function realizarPedido() {
     setSpinner(true);
     const token = await SyncStorage.getItem("access_token");
-    console.log(itensCarrinho)
+    console.log(itensCarrinho);
     return fullsports_api
       .request({
         method: "POST",
@@ -84,17 +84,20 @@ export const Carrinho = ({ route, navigation }) => {
       .then(async () => {
         console.log("sucesso");
         await SyncStorage.removeItem("carrinho");
-        await SyncStorage.setItem("pedidoAtualizado", JSON.stringify({ pedidoAtualizado: true }))
-        alert("Pedido Realizado com sucesso")
+        await SyncStorage.setItem(
+          "pedidoAtualizado",
+          JSON.stringify({ pedidoAtualizado: true })
+        );
+        alert("Pedido Realizado com sucesso");
         setItensCarrinho(null);
-        navigation.navigate("Home");
+        navigation.navigate("UserPedidos");
       })
       .catch((e) => console.log("error is:", e));
   }
   return (
     <>
-      {!emptyCart ?
-        (<>
+      {!emptyCart ? (
+        <>
           {produtoPedido && !spinner && categoriaProduto ? (
             <>
               <AccessibilityBar />
@@ -130,19 +133,19 @@ export const Carrinho = ({ route, navigation }) => {
                     <ButtonGreen
                       width={350}
                       name="Finalizar pedido"
-                      action={() => { }}
+                      action={() => {}}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => {
-                    SyncStorage.removeItem("carrinho");
-                    navigation.navigate("Home")
-                  }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      SyncStorage.removeItem("carrinho");
+                      navigation.navigate("Home");
+                    }}
+                  >
                     <ButtonWhite
                       width={350}
                       name="remover todos os itens"
-                      action={() => {
-
-                      }}
+                      action={() => {}}
                     />
                   </TouchableOpacity>
                 </View>
@@ -151,19 +154,25 @@ export const Carrinho = ({ route, navigation }) => {
           ) : (
             <CustomSpinner />
           )}
-        </>)
-        : (<>
+        </>
+      ) : (
+        <>
           <View style={style.empty_cart_container}>
             <Image source={empty_cart} style={style.empty_cart_img} />
-            <TouchableOpacity onPress={() => { navigation.navigate("Home") }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Home");
+              }}
+            >
               <ButtonGreen
                 width={300}
                 name="Ir às compras!"
-                action={() => { }}
+                action={() => {}}
               />
             </TouchableOpacity>
-          </View></>)
-      }
+          </View>
+        </>
+      )}
     </>
   );
 };

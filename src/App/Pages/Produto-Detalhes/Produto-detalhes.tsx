@@ -34,8 +34,8 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
 
     if (isFocused) {
       SyncStorage.getItem("user").then((Res) => {
-        setUserID(JSON.parse(Res)._id)
-      })
+        setUserID(JSON.parse(Res)._id);
+      });
       fullsports_api
         .get<IProduto>(`listar-produto/${route.params.idProduto}`, {
           headers: {
@@ -63,7 +63,7 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
         quantidadePedido: numItems,
         produto: route.params.idProduto,
         clienteID: userID,
-      })
+      });
       SyncStorage.setItem(
         "carrinho",
         JSON.stringify({
@@ -99,8 +99,11 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
       .then(async () => {
         console.log("sucesso");
         await SyncStorage.removeItem("carrinho");
-        await SyncStorage.setItem("pedidoAtualizado", JSON.stringify({ pedidoAtualizado: true }))
-        alert("Pedido Realizado com sucesso")
+        await SyncStorage.setItem(
+          "pedidoAtualizado",
+          JSON.stringify({ pedidoAtualizado: true })
+        );
+        alert("Pedido Realizado com sucesso");
         navigation.navigate("Home");
       })
       .catch((e) => console.log("error is:", e));
@@ -169,7 +172,11 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
 
                     <View>
                       <Text style={style.product_card_price}>
-                        R$ {produtoDetails.categoriaProduto[categoriaProduto].preco}
+                        R${" "}
+                        {
+                          produtoDetails.categoriaProduto[categoriaProduto]
+                            .preco
+                        }
                       </Text>
                     </View>
                   </View>
@@ -182,55 +189,56 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                     <Text style={style.product_card_desc_title}>
                       Sobre este produto
                     </Text>
-                    <ScrollView style={{ height: 60 }}>
-                      <View style={style.desc_info_container}>
-                        <View style={style.desc_info}>
-                          <Text style={style.desc_info_title}>Marca:</Text>
-                          <Text>
-                            {produtoDetails.categoriaProduto[
-                              categoriaProduto
-                            ].fornecedor.nomeEmpresa.slice(0, 30)}
-                            {produtoDetails.categoriaProduto[categoriaProduto]
-                              .fornecedor.nomeEmpresa.length > 30 ? (
-                              <Text>...</Text>
-                            ) : (
-                              ""
-                            )}
-                          </Text>
-                        </View>
-                        <View style={style.desc_info}>
-                          <Text style={style.desc_info_title}>Estoque:</Text>
-                          <Text>
-                            {
-                              produtoDetails.categoriaProduto[categoriaProduto]
-                                .quantidade
-                            }
-                          </Text>
-                        </View>
-                        <Text style={style.product_card_desc_txt}>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                          Facere ut porro modi ab enim recusandae consequuntur minus
-                          fugit perferendis dolore ad voluptatem doloremque quas
-                          pariatur sequi expedita, harum fugiat totam.
+                    {/* <ScrollView style={{ height: 60 }}> */}
+                    <View style={style.desc_info_container}>
+                      <View style={style.desc_info}>
+                        <Text style={style.desc_info_title}>Marca:</Text>
+                        <Text>
+                          {produtoDetails.categoriaProduto[
+                            categoriaProduto
+                          ].fornecedor.nomeEmpresa.slice(0, 30)}
+                          {produtoDetails.categoriaProduto[categoriaProduto]
+                            .fornecedor.nomeEmpresa.length > 30 ? (
+                            <Text>...</Text>
+                          ) : (
+                            ""
+                          )}
                         </Text>
                       </View>
-                    </ScrollView>
+                      <View style={style.desc_info}>
+                        <Text style={style.desc_info_title}>Estoque:</Text>
+                        <Text>
+                          {
+                            produtoDetails.categoriaProduto[categoriaProduto]
+                              .quantidade
+                          }
+                        </Text>
+                      </View>
+                      <Text style={style.product_card_desc_txt}>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Facere ut porro modi ab enim recusandae
+                        consequuntur minus fugit perferendis dolore ad
+                        voluptatem doloremque quas pariatur sequi expedita,
+                        harum fugiat totam.
+                      </Text>
+                    </View>
+                    {/* </ScrollView> */}
                   </View>
-                  <View style={[style.product_card_row, { marginVertical: 2 }]}>
+                  <View style={[style.product_card_row, { marginBottom: 5 }]}>
                     <TouchableOpacity onPress={realizarPedido}>
                       <ButtonGreen
-                        width={330}
+                        width={350}
                         name="Comprar"
-                        action={() => { }}
+                        action={() => {}}
                       />
                     </TouchableOpacity>
                   </View>
-                  <View style={[style.product_card_row, { marginVertical: 2 }]}>
+                  <View style={[style.product_card_row]}>
                     <TouchableOpacity onPress={adicionarCarrinho}>
                       <ButtonWhite
-                        width={330}
+                        width={350}
                         name="Adicionar ao carrinho"
-                        action={() => { }}
+                        action={() => {}}
                       />
                     </TouchableOpacity>
                   </View>

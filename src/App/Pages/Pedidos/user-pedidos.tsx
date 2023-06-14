@@ -17,49 +17,55 @@ export default function UserPedidos({ navigation }) {
     const user1 = await SyncStorage.getItem("user");
     if (user1 != null) {
       const token = await SyncStorage.getItem("access_token");
-      fullsports_api.get<IPedido[]>('listar-pedidos', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((Res) => {
-        setListaPedidos(Res.data);
-        setUser(JSON.parse(user1));
-        setSpinner(false);
-      });
+      fullsports_api
+        .get<IPedido[]>("listar-pedidos", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((Res) => {
+          setListaPedidos(Res.data);
+          setUser(JSON.parse(user1));
+          setSpinner(false);
+        });
     }
-  }
+  };
   useEffect(() => {
     buscarPedido();
-  }, []);
-  useEffect(() => {
     const T = setInterval(async () => {
-      const pedidoAtualizado = SyncStorage.getItem("pedidoAtualizado")
+      const pedidoAtualizado = SyncStorage.getItem("pedidoAtualizado");
       await pedidoAtualizado.then((res) => {
         if (res != null) {
           setListaPedidos([]);
           setSpinner(true);
           buscarPedido();
           SyncStorage.removeItem("pedidoAtualizado");
-        };
-      })
-    }, 200)
+        }
+      });
+    }, 200);
 
     return () => clearInterval(T);
-  }, [])
+  }, []);
   return (
     <>
       <AccessibilityBar />
       <ScrollView style={style.pedidos_screen_container}>
         <Text style={global.section_title}>Meus Pedidos</Text>
-        {!spinner && user ? (<View style={style.pedidos_cards_container}>
-          {listaPedidos?.map((item) => {
-            if (item.cliente._id === user._id) {
-              return <PedidosCliente pedido={item} key={item._id}></PedidosCliente>
-            }
-          })}
-        </View >) : <>
-          <CustomSpinner />
-        </>}
+        {!spinner && user ? (
+          <View style={style.pedidos_cards_container}>
+            {listaPedidos?.map((item) => {
+              if (item.cliente._id === user._id) {
+                return (
+                  <PedidosCliente pedido={item} key={item._id}></PedidosCliente>
+                );
+              }
+            })}
+          </View>
+        ) : (
+          <>
+            <CustomSpinner />
+          </>
+        )}
       </ScrollView>
     </>
   );

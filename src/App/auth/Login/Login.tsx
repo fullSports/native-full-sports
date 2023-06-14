@@ -36,20 +36,21 @@ export default function Login({ navigation }) {
       setVisible(false), setErrorTitle(""), setErrorDesc("");
       const token = await SyncStorage.getItem("access_token");
       fullsports_api
-        .post("realizar-login", {
-          email: email,
-          password: senha,
-        }, {
-          headers: {
-            "Authorization": `Bearer ${token}`
+        .post(
+          "realizar-login",
+          {
+            email: email,
+            password: senha,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        })
+        )
         .then((res) => {
-          console.log(res.data)
-          if (
-            res.data.emailAndPassword === false ||
-            !res.data.emailExists
-          ) {
+          console.log(res.data);
+          if (res.data.emailAndPassword === false || !res.data.emailExists) {
             setMensagemErroBolean(true);
             setMenssagemErro(res.data.messagem);
           } else {
@@ -61,7 +62,11 @@ export default function Login({ navigation }) {
         .catch((err) => {
           console.log(err);
           setMensagemErroBolean(true);
-          setMenssagemErro(Array.isArray(err.response.data.message) ? err.response.data.message[0].toString() : err.response.data.message);
+          setMenssagemErro(
+            Array.isArray(err.response.data.message)
+              ? err.response.data.message[0].toString()
+              : err.response.data.message
+          );
         });
     }
   }
@@ -88,7 +93,14 @@ export default function Login({ navigation }) {
             <View style={style.input_with_btn}>
               <TextInput
                 placeholderTextColor={GlobalColors.input_placeholder}
-                style={[global.form_input_text, { borderWidth: 0 }]}
+                style={[
+                  global.form_input_text,
+                  {
+                    width: "85%",
+                    borderBottomWidth: 0,
+                    borderTopRightRadius: 0,
+                  },
+                ]}
                 value={senha}
                 onPressIn={() => {
                   setMensagemErroBolean(false);
@@ -130,7 +142,6 @@ export default function Login({ navigation }) {
             ) : (
               <></>
             )}
-
           </View>
           <Text style={style.BottomTxtOption}>Não possui cadastro?</Text>
           <TouchableOpacity>

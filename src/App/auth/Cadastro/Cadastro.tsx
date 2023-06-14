@@ -34,44 +34,29 @@ export const CadastroUsuario = ({ navigation }) => {
   const [cidade, setCidade] = useState<string>("");
   const [numero, setNumero] = useState<string>("");
   const [complemento, setComplemento] = useState<string>("");
-  const [sexo, setSexo] = useState("")
+  const [sexo, setSexo] = useState("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPass, setShowPass] = useState<boolean>(true);
-  const [criarContaButton, setCriarContaButton] = useState<boolean>(false);
   const [carregandoCepMenssagem, setCarregandoCepMessagem] = useState(false);
   const [carregandoCep, setCarregandoCep] = useState(false);
 
   const [mensagemErroBolean, setMensagemErroBolean] = useState(false);
-  const [menssagemErro, setMenssagemErro] = useState('');
-  // let query: ICadastroUsuario = {
-  //   nome: nome,
-  //   data_nasc: dataNasc,
-  //   cpf: cpf,
-  //   cep: cep,
-  //   rua: rua,
-  //   bairro: bairro,
-  //   estado: estado,
-  //   cidade: cidade,
-  //   numero: numero,
-  //   complemento: complemento,
-  //   email: email,
-  //   senha: senha,
-  // };
+  const [menssagemErro, setMenssagemErro] = useState("");
 
   const buscaCep = () => {
     setCarregandoCepMessagem(false);
-    if (cep === '') {
-      setRua('');
-      setBairro('');
-      setEstado('');
-      setCidade('');
+    if (cep === "") {
+      setRua("");
+      setBairro("");
+      setEstado("");
+      setCidade("");
     } else {
       ApiCep.request({
-        method: 'GET',
+        method: "GET",
         url: cep,
         headers: {
-          'Access-Control-Allow-Origin': '*',
+          "Access-Control-Allow-Origin": "*",
         },
       })
         .then((evento) => {
@@ -87,14 +72,14 @@ export const CadastroUsuario = ({ navigation }) => {
           console.log(err);
         });
     }
-  }
+  };
 
   const cadastrarCliente = () => {
     setMensagemErroBolean(false);
     fullsports_api
       .request({
-        method: 'POST',
-        url: 'cadastrar-cliente/',
+        method: "POST",
+        url: "cadastrar-cliente/",
         data: {
           cpf,
           nome,
@@ -115,15 +100,15 @@ export const CadastroUsuario = ({ navigation }) => {
           setMensagemErroBolean(true);
           setMenssagemErro(res2.data.messagem);
         } else {
-          return navigation.navigate("Login")
+          return navigation.navigate("Login");
         }
       })
       .catch((err) => {
         console.log(err);
         setMensagemErroBolean(true);
-        setMenssagemErro('erro na requisição');
+        setMenssagemErro("erro na requisição");
       });
-  }
+  };
   //renan_moblie@outlook.com
   return (
     <ScrollView style={global.screenContainer}>
@@ -315,7 +300,9 @@ export const CadastroUsuario = ({ navigation }) => {
       <View style={style.form_row_2}>
         <View style={style.form_item_row_2}>
           <View style={style.form_item_row}>
-            <Text style={style.form_label}>Complemento <Text style={style.required_symbol}>*</Text></Text>
+            <Text style={style.form_label}>
+              Complemento <Text style={style.required_symbol}>*</Text>
+            </Text>
             <TextInput
               value={complemento}
               onChangeText={setComplemento}
@@ -334,8 +321,7 @@ export const CadastroUsuario = ({ navigation }) => {
               { nome: "M", sigla: "Masculino" },
               { nome: "F", sigla: "Feminino" },
               { nome: "O", sigla: "Outros" },
-              { nome: "-", sigla: "Prefiro não dizer" }
-
+              { nome: "-", sigla: "Prefiro não dizer" },
             ]}
             buttonTextStyle={{
               fontSize: 14,
@@ -392,15 +378,19 @@ export const CadastroUsuario = ({ navigation }) => {
                 { width: "90%", borderBottomWidth: 0 },
               ]}
             />
-            <TouchableOpacity
-              style={style.input_btn}
-            >
-              <Icon name={!showPass ? "eye" : "eye-off"} size={18} onPress={() => setShowPass(!showPass)} />
+            <TouchableOpacity style={style.input_btn}>
+              <Icon
+                name={!showPass ? "eye" : "eye-off"}
+                size={18}
+                onPress={() => setShowPass(!showPass)}
+              />
             </TouchableOpacity>
           </View>
         </View>
       </View>
-      <Text style={{ color: "red" }}>{mensagemErroBolean ? menssagemErro : ""}</Text>
+      <Text style={{ color: "red" }}>
+        {mensagemErroBolean ? menssagemErro : ""}
+      </Text>
       <View style={style.form_row_1}>
         <Button
           onPress={cadastrarCliente}
@@ -413,10 +403,10 @@ export const CadastroUsuario = ({ navigation }) => {
               justifyContent: "center",
               backgroundColor: GlobalColors.neon_green,
             },
-
           ]}
           textColor={GlobalColors.white}
-          disabled={!validateInputs(nome) ||
+          disabled={
+            !validateInputs(nome) ||
             !validateInputs(cpf) ||
             !validateInputs(cep) ||
             !validateInputs(rua) ||
@@ -428,16 +418,22 @@ export const CadastroUsuario = ({ navigation }) => {
             !validateInputs(sexo) ||
             !validateInputs(complemento) ||
             !validateInputs(email) ||
-            !validateInputs(password)}
+            !validateInputs(password)
+          }
         >
           Criar Conta
         </Button>
       </View>
-      <View style={{ paddingBottom: '20%' }}>
+      <View style={{ paddingBottom: "20%" }}>
         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-          <Text style={style.has_account_link} onPress={() => navigation.navigate("Login")}>Já tem uma conta?</Text>
+          <Text
+            style={style.has_account_link}
+            onPress={() => navigation.navigate("Login")}
+          >
+            Já tem uma conta?
+          </Text>
         </TouchableOpacity>
       </View>
-    </ScrollView >
+    </ScrollView>
   );
 };

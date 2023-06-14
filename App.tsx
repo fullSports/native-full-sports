@@ -33,14 +33,14 @@ export default function App() {
       await user.then((res) => {
         if (res == null) {
           setauthenticated(false);
-          SyncStorage.removeItem("carrinho")
+          SyncStorage.removeItem("carrinho");
         } else {
           setauthenticated(true);
         }
       });
     }, 10);
     return () => clearInterval(T);
-  }, [])
+  }, []);
   useEffect(() => {
     const GetToken = async () => {
       return fullsports_api
@@ -83,7 +83,7 @@ export default function App() {
             <BottomNavigator.Navigator
               // trocar pra teste a rota inicial ^_^
               initialRouteName={authenticated ? "Home" : "WelcomeScreen"}
-            // initialRouteName="CategoriasBusca"
+              // initialRouteName="Login"
             >
               <BottomNavigator.Screen
                 name="Home"
