@@ -21,7 +21,7 @@ export const OrderCardStyles = StyleSheet.create({
     // height: 130,
   },
   card_arrow: {
-    width: 10,
+    width: 20,
     justifyContent: "flex-end",
   },
   card_product_photo: {

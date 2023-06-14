@@ -217,11 +217,13 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                     </ScrollView>
                   </View>
                   <View style={[style.product_card_row, { marginVertical: 2 }]}>
-                    <ButtonGreen
-                      width={330}
-                      name="Comprar"
-                      action={() => realizarPedido()}
-                    />
+                    <TouchableOpacity onPress={realizarPedido}>
+                      <ButtonGreen
+                        width={330}
+                        name="Comprar"
+                        action={() => { }}
+                      />
+                    </TouchableOpacity>
                   </View>
                   <View style={[style.product_card_row, { marginVertical: 2 }]}>
                     <TouchableOpacity onPress={adicionarCarrinho}>

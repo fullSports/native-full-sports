@@ -38,7 +38,7 @@ export default function App() {
           setauthenticated(true);
         }
       });
-    }, 100);
+    }, 10);
     return () => clearInterval(T);
   }, [])
   useEffect(() => {

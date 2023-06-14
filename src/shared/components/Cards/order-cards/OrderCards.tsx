@@ -12,7 +12,6 @@ import IPedido from "../../../utils/interfaces/IPedido";
 import { IconButton } from "react-native-paper";
 import { GlobalColors } from "../../../utils/styles/global-colors";
 import { CustomSpinner } from "../../Spinner/custom-spinner";
-const imgIlustrativa = require("../../../../App/assets/illustrations/teste_product_card.png");
 interface PedidoCliente {
   pedido: IPedido
 }
@@ -62,19 +61,23 @@ export const PedidosCliente = ({ pedido }: PedidoCliente) => {
         setSpinnerPedido(false);
       });
   }
+  const Expanded = () => {
+    console.log("TESTE")
+    return setExpanded(!expanded)
+  }
   return (
     <>
       <View
         style={[
           style.card_container,
           expanded
-            ? { height: "auto", paddingVertical: 20 }
+            ? { paddingVertical: 20 }
             : { height: 130 },
         ]}
       >
         <TouchableOpacity
           style={{ flexDirection: "row" }}
-          onPress={() => setExpanded(!expanded)}
+          onPress={Expanded}
         >
           <Image source={{ uri: `${pedido.produto.categoriaProduto[obj].imagemProduto[0].url}` }} style={style.card_product_photo} />
           <View style={style.carD_details_txt} >
@@ -125,11 +128,11 @@ export const PedidosCliente = ({ pedido }: PedidoCliente) => {
             </Text>
           </View> */}
             {!spinnerPedido ?
-              (<TouchableOpacity >
+              (<TouchableOpacity onPress={cancelarPedido} >
                 <ButtonWhite
                   width={330}
                   name="Cancelar pedido"
-                  action={() => cancelarPedido()}
+                  action={() => { }}
                 />
               </TouchableOpacity>) : (<>
                 <CustomSpinner />

@@ -1,5 +1,5 @@
 import SyncStorage from "@react-native-async-storage/async-storage";
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { CartCards } from "../../../shared/components/Cards/cart-cards/cart-cards";
 import { AccessibilityBar } from "../../../shared/components/Header/Header";
 import { GlobalStyles as global } from "../../../../styles-global";
@@ -126,19 +126,25 @@ export const Carrinho = ({ route, navigation }) => {
                 </ScrollView>
 
                 <View style={style.btns_actions_container}>
-                  <ButtonGreen
-                    width={350}
-                    name="Finalizar pedido"
-                    action={() => realizarPedido()}
-                  />
-                  <ButtonWhite
-                    width={350}
-                    name="remover todos os itens"
-                    action={() => {
-                      SyncStorage.removeItem("carrinho");
-                      navigation.navigate("Home");
-                    }}
-                  />
+                  <TouchableOpacity onPress={realizarPedido}>
+                    <ButtonGreen
+                      width={350}
+                      name="Finalizar pedido"
+                      action={() => { }}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => {
+                    SyncStorage.removeItem("carrinho");
+                    navigation.navigate("Home")
+                  }}>
+                    <ButtonWhite
+                      width={350}
+                      name="remover todos os itens"
+                      action={() => {
+
+                      }}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
             </>
@@ -149,11 +155,13 @@ export const Carrinho = ({ route, navigation }) => {
         : (<>
           <View style={style.empty_cart_container}>
             <Image source={empty_cart} style={style.empty_cart_img} />
-            <ButtonGreen
-              width={300}
-              name="Ir às compras!"
-              action={() => navigation.navigate("Home")}
-            />
+            <TouchableOpacity onPress={() => { navigation.navigate("Home") }}>
+              <ButtonGreen
+                width={300}
+                name="Ir às compras!"
+                action={() => { }}
+              />
+            </TouchableOpacity>
           </View></>)
       }
     </>
