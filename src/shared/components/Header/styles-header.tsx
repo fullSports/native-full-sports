@@ -26,6 +26,7 @@ export const Styles = StyleSheet.create({
     width: 80,
   },
   header_actions: {
+    margin: 0,
     flexDirection: "row",
   },
 });

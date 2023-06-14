@@ -27,16 +27,20 @@ export default function App() {
   const [authenticated, setauthenticated] = useState<boolean>(false);
   const [tokenSetado, setTokenSetado] = useState(false);
   const [pedidiExiste, setPedidiExiste] = useState(false);
-  setInterval(async function () {
-    const user = SyncStorage.getItem("user");
-    user.then((res) => {
-      if (res == null) {
-        setauthenticated(false);
-      } else {
-        setauthenticated(true);
-      }
-    });
-  }, 10);
+  useEffect(() => {
+    const T = setInterval(async () => {
+      const user = SyncStorage.getItem("user");
+      await user.then((res) => {
+        if (res == null) {
+          setauthenticated(false);
+          SyncStorage.removeItem("carrinho")
+        } else {
+          setauthenticated(true);
+        }
+      });
+    }, 100);
+    return () => clearInterval(T);
+  }, [])
   useEffect(() => {
     const GetToken = async () => {
       return fullsports_api

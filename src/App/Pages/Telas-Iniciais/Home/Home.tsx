@@ -112,16 +112,19 @@ export default function Home({ navigation }) {
       listarRecomendacoes();
     }
   }, [authenticated, token]);
-  setInterval(function () {
-    const user = SyncStorage.getItem("user");
-    user.then((res) => {
-      if (res == null) {
-        setauthenticated(false);
-      } else {
-        setauthenticated(true);
-      }
+  useEffect(() => {
+    const T = setInterval(() => {
+      const user = SyncStorage.getItem("user");
+      user.then((res) => {
+        if (res == null) {
+          setauthenticated(false);
+        } else {
+          setauthenticated(true);
+        }
+      });
     });
-  }, 10);
+    return () => clearInterval(T);
+  }, []);
   // setInterval(() => {
   //   const user = SyncStorage.getItem("user");
   //   user.then((res) => {
@@ -138,7 +141,7 @@ export default function Home({ navigation }) {
     <>
       <AccessibilityBar />
       <ScrollView>
-        <Header {...navigation} />
+        <Header navigation={navigation} />
         <View style={style.home_banner_container}>
           <Image source={homeBanner} style={style.home_banner} />
         </View>

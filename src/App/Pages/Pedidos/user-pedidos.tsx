@@ -31,17 +31,21 @@ export default function UserPedidos({ navigation }) {
   useEffect(() => {
     buscarPedido();
   }, []);
-  setInterval(async function () {
-    const pedidoAtualizado = SyncStorage.getItem("pedidoAtualizado")
-    pedidoAtualizado.then(async (Res) => {
-      if (Res != null) {
-        setListaPedidos([]);
-        setSpinner(true);
-        buscarPedido();
-        await SyncStorage.removeItem("pedidoAtualizado");
-      };
-    })
-  }, 100);
+  useEffect(() => {
+    const T = setInterval(async () => {
+      const pedidoAtualizado = SyncStorage.getItem("pedidoAtualizado")
+      await pedidoAtualizado.then((res) => {
+        if (res != null) {
+          setListaPedidos([]);
+          setSpinner(true);
+          buscarPedido();
+          SyncStorage.removeItem("pedidoAtualizado");
+        };
+      })
+    }, 200)
+
+    return () => clearInterval(T);
+  }, [])
   return (
     <>
       <AccessibilityBar />

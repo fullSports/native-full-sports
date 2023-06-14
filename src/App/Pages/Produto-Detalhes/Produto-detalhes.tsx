@@ -80,7 +80,31 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
 
     navigation.navigate("Carrinho");
   }
-
+  async function realizarPedido() {
+    setSpinner(true);
+    const token = await SyncStorage.getItem("access_token");
+    return fullsports_api
+      .request({
+        method: "POST",
+        url: "realizar-pedido",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          quantidadePedido: numItems,
+          produto: produtoDetails._id,
+          cliente: userID,
+        },
+      })
+      .then(async () => {
+        console.log("sucesso");
+        await SyncStorage.removeItem("carrinho");
+        await SyncStorage.setItem("pedidoAtualizado", JSON.stringify({ pedidoAtualizado: true }))
+        alert("Pedido Realizado com sucesso")
+        navigation.navigate("Home");
+      })
+      .catch((e) => console.log("error is:", e));
+  }
   return (
     <>
       {!spinner ? (
@@ -196,7 +220,7 @@ export const ProdutoDetalhes = ({ route, navigation }) => {
                     <ButtonGreen
                       width={330}
                       name="Comprar"
-                      action={() => console.log("comprar")}
+                      action={() => realizarPedido()}
                     />
                   </View>
                   <View style={[style.product_card_row, { marginVertical: 2 }]}>
