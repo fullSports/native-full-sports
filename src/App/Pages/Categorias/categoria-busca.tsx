@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, View, Text, Image } from "react-native";
+import { FlatList, ScrollView, View, Text, Image, TouchableHighlight } from "react-native";
 import { AccessibilityBar } from "../../../shared/components/Header/Header";
 import { useEffect, useState } from "react";
 import fullsports_api from "../../../environment/full-sports-api";
@@ -65,7 +65,7 @@ export const CategoriasBusca = ({ route, navigation }) => {
 
               return (
                 <View style={{ margin: 2 }} key={`view-produto-${item._id}`}>
-                  <TouchableOpacity
+                  <TouchableHighlight
                     key={item._id}
                     onPress={() =>
                       navigation.navigate("ProdutoDetalhes", {
@@ -80,7 +80,7 @@ export const CategoriasBusca = ({ route, navigation }) => {
                       key={item._id}
                       produtoName={item.categoriaProduto[obj].nome}
                     />
-                  </TouchableOpacity>
+                  </TouchableHighlight>
                 </View>
               );
             })}
