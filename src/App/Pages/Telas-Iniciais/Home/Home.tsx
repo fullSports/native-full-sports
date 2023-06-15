@@ -155,14 +155,14 @@ export default function Home({ navigation }) {
                 <View style={style.homeView}>
                   <View style={style.cardSlider}>
                     {listProdutos?.map((item: IProduto) => {
-                      let obj = Object.keys(
+                      const obj = Object.keys(
                         item.categoriaProduto
                       )[0].toString() as
                         | "roupa"
                         | "equipamento"
                         | "suplemento"
                         | "calcado";
-                      let parcelamento = (
+                      const parcelamento = (
                         parseFloat(item.categoriaProduto[obj].preco) / 12
                       ).toFixed(2);
                       parcelamento.replace(".", ",");
@@ -293,40 +293,41 @@ export default function Home({ navigation }) {
             {/* Deixar essa seção somente pra tenis*/}
             <ScrollView style={{ flex: 1 }}>
               <View style={global.row_2_items}>
-                {listCalcados?.map((item: IProduto) => {
+                {listProdutos?.map((item: IProduto) => {
                   let obj = Object.keys(item.categoriaProduto)[0].toString() as
                     | "roupa"
                     | "equipamento"
                     | "suplemento"
                     | "calcado";
-                  let parcelamento = (
+                  const parcelamento = (
                     parseFloat(item.categoriaProduto[obj].preco) / 12
                   ).toFixed(2);
                   parcelamento.replace(".", ",");
-
-                  return (
-                    <View
-                      style={{ margin: 2 }}
-                      key={`view-produto-${item._id}`}
-                    >
-                      <TouchableOpacity
-                        key={item._id}
-                        onPress={() =>
-                          navigation.navigate("ProdutoDetalhes", {
-                            idProduto: item._id,
-                          })
-                        }
+                  if (parseFloat(item.categoriaProduto[obj].preco) > 60) {
+                    return (
+                      <View
+                        style={{ margin: 2 }}
+                        key={`view-produto-${item._id}`}
                       >
-                        <SmallVerticalCard
-                          src={item.categoriaProduto[obj].imagemProduto[0].url}
-                          PrecoAtual={item.categoriaProduto[obj].preco}
-                          precoParcelado={parcelamento}
+                        <TouchableOpacity
                           key={item._id}
-                          produtoName={item.categoriaProduto[obj].nome}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  );
+                          onPress={() =>
+                            navigation.navigate("ProdutoDetalhes", {
+                              idProduto: item._id,
+                            })
+                          }
+                        >
+                          <SmallVerticalCard
+                            src={item.categoriaProduto[obj].imagemProduto[0].url}
+                            PrecoAtual={item.categoriaProduto[obj].preco}
+                            precoParcelado={parcelamento}
+                            key={item._id}
+                            produtoName={item.categoriaProduto[obj].nome}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    );
+                  }
                 })}
               </View>
             </ScrollView>
