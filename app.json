@@ -11,18 +11,27 @@
       "resizeMode": "contain",
       "backgroundColor": "#f4f4f4"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.renanfigueoli.nativefullsports"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#f4f4f4"
-      }
+      },
+      "package": "com.renanfigueoli.nativefullsports"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9e4bfc5b-e8ee-4021-9e3a-71a89b2b3ca8"
+      }
     }
   }
 }

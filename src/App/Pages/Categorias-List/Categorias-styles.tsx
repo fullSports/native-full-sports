@@ -3,7 +3,7 @@ import { GlobalColors } from "../../../shared/utils/styles/global-colors";
 
 export const CategoriaStyles = StyleSheet.create({
   categoriasContainer: {
-    width: "100%",
+    // width: "100%",
     flex: 1,
     margin: 10,
     // justifyContent: "center",
@@ -16,7 +16,9 @@ export const CategoriaStyles = StyleSheet.create({
     justifyContent: "center",
   },
   CategoryCard: {
-    width: 180,
+    // width: 360,
+
+    width: "100%",
     height: 90,
     borderRadius: 10,
     overflow: "hidden",

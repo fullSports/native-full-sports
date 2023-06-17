@@ -4,6 +4,7 @@ import { GlobalColors } from "./src/shared/utils/styles/global-colors";
 export const GlobalStyles = StyleSheet.create({
   screenContainer: {
     padding: 10,
+    paddingTop: "8%",
   },
 
   home_banner: {
@@ -17,6 +18,7 @@ export const GlobalStyles = StyleSheet.create({
     marginTop: 35,
     fontWeight: "600",
     fontSize: 18,
+    marginBottom: 10,
   },
 
   bottom_tab_txt: {
@@ -70,5 +72,13 @@ export const GlobalStyles = StyleSheet.create({
     borderTopLeftRadius: 5,
     paddingHorizontal: 15,
     color: GlobalColors.light_black,
+  },
+
+  row_2_items: {
+    flex: 1,
+    justifyContent: "center",
+    gap: 5,
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
 });

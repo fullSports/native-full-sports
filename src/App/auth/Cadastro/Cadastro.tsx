@@ -6,7 +6,7 @@ import { GlobalColors } from "../../../shared/utils/styles/global-colors";
 import { ButtonGreen } from "../../../shared/components/Buttons/Default-Buttons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
-import { cep_ap_url } from "../../../environment/cep-api";
+import ApiCep from "../../../environment/cep-api";
 import { cpfMask, maskDate } from "../../../shared/utils/functions/masks";
 import {
   isNumeric,
@@ -17,93 +17,99 @@ import { ICadastroUsuario } from "../../../shared/utils/models/interface-cadastr
 import { MaskedTextInput } from "react-native-mask-text";
 import SelectDropdown from "react-native-select-dropdown";
 import { UFS } from "../../../shared/utils/data/regioes-br";
+import { Button } from "react-native-paper";
+import fullsports_api from "../../../environment/full-sports-api";
+import IRESCastrarCliente from "../../../shared/utils/interfaces/Res/IRESCastrarCliente";
 
 const fullSportsLogo = require("./../../assets/illustrations/full-sports-logo.png");
 
 export const CadastroUsuario = ({ navigation }) => {
   const [nome, setNome] = useState<string>();
   const [cpf, setCpf] = useState<string>("");
-  const [dataNasc, setDataNasc] = useState<string>();
-  const [cep, setCep] = useState<string>();
-  const [rua, setRua] = useState<string>();
-  const [bairro, setBairro] = useState<string>();
-  const [estado, setEstado] = useState<string>();
-  const [cidade, setCidade] = useState<string>();
-  const [numero, setNumero] = useState<string>();
-  const [complemento, setComplemento] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [senha, setSenha] = useState<string>();
-  const [showPass, setShowPass] = useState<boolean>(false);
+  const [dataNascimento, setDataNascimento] = useState<string>();
+  const [cep, setCep] = useState<string>("");
+  const [rua, setRua] = useState<string>("");
+  const [bairro, setBairro] = useState<string>("");
+  const [estado, setEstado] = useState<string>("SP");
+  const [cidade, setCidade] = useState<string>("");
+  const [numero, setNumero] = useState<string>("");
+  const [complemento, setComplemento] = useState<string>("");
+  const [sexo, setSexo] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [showPass, setShowPass] = useState<boolean>(true);
+  const [carregandoCepMenssagem, setCarregandoCepMessagem] = useState(false);
+  const [carregandoCep, setCarregandoCep] = useState(false);
 
-  // let query: ICadastroUsuario = {
-  //   nome: nome,
-  //   data_nasc: dataNasc,
-  //   cpf: cpf,
-  //   cep: cep,
-  //   rua: rua,
-  //   bairro: bairro,
-  //   estado: estado,
-  //   cidade: cidade,
-  //   numero: numero,
-  //   complemento: complemento,
-  //   email: email,
-  //   senha: senha,
-  // };
+  const [mensagemErroBolean, setMensagemErroBolean] = useState(false);
+  const [menssagemErro, setMenssagemErro] = useState("");
 
-  function buscaEndereco(cep) {
-    fetch(cep_ap_url + cep.value)
-      .then((res) => res.json())
-      .then((data) => {
-        setCep(data.cep);
-        setCidade(data.city);
-        setBairro(data.neighborhood);
-        setEstado(data.state);
-        setRua(data.street);
+  const buscaCep = () => {
+    setCarregandoCepMessagem(false);
+    if (cep === "") {
+      setRua("");
+      setBairro("");
+      setEstado("");
+      setCidade("");
+    } else {
+      ApiCep.request({
+        method: "GET",
+        url: cep,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+        .then((evento) => {
+          setCarregandoCep(false);
+          setRua(evento.data.street);
+          setBairro(evento.data.neighborhood);
+          setEstado(evento.data.state);
+          setCidade(evento.data.city);
+        })
+        .catch((err) => {
+          setCarregandoCep(false);
+          setCarregandoCepMessagem(true);
+          console.log(err);
+        });
+    }
+  };
+
+  const cadastrarCliente = () => {
+    setMensagemErroBolean(false);
+    fullsports_api
+      .request({
+        method: "POST",
+        url: "cadastrar-cliente/",
+        data: {
+          cpf,
+          nome,
+          login: {
+            email,
+            password,
+            isAdmin: false,
+          },
+          dataNascimento,
+          sexo,
+          cep,
+          endereco: `${rua},${numero} -${complemento}- ${estado}, ${cidade}, ${bairro}`,
+          imagemPerfil: null,
+        },
+      })
+      .then((res2: IRESCastrarCliente) => {
+        if (res2.data.registeredSuccess === false) {
+          setMensagemErroBolean(true);
+          setMenssagemErro(res2.data.messagem);
+        } else {
+          return navigation.navigate("Login");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setMensagemErroBolean(true);
+        setMenssagemErro("erro na requisição");
       });
-  }
-
-  function maskCpf(cpf) {
-    cpfMask(cpf.value);
-  }
-
-  function efeturarCadastro() {
-    console.log(cep);
-    console.log(cpf);
-    console.log(numero);
-    console.log(dataNasc);
-    if (
-      !validateInputs(nome) ||
-      !validateInputs(dataNasc) ||
-      !validateInputs(cpf) ||
-      !validateInputs(cep) ||
-      !validateInputs(rua) ||
-      !validateInputs(bairro) ||
-      !validateInputs(estado) ||
-      !validateInputs(cidade) ||
-      !validateInputs(numero) ||
-      !validateInputs(complemento) ||
-      !validateInputs(email) ||
-      !validateInputs(senha)
-    ) {
-      // return;
-      return console.log("n passa");
-    }
-
-    if (
-      !isNumeric(cpf) ||
-      !validateEmail(email) ||
-      !isNumeric(numero) ||
-      !isNumeric(cep) ||
-      !isNumeric(dataNasc)
-    ) {
-      return;
-    }
-    console.log("ok");
-  }
-
-  // useEffect(() => {
-  // });
-
+  };
+  //renan_moblie@outlook.com
   return (
     <ScrollView style={global.screenContainer}>
       <Image source={fullSportsLogo} style={style.logo_header} />
@@ -114,7 +120,7 @@ export const CadastroUsuario = ({ navigation }) => {
           </Text>
           <TextInput
             value={nome}
-            onChangeText={setNome}
+            onChangeText={(e) => setNome(e)}
             placeholderTextColor={GlobalColors.input_placeholder}
             placeholder="Informe seu nome completo"
             style={global.form_input_text}
@@ -131,11 +137,11 @@ export const CadastroUsuario = ({ navigation }) => {
             value={cpf}
             onChangeText={(e) => {
               setCpf(e);
-              console.log(cpf);
             }}
             placeholderTextColor={GlobalColors.input_placeholder}
             placeholder="000.000.000-00"
             style={global.form_input_text}
+            keyboardType="numeric"
           />
           {/* <TextInput
             value={cpf}
@@ -152,14 +158,14 @@ export const CadastroUsuario = ({ navigation }) => {
           </Text>
           <MaskedTextInput
             mask="99/99/9999"
-            value={dataNasc}
+            value={dataNascimento}
             onChangeText={(e) => {
-              setDataNasc(e);
-              console.log(e);
+              setDataNascimento(e);
             }}
             placeholderTextColor={GlobalColors.input_placeholder}
             placeholder="dd/mm/aaaa"
             style={global.form_input_text}
+            keyboardType="numeric"
           />
           {/* <TextInput
             value={dataNasc}
@@ -171,23 +177,24 @@ export const CadastroUsuario = ({ navigation }) => {
           /> */}
         </View>
       </View>
+
       <View style={style.form_row_2}>
         <View style={style.form_item_row_2}>
           <Text style={style.form_label}>
             CEP (somente números) <Text style={style.required_symbol}>*</Text>
           </Text>
-
           <MaskedTextInput
             mask="99999-999"
             value={cep}
             onChangeText={(e) => {
               setCep(e);
-              console.log(e);
             }}
             maxLength={9}
             placeholderTextColor={GlobalColors.input_placeholder}
             placeholder="00000-000"
             style={global.form_input_text}
+            keyboardType="numeric"
+            onBlur={buscaCep}
           />
           {/* <TextInput
             value={cep}
@@ -231,37 +238,36 @@ export const CadastroUsuario = ({ navigation }) => {
           <Text style={style.form_label}>
             Estado <Text style={style.required_symbol}>*</Text>
           </Text>
-          <SelectDropdown
+          {/* <SelectDropdown
             data={UFS}
+            defaultValue={UFS[0].sigla}
             buttonTextStyle={{
               fontSize: 14,
               color: GlobalColors.input_placeholder,
               textAlign: "left",
             }}
-            defaultButtonText="Selecione seu estado"
             buttonStyle={{
               borderBottomWidth: 2,
               borderBottomColor: GlobalColors.neon_green,
             }}
             buttonTextAfterSelection={(selected, idx) => {
               setEstado(selected.sigla);
-              return selected.sigla;
+              return estado;
             }}
             rowTextForSelection={(selected, idx) => {
               return selected.sigla;
             }}
             onSelect={(item, idx) => {
-              console.log(item.sigla);
-              return item.sigla;
+              return estado;
             }}
-          />
-          {/* <TextInput
+          /> */}
+          <TextInput
             value={estado}
             onChangeText={setEstado}
             placeholderTextColor={GlobalColors.input_placeholder}
             placeholder="Ex.: SP"
             style={global.form_input_text}
-          /> */}
+          />
         </View>
       </View>
       <View style={style.form_row_2}>
@@ -291,15 +297,52 @@ export const CadastroUsuario = ({ navigation }) => {
           />
         </View>
       </View>
-      <View style={style.form_row_1}>
-        <View style={style.form_item_row}>
-          <Text style={style.form_label}>Complemento</Text>
-          <TextInput
-            value={complemento}
-            onChangeText={setComplemento}
-            placeholderTextColor={GlobalColors.input_placeholder}
-            placeholder="Complemento do endereço"
-            style={global.form_input_text}
+      <View style={style.form_row_2}>
+        <View style={style.form_item_row_2}>
+          <View style={style.form_item_row}>
+            <Text style={style.form_label}>
+              Complemento <Text style={style.required_symbol}>*</Text>
+            </Text>
+            <TextInput
+              value={complemento}
+              onChangeText={setComplemento}
+              placeholderTextColor={GlobalColors.input_placeholder}
+              placeholder="Complemento do endereço"
+              style={global.form_input_text}
+            />
+          </View>
+        </View>
+        <View style={style.form_item_row_2}>
+          <Text style={style.form_label}>
+            Sexo <Text style={style.required_symbol}>*</Text>
+          </Text>
+          <SelectDropdown
+            data={[
+              { nome: "M", sigla: "Masculino" },
+              { nome: "F", sigla: "Feminino" },
+              { nome: "O", sigla: "Outros" },
+              { nome: "-", sigla: "Prefiro não dizer" },
+            ]}
+            buttonTextStyle={{
+              fontSize: 14,
+              color: GlobalColors.input_placeholder,
+              textAlign: "left",
+            }}
+            defaultButtonText="Selecione seu estado"
+            buttonStyle={{
+              borderBottomWidth: 2,
+              borderBottomColor: GlobalColors.neon_green,
+            }}
+            buttonTextAfterSelection={(selected, idx) => {
+              setSexo(selected.sigla);
+              return selected.sigla;
+            }}
+            rowTextForSelection={(selected, idx) => {
+              return selected.sigla;
+            }}
+            onSelect={(item, idx) => {
+              return item.sigla;
+            }}
           />
         </View>
       </View>
@@ -314,6 +357,7 @@ export const CadastroUsuario = ({ navigation }) => {
             placeholderTextColor={GlobalColors.input_placeholder}
             placeholder="Insira seu e-mail"
             style={global.form_input_text}
+            keyboardType="email-address"
           />
         </View>
       </View>
@@ -324,9 +368,9 @@ export const CadastroUsuario = ({ navigation }) => {
           </Text>
           <View style={style.input_with_btn}>
             <TextInput
-              value={senha}
-              onChangeText={setSenha}
-              secureTextEntry={showPass ? false : true}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={showPass ? true : false}
               placeholderTextColor={GlobalColors.input_placeholder}
               placeholder="Insira sua senha"
               style={[
@@ -334,27 +378,62 @@ export const CadastroUsuario = ({ navigation }) => {
                 { width: "90%", borderBottomWidth: 0 },
               ]}
             />
-            <TouchableOpacity
-              style={style.input_btn}
-              onPress={() => setShowPass(!showPass)}
-            >
-              <Icon name={showPass ? "eye" : "eye-off"} size={18} />
+            <TouchableOpacity style={style.input_btn}>
+              <Icon
+                name={!showPass ? "eye" : "eye-off"}
+                size={18}
+                onPress={() => setShowPass(!showPass)}
+              />
             </TouchableOpacity>
           </View>
         </View>
       </View>
+      <Text style={{ color: "red" }}>
+        {mensagemErroBolean ? menssagemErro : ""}
+      </Text>
       <View style={style.form_row_1}>
-
-
-        <ButtonGreen
-          width={370}
-          name={"Realizar Cadastro"}
-          action={efeturarCadastro}
-        />
+        <Button
+          onPress={cadastrarCliente}
+          icon="account"
+          style={[
+            {
+              width: "100%",
+              height: 50,
+              borderRadius: 5,
+              justifyContent: "center",
+              backgroundColor: GlobalColors.neon_green,
+            },
+          ]}
+          textColor={GlobalColors.white}
+          disabled={
+            !validateInputs(nome) ||
+            !validateInputs(cpf) ||
+            !validateInputs(cep) ||
+            !validateInputs(rua) ||
+            !validateInputs(bairro) ||
+            !validateInputs(estado) ||
+            !validateInputs(cidade) ||
+            !validateInputs(numero) ||
+            !validateInputs(dataNascimento) ||
+            !validateInputs(sexo) ||
+            !validateInputs(complemento) ||
+            !validateInputs(email) ||
+            !validateInputs(password)
+          }
+        >
+          Criar Conta
+        </Button>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <Text style={style.has_account_link}>Já tem uma conta?</Text>
-      </TouchableOpacity>
+      <View style={{ paddingBottom: "20%" }}>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <Text
+            style={style.has_account_link}
+            onPress={() => navigation.navigate("Login")}
+          >
+            Já tem uma conta?
+          </Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 };

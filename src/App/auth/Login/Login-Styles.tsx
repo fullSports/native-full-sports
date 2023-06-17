@@ -59,6 +59,7 @@ export const LoginStyles = StyleSheet.create({
   },
   BottomTxtOption: {
     color: GlobalColors.light_grey,
+    textAlign: "center",
     fontSize: 14,
   },
   TextLink: {
@@ -66,6 +67,7 @@ export const LoginStyles = StyleSheet.create({
     fontSize: 14,
     textDecorationLine: "underline",
     color: GlobalColors.neon_green,
+    textAlign: "center",
   },
   AlertStyle: {
     backgroundColor: GlobalColors.white,

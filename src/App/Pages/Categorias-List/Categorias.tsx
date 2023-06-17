@@ -1,25 +1,24 @@
-import { ImageBackground, View, Text } from "react-native";
+import { ImageBackground, View, Text, TouchableOpacity } from "react-native";
 import { CategoriaStyles } from "./Categorias-styles";
+import { AccessibilityBar } from "../../../shared/components/Header/Header";
 
 const imgTeste = require("../../assets/bgs/testeBg.png");
 
-export default function CategoriasList() {
+export const CategoriasList = ({ navigation }) => {
   return (
     <>
+      <AccessibilityBar />
       <View style={CategoriaStyles.categoriasContainer}>
-        <View style={CategoriaStyles.categoriasRow}>
-          <View style={CategoriaStyles.CategoryCard}>
-            <ImageBackground
-              source={imgTeste}
-              resizeMode="cover"
-              style={CategoriaStyles.imgBg}
-            >
-              <View style={CategoriaStyles.CategoryCardCover}>
-                <Text style={CategoriaStyles.CategoryCardText}>Produtos</Text>
-              </View>
-            </ImageBackground>
-          </View>
-          <View style={CategoriaStyles.CategoryCard}>
+        <TouchableOpacity
+          style={CategoriaStyles.CategoryCard}
+          onPress={() =>
+            navigation.navigate("CategoriasBusca", {
+              route: "roupas",
+              pageName: "Roupas",
+            })
+          }
+        >
+          <View style={{ height: 90 }}>
             <ImageBackground
               source={imgTeste}
               resizeMode="cover"
@@ -30,9 +29,17 @@ export default function CategoriasList() {
               </View>
             </ImageBackground>
           </View>
-        </View>
-        <View style={CategoriaStyles.categoriasRow}>
-          <View style={CategoriaStyles.CategoryCard}>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={CategoriaStyles.CategoryCard}
+          onPress={() =>
+            navigation.navigate("CategoriasBusca", {
+              route: "calcados",
+              pageName: "Calçados",
+            })
+          }
+        >
+          <View style={{ height: 90 }}>
             <ImageBackground
               source={imgTeste}
               resizeMode="cover"
@@ -43,7 +50,18 @@ export default function CategoriasList() {
               </View>
             </ImageBackground>
           </View>
-          <View style={CategoriaStyles.CategoryCard}>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={CategoriaStyles.CategoryCard}
+          onPress={() =>
+            navigation.navigate("CategoriasBusca", {
+              route: "suplementos",
+              pageName: "Suplementos",
+            })
+          }
+        >
+          <View style={{ height: 90 }}>
             <ImageBackground
               source={imgTeste}
               resizeMode="cover"
@@ -56,10 +74,18 @@ export default function CategoriasList() {
               </View>
             </ImageBackground>
           </View>
-        </View>
+        </TouchableOpacity>
 
-        <View style={CategoriaStyles.categoriasRow}>
-          <View style={CategoriaStyles.CategoryCard}>
+        <TouchableOpacity
+          style={CategoriaStyles.CategoryCard}
+          onPress={() =>
+            navigation.navigate("CategoriasBusca", {
+              route: "equipamentos",
+              pageName: "Equipamentos",
+            })
+          }
+        >
+          <View style={{ height: 90 }}>
             <ImageBackground
               source={imgTeste}
               resizeMode="cover"
@@ -72,8 +98,8 @@ export default function CategoriasList() {
               </View>
             </ImageBackground>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
     </>
   );
-}
+};

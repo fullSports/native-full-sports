@@ -3,9 +3,9 @@ import { GlobalColors } from "../../../utils/styles/global-colors";
 
 export const styleCardV = StyleSheet.create({
   cardVertical: {
-    height: 310,
+    height: 340,
     width: 220,
-    elevation: 40,
+    elevation: 3,
     borderRadius: 5,
     overflow: "hidden",
 
@@ -21,7 +21,8 @@ export const styleCardV = StyleSheet.create({
   cardTitle: {
     color: GlobalColors.black,
     fontWeight: "600",
-    fontSize: 18,
+    fontSize: 16,
+    marginBottom: 10,
   },
   cardPreviousPrice: {
     textDecorationLine: "line-through",
@@ -43,5 +44,6 @@ export const styleCardV = StyleSheet.create({
     fontSize: 11,
     opacity: 0.8,
     color: GlobalColors.black_opacity,
+    alignSelf: "flex-end",
   },
 });

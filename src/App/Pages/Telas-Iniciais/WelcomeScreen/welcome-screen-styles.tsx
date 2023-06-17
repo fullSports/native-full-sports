@@ -36,13 +36,16 @@ export const WelcomeStyles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 8,
   },
+  welcome_desc_container: {
+    paddingBottom: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "80%",
+  },
   welcome_desc: {
-    paddingVertical: 25,
-    paddingHorizontal: 40,
     fontSize: 14,
     color: GlobalColors.light_grey,
     textAlign: "center",
-    width: "100%",
   },
   welcome_btns_group: {
     width: "95%",

@@ -10,7 +10,7 @@ export const styleCardH = StyleSheet.create({
     borderRadius: 3,
     flex: 1,
     flexDirection: "row",
-    elevation: 10,
+    elevation: 3,
     overflow: "hidden",
   },
   cardPicCover: {
